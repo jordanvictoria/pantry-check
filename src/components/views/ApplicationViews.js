@@ -1,4 +1,5 @@
 import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom"
+import { ItemForm } from "../items/ItemForm"
 import { GroceryLists } from "../lists/GroceryLists"
 import { ListDetails } from "../lists/ListDetails"
 import { ListEdit } from "../lists/ListEdit"
@@ -16,10 +17,11 @@ const navigate = useNavigate()
 					<h1 className="title--main">
 						<Link to="/">Pantry Check</Link>
 					</h1>
-					<div>Stay on top, plan before you shop!</div>
+					<h2>Stay on top, plan before you shop!</h2>
 					<div>
 						<button onClick={() => navigate("/list/create")}>Create a New List</button>
 					</div>
+					<div>--------------------------------------------------------------------</div>
 
 					<Outlet />
 				</>
@@ -29,6 +31,7 @@ const navigate = useNavigate()
 				<Route path="lists/:listId" element={ <ListDetails /> } />
 				<Route path="list/create" element={<ListForm />} />
 				<Route path="lists/:listId/edit" element={<ListEdit />} />
+				<Route path="item/create" element={<ItemForm />} />
 			</Route>
 		</Routes>
 	)

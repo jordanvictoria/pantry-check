@@ -1,5 +1,24 @@
+import { useNavigate } from "react-router-dom"
+
 const localPantryUser = localStorage.getItem("pantry_user")
 const pantryUserObj = JSON.parse(localPantryUser)
+
+
+
+export const SendNewList = (newListForAPI) => {
+    return fetch(`http://localhost:8088/lists`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newListForAPI)
+    })
+        .then(res => res.json())
+
+}
+
+
+
 
 export const getAllLists = () => {
     return fetch(`http://localhost:8088/lists?_expand=user&userId=${pantryUserObj.id}`)
