@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getAllCategories } from "../ApiManager"
+import { getAllCategories, getAllListItems } from "../ApiManager"
 import "./list.css"
 import { ListContext } from "../context/ListProvider"
 
@@ -11,6 +11,7 @@ export const ListDetails = () => {
     const { listId } = useParams()
     const [list, updateList] = useState({})
     const [listItems, setListItems] = useState([])
+    const [matchListItems, setMatchListItems] = useState([])
     const [categories, setCategories] = useState([])
     const { renderSwitch, setRenderSwitch, setListId } = useContext(ListContext)
     const navigate = useNavigate()
@@ -50,6 +51,16 @@ export const ListDetails = () => {
         []
     )
 
+    useEffect(
+        () => {
+            getAllListItems()
+                .then((array) => {
+                    setMatchListItems(array)
+                })
+        },
+        []
+    )
+
 
 
 
@@ -64,6 +75,57 @@ export const ListDetails = () => {
     var year = dateObj.getUTCFullYear();
 
     const newDate = month + "/" + day + "/" + year
+
+
+
+
+
+
+    const addItemButton = () => {
+        if (!list.completed) {
+            return <>
+                <button onClick={() => {
+                    setListId(list.id)
+                    navigate("/item/create")
+                }
+                }>Add Items</button>
+                --
+            </>
+
+        } else {
+            return ""
+        }
+    }
+
+
+    const editItemButton = (id) => {
+        if (!list.completed) {
+            return <Link to={`/items/${id}/edit`}>
+                <button>Edit</button>
+            </Link>
+        } else {
+            return ""
+        }
+    }
+
+
+    const removeItemButton = (obj) => {
+        // const foundListItem = matchListItems.find(item => id === item.id)
+        // console.log(foundListItem)
+        return <>
+        <button onClick={() =>
+            fetch(`http://localhost:8088/items/${obj.id}`, {
+                method: "DELETE"
+            })
+                .then(() => {
+                    setRenderSwitch(!renderSwitch)
+                })
+
+        }>Remove</button>
+        </>
+    }
+
+
 
     const markCompleteButton = () => {
         if (!list.completed) {
@@ -108,21 +170,11 @@ export const ListDetails = () => {
 
 
 
-    const addItemButton = () => {
-        if (!list.completed) {
-            return <>
-                <button onClick={() => {
-                    setListId(list.id)
-                    navigate("/item/create")
-                }
-                }>Add Items</button>
-                --
-            </>
 
-        } else {
-            return ""
-        }
-    }
+
+
+
+    let estimatedTotalCost = 0
 
     return <>
 
@@ -139,6 +191,7 @@ export const ListDetails = () => {
                         listItems.map(listItem => {
                             const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
                             const totalPrice = listItem?.quantity * listItem?.item?.price
+                            estimatedTotalCost += totalPrice
                             return (
                                 <li>
                                     <section>
@@ -150,8 +203,12 @@ export const ListDetails = () => {
                                     </section>
                                     <section>
                                         Category: {matchedCategory?.name} --
-                                        <button>Edit</button>
-                                        <button>Remove</button>
+                                        {
+                                            editItemButton(listItem)
+                                        }
+                                        {
+                                            removeItemButton(listItem)
+                                        }
                                     </section>
                                 </li>
                             )
@@ -160,7 +217,7 @@ export const ListDetails = () => {
                 </ul>
             </section>
             <section>
-                <div>Estimated Total: </div>
+                <div>-------------------------- Estimated Total: {estimatedTotalCost}</div>
                 <div>Notes: {list?.notes}</div>
             </section>
             <footer>

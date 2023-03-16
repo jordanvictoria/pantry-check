@@ -13,7 +13,7 @@ export const ItemForm = () => {
     const pantryUserObj = JSON.parse(localPantryUser)
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
-    const { listId } = useContext(ListContext)
+    const { listId, renderSwitch, setRenderSwitch } = useContext(ListContext)
 
     const [item, updateItem] = useState({
         name: "",
@@ -76,7 +76,9 @@ export const ItemForm = () => {
                     body: JSON.stringify(listItemToSendToAPI)
                 })
             })
-            .then(res => res.json())
+            .then(() => {
+                setRenderSwitch(!renderSwitch)
+            })
     }
 
 
@@ -97,7 +99,7 @@ export const ItemForm = () => {
                 <div>Name:
                     <input type="text" id="name" onChange={
                         (evt) => {
-                            const copy = {...item}
+                            const copy = { ...item }
                             copy.name = evt.target.value
                             updateItem(copy)
                         }
@@ -107,7 +109,7 @@ export const ItemForm = () => {
                     <label>Category:</label>
                     <select onChange={
                         (evt) => {
-                            const copy = {...item}
+                            const copy = { ...item }
                             copy.categoryId = parseInt(evt.target.value)
                             updateItem(copy)
                         }
@@ -126,7 +128,7 @@ export const ItemForm = () => {
                 <div>Price:
                     <input id="price" onChange={
                         (evt) => {
-                            const copy = {...item}
+                            const copy = { ...item }
                             copy.price = parseInt(evt.target.value)
                             updateItem(copy)
                         }
@@ -135,7 +137,7 @@ export const ItemForm = () => {
                 <div>Quantity:
                     <input id="quantity" onChange={
                         (evt) => {
-                            const copy = {...listItem}
+                            const copy = { ...listItem }
                             copy.quantity = parseInt(evt.target.value)
                             updateListItem(copy)
                         }
@@ -147,7 +149,7 @@ export const ItemForm = () => {
                         value={listItem.priority}
                         onChange={
                             (evt) => {
-                                const copy = {...listItem}
+                                const copy = { ...listItem }
                                 copy.priority = evt.target.checked
                                 updateListItem(copy)
                             }
@@ -155,10 +157,10 @@ export const ItemForm = () => {
                 </div>
 
                 <button onClick={(clickEvent) => {
-                   
-                        handleSaveButtonClick(clickEvent)
-                        navigate(`/lists/${listId}`)
-                    
+
+                    handleSaveButtonClick(clickEvent)
+                    navigate(`/lists/${listId}`)
+
                 }}>Save</button>
 
             </fieldset>

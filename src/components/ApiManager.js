@@ -30,5 +30,10 @@ export const getAllCategories = () => {
         .then(res => res.json())
 }
 
+export const getAllListItems = () => {
+    return fetch(`http://localhost:8088/listItems`)
+        .then(res => res.json())
+}
+
 
 
