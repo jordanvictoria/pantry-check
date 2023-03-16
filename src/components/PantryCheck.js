@@ -5,6 +5,7 @@ import { NavBar } from "./nav/NavBar"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
 import "./PantryCheck.css"
+import { ListProvider } from "./context/ListProvider"
 
 
 export const PantryCheck = () => {
@@ -15,8 +16,10 @@ export const PantryCheck = () => {
 		<Route path="*" element={
 			<Authorized>
 				<>
-					<NavBar />
-					<ApplicationViews />
+					<ListProvider>
+						<NavBar />
+						<ApplicationViews />
+					</ListProvider>
 				</>
 			</Authorized>
 
