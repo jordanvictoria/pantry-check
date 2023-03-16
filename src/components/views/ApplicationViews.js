@@ -1,9 +1,11 @@
 import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom"
+import { ItemEdit } from "../items/ItemEdit"
 import { ItemForm } from "../items/ItemForm"
 import { GroceryLists } from "../lists/GroceryLists"
 import { ListDetails } from "../lists/ListDetails"
 import { ListEdit } from "../lists/ListEdit"
 import { ListForm } from "../lists/ListForm"
+
 
 
 export const ApplicationViews = () => {
@@ -32,6 +34,7 @@ const navigate = useNavigate()
 				<Route path="list/create" element={<ListForm />} />
 				<Route path="lists/:listId/edit" element={<ListEdit />} />
 				<Route path="item/create" element={<ItemForm />} />
+				<Route path="items/:listId/edit" element={<ItemEdit />} />
 			</Route>
 		</Routes>
 	)
