@@ -42,6 +42,7 @@ export const ItemForm = () => {
 
 
 
+
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
 
@@ -159,6 +160,7 @@ export const ItemForm = () => {
                 <button onClick={(clickEvent) => {
 
                     handleSaveButtonClick(clickEvent)
+                    // setRenderSwitch(!renderSwitch)
                     navigate(`/lists/${listId}`)
 
                 }}>Save</button>

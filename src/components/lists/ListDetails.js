@@ -13,7 +13,7 @@ export const ListDetails = () => {
     const [listItems, setListItems] = useState([])
     const [matchListItems, setMatchListItems] = useState([])
     const [categories, setCategories] = useState([])
-    const { renderSwitch, setRenderSwitch, setListId } = useContext(ListContext)
+    const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
     const navigate = useNavigate()
 
 
@@ -38,7 +38,7 @@ export const ListDetails = () => {
         },
         [listId, renderSwitch]
     )
-
+    
 
 
     useEffect(
@@ -98,10 +98,15 @@ export const ListDetails = () => {
     }
 
 
-    const editItemButton = (id) => {
+    const editItemButton = (obj) => {
         if (!list.completed) {
-            return <Link to={`/items/${id}/edit`}>
-                <button>Edit</button>
+            return <Link to={`/listItems/${obj.id}/edit`}>
+                <button
+                onClick={() => {
+                    setItemId(obj.itemId)
+                    setListId(list.id)
+                    setCategoryId(obj.item.categoryId)
+                }}>Edit</button>
             </Link>
         } else {
             return ""
@@ -109,19 +114,17 @@ export const ListDetails = () => {
     }
 
 
-    const removeItemButton = (obj) => {
-        // const foundListItem = matchListItems.find(item => id === item.id)
-        // console.log(foundListItem)
+    const removeListItemButton = (id) => {
         return <>
-        <button onClick={() =>
-            fetch(`http://localhost:8088/items/${obj.id}`, {
-                method: "DELETE"
-            })
-                .then(() => {
-                    setRenderSwitch(!renderSwitch)
+            <button onClick={() =>
+                fetch(`http://localhost:8088/listItems/${id}`, {
+                    method: "DELETE"
                 })
+                    .then(() => {
+                        setRenderSwitch(!renderSwitch)
+                    })
 
-        }>Remove</button>
+            }>Remove</button>
         </>
     }
 
@@ -160,7 +163,7 @@ export const ListDetails = () => {
 
     const editListButton = () => {
         if (!list.completed) {
-            return <Link to={`lists/${list.id}/edit`}>
+            return <Link to={`/lists/${list.id}/edit`}>
                 <button>Edit List</button>
             </Link>
         } else {
@@ -192,6 +195,8 @@ export const ListDetails = () => {
                             const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
                             const totalPrice = listItem?.quantity * listItem?.item?.price
                             estimatedTotalCost += totalPrice
+                            const match = matchListItems.find(matchList => matchList.id === listItem?.id)
+                            
                             return (
                                 <li>
                                     <section>
@@ -207,7 +212,7 @@ export const ListDetails = () => {
                                             editItemButton(listItem)
                                         }
                                         {
-                                            removeItemButton(listItem)
+                                            removeListItemButton(match?.id)
                                         }
                                     </section>
                                 </li>

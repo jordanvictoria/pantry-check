@@ -35,5 +35,10 @@ export const getAllListItems = () => {
         .then(res => res.json())
 }
 
+export const getAllItems = () => {
+    return fetch(`http://localhost:8088/items`)
+        .then(res => res.json())
+}
+
 
 
