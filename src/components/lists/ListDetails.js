@@ -195,7 +195,8 @@ export const ListDetails = () => {
                             const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
                             const totalPrice = listItem?.quantity * listItem?.item?.price
                             estimatedTotalCost += totalPrice
-                            const match = matchListItems.find(matchList => matchList.id === listItem?.id)
+                            // const match = matchListItems.find(matchList => matchList?.id === listItem?.id)
+                            // console.log(match)
                             
                             return (
                                 <li>
@@ -212,7 +213,7 @@ export const ListDetails = () => {
                                             editItemButton(listItem)
                                         }
                                         {
-                                            removeListItemButton(match?.id)
+                                            removeListItemButton(listItem?.id)
                                         }
                                     </section>
                                 </li>
