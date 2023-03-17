@@ -34,7 +34,7 @@ const navigate = useNavigate()
 				<Route path="list/create" element={<ListForm />} />
 				<Route path="lists/:listId/edit" element={<ListEdit />} />
 				<Route path="item/create" element={<ItemForm />} />
-				<Route path="items/:listId/edit" element={<ItemEdit />} />
+				<Route path="listItems/:listItemId/edit" element={<ItemEdit />} />
 			</Route>
 		</Routes>
 	)
