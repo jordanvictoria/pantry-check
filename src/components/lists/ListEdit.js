@@ -64,7 +64,7 @@ export const ListEdit = () => {
                     navigate(`/lists/${list.id}`)
                 }
             }}>Save</button>
-
+           <button onClick={() => { navigate(`/lists/${list.id}`)}}>Cancel</button>
         </fieldset>
     </form>
 }

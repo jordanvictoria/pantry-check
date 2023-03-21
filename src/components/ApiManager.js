@@ -36,7 +36,7 @@ export const getAllListItems = () => {
 }
 
 export const getAllItems = () => {
-    return fetch(`http://localhost:8088/items`)
+    return fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
         .then(res => res.json())
 }
 

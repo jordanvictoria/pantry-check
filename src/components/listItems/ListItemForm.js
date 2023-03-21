@@ -8,12 +8,12 @@ import { ListContext } from "../context/ListProvider"
 
 
 
-export const ItemForm = () => {
+export const ListItemForm = () => {
     const localPantryUser = localStorage.getItem("pantry_user")
     const pantryUserObj = JSON.parse(localPantryUser)
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
-    const { renderSwitch, setRenderSwitch } = useContext(ListContext)
+    const { listId, renderSwitch, setRenderSwitch } = useContext(ListContext)
 
     const [item, updateItem] = useState({
         name: "",
@@ -21,7 +21,12 @@ export const ItemForm = () => {
         price: 0
     })
 
-    
+    const [listItem, updateListItem] = useState({
+        itemId: 0,
+        quantity: 0,
+        priority: false
+
+    })
 
     useEffect(
         () => {
@@ -48,7 +53,11 @@ export const ItemForm = () => {
             price: item.price
         }
 
-        
+        let listItemToSendToAPI = {
+            listId: listId,
+            quantity: listItem.quantity,
+            priority: listItem.priority
+        }
 
         return fetch(` http://localhost:8088/items`, {
             method: "POST",
@@ -57,6 +66,17 @@ export const ItemForm = () => {
             },
             body: JSON.stringify(itemToSendToAPI)
         })
+            .then(response => response.json())
+            .then(createdItem => {
+                listItemToSendToAPI.itemId = parseInt(createdItem.id)
+                fetch(` http://localhost:8088/listItems`, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify(listItemToSendToAPI)
+                })
+            })
             .then(() => {
                 setRenderSwitch(!renderSwitch)
             })
@@ -115,11 +135,33 @@ export const ItemForm = () => {
                         }
                     } />
                 </div>
+                <div>Quantity:
+                    <input id="quantity" onChange={
+                        (evt) => {
+                            const copy = { ...listItem }
+                            copy.quantity = parseInt(evt.target.value)
+                            updateListItem(copy)
+                        }
+                    } />
+                </div>
+                <div>
+                    <label htmlFor="name">Priority:</label>
+                    <input type="checkbox"
+                        value={listItem.priority}
+                        onChange={
+                            (evt) => {
+                                const copy = { ...listItem }
+                                copy.priority = evt.target.checked
+                                updateListItem(copy)
+                            }
+                        } />
+                </div>
+
                 <button onClick={(clickEvent) => {
 
                     handleSaveButtonClick(clickEvent)
                     // setRenderSwitch(!renderSwitch)
-                    navigate("/items")
+                    navigate(`/lists/${listId}`)
 
                 }}>Save</button>
 
