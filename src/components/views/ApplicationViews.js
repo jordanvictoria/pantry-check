@@ -10,6 +10,7 @@ import { ItemForm } from "../items/ItemForm"
 import { ItemEdit } from "../items/ItemEdit"
 import { ListItemContainer } from "../listItems/ListItemContainer"
 import { SelectedItemForm } from "../listItems/SelectedItemForm"
+import { Home } from "./Home"
 
 
 
@@ -21,19 +22,12 @@ const navigate = useNavigate()
 		<Routes>
 			<Route path="/" element={
 				<>
-					<h1 className="title--main">
-						<Link to="/">Pantry Check</Link>
-					</h1>
-					<h2>Stay on top, plan before you shop!</h2>
-					<div>
-						<button onClick={() => navigate("/list/create")}>Create a New List</button>
-					</div>
-					<div>--------------------------------------------------------------------</div>
+					
 
 					<Outlet />
 				</>
 			}>
-
+				<Route path="/" element={ <Home /> } />
 				<Route path="lists" element={<GroceryLists />} />
 				<Route path="items" element={<ItemContainer />} />
 				<Route path="listItems" element={<ListItemContainer />} />

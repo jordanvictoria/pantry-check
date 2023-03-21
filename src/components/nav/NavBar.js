@@ -7,6 +7,9 @@ export const NavBar = () => {
     return (
         <ul className="navbar">
             <li className="navbar__item active">
+                <Link className="navbar__link" to="/">Pantry Check</Link>
+            </li>
+            <li className="navbar__item active">
                 <Link className="navbar__link" to="/lists">Grocery Lists</Link>
             </li>
             <li className="navbar__item active">
@@ -17,7 +20,7 @@ export const NavBar = () => {
                     ? <li className="navbar__item navbar__logout">
                         <Link className="navbar__link" to="" onClick={() => {
                             localStorage.removeItem("pantry_user")
-                            navigate("/", {replace: true})
+                            navigate("/", { replace: true })
                         }}>Logout</Link>
                     </li>
                     : ""
