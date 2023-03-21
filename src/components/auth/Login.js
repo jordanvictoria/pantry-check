@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
 import "./Login.css"
 
+
+
 export const Login = () => {
     const [email, set] = useState("jordan@victoria.com")
     const navigate = useNavigate()
@@ -28,31 +30,28 @@ export const Login = () => {
     }
 
     return (
-        <main className="container--login">
-            <section>
-                <form className="form--login" onSubmit={handleLogin}>
-                    <h1>PantryCheck</h1>
-                    <h2>Please sign in</h2>
-                    <fieldset>
-                        <label htmlFor="inputEmail"> Email address </label>
-                        <input type="email"
-                            value={email}
-                            onChange={evt => set(evt.target.value)}
-                            className="form-control"
-                            placeholder="Email address"
-                            required autoFocus />
-                    </fieldset>
-                    <fieldset>
-                        <button type="submit">
-                            Sign in
-                        </button>
-                    </fieldset>
-                </form>
-            </section>
-            <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
-            </section>
-        </main>
+
+
+
+        <div class="center">
+            <h1>PantryCheck</h1>
+            <h2>Sign In</h2>
+            <form onSubmit={handleLogin}>
+                <div class="inputbox">
+                    <input type="text" value={email}
+                        onChange={evt => set(evt.target.value)} required="required"/>
+                        <span>Email</span>
+                </div>
+
+                <div class="inputbox">
+                    <input type="submit" value="submit"/>
+                </div>
+            <Link to="/register">Not a member yet?</Link>
+                
+            </form>
+        </div>
     )
 }
+
+
 

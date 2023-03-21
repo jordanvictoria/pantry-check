@@ -1,9 +1,9 @@
-/* Import the google web fonts you want to use */
+/* Import the google web fonts you want to use
 @import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
 
 /*Typography
 --------------------------------------------------------------*/
-body,
+/* body,
 button,
 input,
 select,
@@ -29,5 +29,5 @@ p {
 
 .title--main {
   margin-block-end: 0;
-}
-
+} */
+ 
