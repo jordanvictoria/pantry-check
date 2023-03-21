@@ -1,25 +1,26 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
+import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 
-
-
-
-
-export const ItemEdit = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
-    const { renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
+export const SelectedItemForm = () => {
+    const { listId, renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
+    const { itemId } = useParams()
+    const navigate = useNavigate()
     const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
-    const navigate = useNavigate()
-    const { itemId } = useParams()
     const [item, updateItem] = useState({
         name: "",
         categoryId: 0,
         price: 0
     })
+    const [listItem, updateListItem] = useState({
+        itemId: 0,
+        quantity: 0,
+        priority: false
+
+    })
+
 
 
 
@@ -30,9 +31,6 @@ export const ItemEdit = () => {
                 updateItem(data)
             })
     }, [itemId])
-
-
-
 
 
 
@@ -59,15 +57,14 @@ export const ItemEdit = () => {
 
 
 
-
-
-
-
-
-
-
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
+
+        let listItemToSendToAPI = {
+            listId: listId,
+            quantity: listItem.quantity,
+            priority: listItem.priority
+        }
 
         return fetch(` http://localhost:8088/items/${item.id}`, {
             method: "PUT",
@@ -77,31 +74,27 @@ export const ItemEdit = () => {
             body: JSON.stringify(item)
         })
             .then(response => response.json())
+            .then(createdItem => {
+                listItemToSendToAPI.itemId = parseInt(createdItem.id)
+                fetch(` http://localhost:8088/listItems`, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify(listItemToSendToAPI)
+                })
+            })
             .then(() => {
                 setRenderSwitch(!renderSwitch)
             })
     }
 
 
-
-
-   
-
-
-
-
-
-
-
-
     return <>
-
-
-
         <form>
             <fieldset>
                 <div>Name:
-                    <input required autoFocus type="text" id="name" placeholder={item.name} value={item.name} onChange={
+                    <input type="text" id="name" placeholder={item.name} value={item.name} onChange={
                         (evt) => {
                             const copy = { ...item }
                             copy.name = evt.target.value
@@ -119,11 +112,10 @@ export const ItemEdit = () => {
                         }
                     } >
 
-
                         <option value={item?.categoryId}>{category?.name}</option>
                         {
                             categories.map(category => {
-                                return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                                return <option key={category.id} value={category.id}>{category.name}</option>
                             })
                         }
 
@@ -139,15 +131,36 @@ export const ItemEdit = () => {
                         }
                     } />
                 </div>
+                <div>Quantity:
+                    <input required autoFocus type="text" id="quantity" onChange={
+                        (evt) => {
+                            const copy = { ...listItem }
+                            copy.quantity = evt.target.value
+                            updateListItem(copy)
+                        }
+                    } />
+                </div>
+                <div>
+                    <label htmlFor="name">Priority:</label>
+                    <input type="checkbox"
+                        value={listItem.priority}
+                        onChange={
+                            (evt) => {
+                                const copy = { ...listItem }
+                                copy.priority = evt.target.checked
+                                updateListItem(copy)
+                            }
+                        } />
+                </div>
 
                 <button onClick={(clickEvent) => {
 
                     handleSaveButtonClick(clickEvent)
                     // setRenderSwitch(!renderSwitch)
-                    navigate(`/items`)
+                    navigate(`/lists/${listId}`)
 
                 }}>Save</button>
-                <button onClick={() => { navigate(`/items`)}}>Cancel</button>
+
             </fieldset>
         </form>
     </>

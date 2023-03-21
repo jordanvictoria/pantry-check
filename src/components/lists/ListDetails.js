@@ -2,19 +2,24 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getAllCategories, getAllListItems } from "../ApiManager"
+import { getAllCategories } from "../ApiManager"
 import "./list.css"
 import { ListContext } from "../context/ListProvider"
 
 
 export const ListDetails = () => {
     const { listId } = useParams()
+    const navigate = useNavigate()
     const [list, updateList] = useState({})
     const [listItems, setListItems] = useState([])
-    const [matchListItems, setMatchListItems] = useState([])
+    const [allListItems, setAllListItems] = useState([])
     const [categories, setCategories] = useState([])
+    const [filteredByCategory, setFilteredByCategory] = useState(0)
+    const [filteredByPriority, setFilteredByPriority] = useState(false)
+    const [stateOfFilter, setStateOfFilter] = useState({})
+    const [filterUpdated, setFilterUpdated] = useState(false)
+
     const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
-    const navigate = useNavigate()
 
 
     useEffect(
@@ -33,12 +38,16 @@ export const ListDetails = () => {
             fetch(`http://localhost:8088/listItems?_expand=item&listId=${listId}`)
                 .then(response => response.json())
                 .then((listItemArray) => {
+                    setAllListItems(listItemArray)
                     setListItems(listItemArray)
                 })
         },
         [listId, renderSwitch]
     )
+
+
     
+
 
 
     useEffect(
@@ -53,28 +62,64 @@ export const ListDetails = () => {
 
     useEffect(
         () => {
-            getAllListItems()
-                .then((array) => {
-                    setMatchListItems(array)
-                })
+            stateOfFilter.selectedCategory = parseInt(filteredByCategory)
+            setFilterUpdated(!filterUpdated)
+
         },
-        []
+        [filteredByCategory]
+    )
+
+    useEffect(
+        () => {
+            stateOfFilter.priorityOnly = filteredByPriority
+            setFilterUpdated(!filterUpdated)
+
+        },
+        [filteredByPriority]
     )
 
 
 
 
 
+    useEffect(
+        () => {
+            if (allListItems) {
+                let filteredItems = allListItems
+                if (stateOfFilter.selectedCategory) {
+                    filteredItems = filteredItems.filter(listItem => listItem?.item?.categoryId === stateOfFilter.selectedCategory)
+                }
+                if (filteredByPriority === true) {
+                    let priorityItems = []
+                            {
+                                allListItems.map(li => {
+                                    if (li?.priority === true) {
+                                        priorityItems.push(li)
+                                    }
+                                })
+                            }
+                            console.log(priorityItems)
+
+                    let priorityArr = []
+                    priorityItems.map(itemP => {
+                        let starred = filteredItems.find(itemF => itemF?.id === itemP?.id)
+                        if (starred) {
+                            priorityArr.push(starred)
+                        }
+                        
+                    })
+                    filteredItems = priorityArr
+                }
+                setListItems(filteredItems)
+            }
+        },
+        [filterUpdated, allListItems]
+    )
 
 
 
 
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
 
-    const newDate = month + "/" + day + "/" + year
 
 
 
@@ -86,10 +131,9 @@ export const ListDetails = () => {
             return <>
                 <button onClick={() => {
                     setListId(list.id)
-                    navigate("/item/create")
+                    navigate("/listItems")
                 }
                 }>Add Items</button>
-                --
             </>
 
         } else {
@@ -102,11 +146,11 @@ export const ListDetails = () => {
         if (!list.completed) {
             return <Link to={`/listItems/${obj.id}/edit`}>
                 <button
-                onClick={() => {
-                    setItemId(obj.itemId)
-                    setListId(list.id)
-                    setCategoryId(obj.item.categoryId)
-                }}>Edit</button>
+                    onClick={() => {
+                        setItemId(obj.itemId)
+                        setListId(list.id)
+                        setCategoryId(obj.item.categoryId)
+                    }}>Edit</button>
             </Link>
         } else {
             return ""
@@ -127,6 +171,17 @@ export const ListDetails = () => {
             }>Remove</button>
         </>
     }
+
+
+
+
+
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+
+    const newDate = month + "/" + day + "/" + year
 
 
 
@@ -185,8 +240,24 @@ export const ListDetails = () => {
 
             <h3>{list?.name}</h3>
             <div>
-                {addItemButton()}  <button>Filter by Category</button>
-                <button>Show Priority Only</button>
+                {addItemButton()}
+                <div>
+                    Filter by Category
+                    <select onChange={
+                        (evt) => {
+                            setFilteredByCategory(evt.target.value)
+                        }
+                    } >
+                        <option value="0">Choose A Category...</option>
+                        {
+                            categories.map(category => {
+                                return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                            })
+                        }
+                    </select>
+                    Show Priority Only
+                    <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
+                </div>
             </div>
             <section>
                 <ul>
@@ -195,9 +266,7 @@ export const ListDetails = () => {
                             const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
                             const totalPrice = listItem?.quantity * listItem?.item?.price
                             estimatedTotalCost += totalPrice
-                            // const match = matchListItems.find(matchList => matchList?.id === listItem?.id)
-                            // console.log(match)
-                            
+
                             return (
                                 <li>
                                     <section>
