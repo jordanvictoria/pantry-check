@@ -10,13 +10,12 @@ import { ItemForm } from "../items/ItemForm"
 import { ItemEdit } from "../items/ItemEdit"
 import { ListItemContainer } from "../listItems/ListItemContainer"
 import { SelectedItemForm } from "../listItems/SelectedItemForm"
-import { Home } from "./Home"
+import { Home } from "../home/Home"
 
 
 
 export const ApplicationViews = () => {
 
-const navigate = useNavigate()
 
 	return (
 		<Routes>
@@ -27,7 +26,7 @@ const navigate = useNavigate()
 					<Outlet />
 				</>
 			}>
-				<Route path="/" element={ <Home /> } />
+				<Route path="/" element={ <Home /> } /> 
 				<Route path="lists" element={<GroceryLists />} />
 				<Route path="items" element={<ItemContainer />} />
 				<Route path="listItems" element={<ListItemContainer />} />

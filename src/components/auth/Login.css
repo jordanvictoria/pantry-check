@@ -85,3 +85,7 @@ body {
 .center .inputbox:hover [type="submit"] {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
+
+.center h1 img {
+  height: 3rem;
+}

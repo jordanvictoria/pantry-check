@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import "./Item.css"
 
 
 
@@ -34,7 +35,7 @@ export const ItemList = ({ searchTermState }) => {
         () => {
             setFilteredItems(items)
         },
-        [items, renderSwitch] 
+        [items, renderSwitch]
     )
 
 
@@ -65,19 +66,19 @@ export const ItemList = ({ searchTermState }) => {
 
     const editItemButton = (obj) => {
 
-            return <Link to={`/items/${obj.id}/edit`}>
-                <button
+        return <Link to={`/items/${obj.id}/edit`}>
+            <button class="button"
                 onClick={() => {
                     setCategoryId(obj.categoryId)
                 }}
-                >Edit</button>
-            </Link>
-        
+            >Edit</button>
+        </Link>
+
     }
 
     const deleteItemButton = (obj) => {
         return <>
-            <button onClick={() =>
+            <button class="button" onClick={() =>
                 fetch(`http://localhost:8088/items/${obj.id}`, {
                     method: "DELETE"
                 })
@@ -94,36 +95,47 @@ export const ItemList = ({ searchTermState }) => {
 
     return <>
 
-        <h2>Grocery Items</h2>
 
-        <button onClick={() => {
-            navigate("/item/create")
-        }
-        }>Add Items</button>
 
-        <article>
-            {
-                filteredItems.map((item) => {
-                    const match = categories.find(cat => cat.id === item.categoryId)
-                    return <section>
-                            -----------------------------
-                        <div>
-                            {item.name}
-                            {
-                                editItemButton(item)
-                            }
-                            {
-                                deleteItemButton(item)
-                            }
-                        </div>
-                        <div>Price: ${item.price} </div>
-                        <div>Category: {match?.name}</div>
-                        -----------------------------
-                    </section>
-                })
+        <section>
+            <div class="list">
+                <ul>
+                    {
+                        filteredItems.map((item) => {
+                            const match = categories.find(cat => cat.id === item.categoryId)
+                            return <>
 
-            }
-        </article>
+
+                                
+                                    <li>
+
+                                        {item.name} - ${item.price}
+                                        <span>
+
+                                        {
+                                            editItemButton(item)
+                                        }
+                                        {
+                                            deleteItemButton(item)
+                                        }
+                                        </span>
+                                    </li>
+                                    
+                                        {/* <li>Price: {item.price} </li> */}
+                                        {/* <li>Category: {match?.name}</li> */}
+                                   
+
+                                
+
+                            </>
+
+                        })
+
+                    }
+                </ul>
+            </div>
+        </section>
+
 
     </>
 

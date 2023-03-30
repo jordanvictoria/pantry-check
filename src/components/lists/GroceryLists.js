@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { getAllLists } from "../ApiManager"
 import { List } from "./List"
 
 export const GroceryLists = () => {
 
-
+    const navigate = useNavigate()
     const [sortedLists, setSortedLists] = useState([])
 
     useEffect(
@@ -20,12 +21,15 @@ export const GroceryLists = () => {
     )
 
     return <article>
-       
-                {
-                    sortedLists.map(list => < List key={`list--${list.id}`}
-                            listObj={list} />)
-                }
-       
+        <div>
+            <button onClick={() => navigate("/list/create")}>Create a New List</button>
+        </div>
+
+        {
+            sortedLists.map(list => < List key={`list--${list.id}`}
+                listObj={list} />)
+        }
+
 
     </article>
 

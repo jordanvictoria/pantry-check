@@ -1,0 +1,95 @@
+/* :root {
+    --container-height: 498px;
+  } */
+
+  span {
+    position: absolute;
+    right: 4px;
+  }
+
+  .button {
+    font: inherit;
+    font-size: small;
+  }
+  
+  section {
+    position: relative;
+    padding: 0px;
+  }
+  
+  .list {
+    /* max-height: var(--container-height); */
+    
+    width: 350px;
+    border: 2px solid #37392e;
+    border-radius: 5px;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* scroll-timeline: listTimeline vertical; */
+  }
+  
+  /* .animation {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    background-size: 50px 40px;
+   
+  } */
+  
+  /* @supports (scroll-timeline: works) {
+    .animation {
+      animation: moveBackground 1s alternate linear;
+      animation-timeline: listTimeline;
+    }
+  }
+  
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 calc(var(--container-height) / -1);
+    }
+  } */
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #eee5e5;
+  }
+  
+  li {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    scroll-snap-align: start;
+ 
+  }
+  
+  li:first-child {
+    border: 0;
+  }
+  
+  /* Demo styles */
+  
+  */
+  
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    color: #37392e;
+    background: #ddcecd;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  
+

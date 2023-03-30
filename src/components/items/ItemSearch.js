@@ -1,17 +1,39 @@
-export const ItemSearch = ({ setterFunction }) => {
-    
+import { useNavigate } from "react-router-dom"
+import "./Item.css"
 
-    return (
-        <div>
-        <input 
-            onChange={
-                (changeEvent) => {
-                    setterFunction(changeEvent.target.value)
+export const ItemSearch = ({ setterFunction }) => {
+    const navigate = useNavigate()
+
+
+    return <>
+        <section>
+            <div class="list">
+
+                <h1>Grocery Items
+                <span>
+                    <button class="button" onClick={() => {
+                    navigate("/item/create")
                 }
-            }
-        
-        type="text" placeholder="Enter search term" />
-        </div>
-        
-    )
+                }>Add Items</button>
+                </span>
+                </h1>
+                
+                <div>
+
+                <input
+                    onChange={
+                        (changeEvent) => {
+                            setterFunction(changeEvent.target.value)
+                        }
+                    }
+
+                    type="text" placeholder="Enter search term" />
+                </div>
+            </div>
+        </section>
+
+
+    </>
+
+
 }

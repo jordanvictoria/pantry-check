@@ -34,7 +34,9 @@ export const Login = () => {
 
 
         <div class="center">
-            <h1>PantryCheck</h1>
+            <h1>PantryCheck
+            <img src={require('../images/pantryicon.jpg')}/>
+            </h1>
             <h2>Sign In</h2>
             <form onSubmit={handleLogin}>
                 <div class="inputbox">
@@ -52,6 +54,8 @@ export const Login = () => {
         </div>
     )
 }
+
+
 
 
 
