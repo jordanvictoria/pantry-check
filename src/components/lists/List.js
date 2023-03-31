@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import "./list.css"
 
 export const List = ({ listObj }) => {
   

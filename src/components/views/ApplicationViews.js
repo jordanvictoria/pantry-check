@@ -11,6 +11,7 @@ import { ItemEdit } from "../items/ItemEdit"
 import { ListItemContainer } from "../listItems/ListItemContainer"
 import { SelectedItemForm } from "../listItems/SelectedItemForm"
 import { Home } from "../home/Home"
+import { Locations } from "../locations/Locations"
 
 
 
@@ -29,6 +30,7 @@ export const ApplicationViews = () => {
 				<Route path="/" element={ <Home /> } /> 
 				<Route path="lists" element={<GroceryLists />} />
 				<Route path="items" element={<ItemContainer />} />
+				<Route path="locations" element={<Locations />} />
 				<Route path="listItems" element={<ListItemContainer />} />
 				<Route path="lists/:listId" element={ <ListDetails /> } />
 				<Route path="list/create" element={<ListForm />} />

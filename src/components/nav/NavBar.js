@@ -9,8 +9,8 @@ export const NavBar = () => {
 
 
 
-            <div class="back">
-                    <div class="logo">
+            <div className="back">
+                    <div className="logo">
                         <img src={require('../images/pantryicon.jpg')} />
                     </div>
                 <nav>
@@ -30,7 +30,11 @@ export const NavBar = () => {
 
                         <Link to="/items">Grocery Items</Link>
                     </div>
-                    <div class="logout">
+                    <div>
+
+                        <Link to="/locations">Store Locations</Link>
+                    </div>
+                    <div className="logout">
 
                         {
                             localStorage.getItem("pantry_user")
