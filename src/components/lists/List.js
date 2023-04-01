@@ -5,19 +5,26 @@ export const List = ({ listObj }) => {
   
 
 
-    return <section>
-        <header>
+    return (
+
+     <section className="groceryList">
+        
+        <header className="title">
             <Link to={`/lists/${listObj.id}`}>{listObj.name}</Link>
         </header>
-        <div>
+        <div className="description">
             {
                 listObj.completed
-                    ? `Completed on ${listObj.dateCompleted}`
-                    : `Created on ${listObj.dateCreated}`
+                    ? `(Completed on ${listObj.dateCompleted})`
+                    : `(Created on ${listObj.dateCreated})`
             }
-
         </div>
 
+
+        
+        
+
     </section>
+    )
 
 }

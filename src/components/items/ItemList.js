@@ -97,7 +97,7 @@ export const ItemList = ({ searchTermState }) => {
 
 
 
-        <section>
+        <section className="itemList">
             <div class="list">
                 <ul>
                     {
@@ -110,7 +110,7 @@ export const ItemList = ({ searchTermState }) => {
                                     <li>
 
                                         {item.name} - ${item.price}
-                                        <span>
+                                        <span className="itemSpan">
 
                                         {
                                             editItemButton(item)

@@ -6,21 +6,15 @@ export const ItemSearch = ({ setterFunction }) => {
 
 
     return <>
-        <section>
+        <section className="itemList">
             <div class="list">
 
-                <h1>Grocery Items
-                <span>
-                    <button class="button" onClick={() => {
-                    navigate("/item/create")
-                }
-                }>Add Items</button>
-                </span>
+                <h1 className="itemHeader">Grocery Items
                 </h1>
                 
                 <div>
 
-                <input
+                <input 
                     onChange={
                         (changeEvent) => {
                             setterFunction(changeEvent.target.value)
@@ -28,6 +22,12 @@ export const ItemSearch = ({ setterFunction }) => {
                     }
 
                     type="text" placeholder="Enter search term" />
+                <span>
+                    <button class="itemButton" onClick={() => {
+                    navigate("/item/create")
+                }
+                }>Add Items</button>
+                </span>
                 </div>
             </div>
         </section>

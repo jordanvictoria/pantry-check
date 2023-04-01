@@ -1,0 +1,215 @@
+.svg {
+    height: 1rem;
+}
+
+select {
+    font: inherit;
+    font-size: small;
+}
+
+.listName {
+  text-align: center;
+  padding-bottom: 30px;
+  border-bottom: 2px solid black;
+}
+
+.nameMargin {
+    margin-bottom: 2px;
+}
+
+.filterContainer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.filterOne {
+    width: 355px;
+    height: 30px;
+    border: 2px dotted black;
+    border-radius: 5px;
+    margin-left: 265px;
+    margin-bottom: 2px;
+    background-color: rgb(229, 171, 171);
+}
+.filterTwo {
+    width: 200px;
+    border: 2px dotted black;
+    border-radius: 5px;
+    margin-left: 420px;
+    background-color: rgb(229, 171, 171);
+}
+
+.groceryName {
+    display: inline;
+    font-size: 20px;
+    /* border: 2px dotted black; */
+    padding: 3px;
+    margin-bottom: 5px;
+}
+
+.groceryButtons {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.groceryFacts {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    font-size: 18px;
+}
+
+.groceryCategory {
+    border: 1px solid rgb(0, 1, 8);
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(179, 185, 235);
+    font-weight: bold;
+}
+
+.groceryQuantity {
+    border: 1px solid rgb(5, 3, 0);
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(236, 194, 140);
+    font-weight: bold;
+}
+
+.groceryPrice {
+    border: 1px solid rgb(0, 7, 0);
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(166, 238, 166);
+    font-weight: bold;
+}
+
+.estimatedCost{
+    margin-top: 20px;
+    margin-left: 435px;
+    margin-bottom: 10px;
+}
+
+.cost {
+    display: inline;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(222, 243, 155);
+}
+
+
+
+.notes {
+    border: 3px dotted black;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 30px;
+    padding-left: 12px;
+    margin: 20px 5px 20px 5px;
+    
+}
+
+.allButtons {
+    margin: 10px 5px 25px 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.description {
+  margin: 0 0 0 5px;
+  font-size: medium;
+}
+
+.listHeader {
+  margin: 10px 0 10px 5px;
+}
+
+input {
+  margin: 0 0 5px 5px;
+}
+
+  .listSpan {
+    position: absolute;
+    right: 4px;
+  }
+
+  .listButton {
+    font: inherit;
+    font-size: small;
+    margin: 0 0 5px 5px;
+  }
+
+  .relativeList {
+    position: relative;
+    padding: 0px;
+    /* height: 500px;
+    width: 630px; */
+    border: 2px solid #41412f;
+    border-radius: 5px;
+    background: #f5f1bb;
+  }
+  
+  .listDetail {
+    height: 500px;
+    width: 630px;
+  }
+  
+  .details {
+    
+    background: #f5f1bb;
+    width: 400px;
+    height: 50px;
+    border: 1px solid #41412f;
+  }
+  
+ 
+  
+  .unorderedListElement {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #656749;
+  }
+  
+  .listElement {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    scroll-snap-align: start;
+    background: #f5f1bb;
+  }
+  
+  
+  
+ 
+  
+
+
+
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #39382e;
+    background: #ddddcd;
+    font-family: "Poppins", sans-serif;
+  } 

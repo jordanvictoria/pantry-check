@@ -1,77 +1,68 @@
-.svg {
-    height: 1rem;
+
+
+
+.title {
+  margin: 0 0 0 5px;
 }
 
-/* :root {
-    --container-height: 498px;
-  } */
+.description {
+  margin: 0 0 0 5px;
+  font-size: medium;
+}
 
-  span {
+.listHeader {
+  margin: 10px 0 10px 5px;
+}
+
+input {
+  margin: 0 0 5px 5px;
+}
+
+  .listSpan {
     position: absolute;
     right: 4px;
   }
 
-  .button {
+  .listButton {
     font: inherit;
-    font-size: small;
+    font-size: medium;
+    margin: 0 0 5px 5px;
   }
   
-  section {
-    position: relative;
-    padding: 0px;
-  }
-  
-  .list {
-    /* max-height: var(--container-height); */
-    
-    width: 350px;
-    border: 2px solid #37392e;
-    border-radius: 5px;
-    scroll-snap-type: y mandatory;
-    overscroll-behavior-y: contain;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* scroll-timeline: listTimeline vertical; */
-  }
-  
-  /* .animation {
+  .gList {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px;
-    height: 100%;
-    background-size: 50px 40px;
-   
-  } */
-  
-  /* @supports (scroll-timeline: works) {
-    .animation {
-      animation: moveBackground 1s alternate linear;
-      animation-timeline: listTimeline;
-    }
+    margin-top: -100px;
+    padding: 0px;
+    background: #f5f1bb;
+    width: 402px;
+    border: 2px solid #41412f;
+    border-radius: 5px;
   }
   
-  @keyframes moveBackground {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 0 calc(var(--container-height) / -1);
-    }
-  } */
+  .groceryList {
+    
+    background: #f5f1bb;
+    width: 400px;
+    height: 50px;
+    border: 1px solid #41412f;
+    
+  
+  }
+  
+ 
   
   ul {
     margin: 0;
     padding: 0;
     list-style: none;
-    background: #eee5e5;
+    background: #656749;
   }
   
   li {
     padding: 20px;
     border-top: 1px solid #ccc;
     scroll-snap-align: start;
- 
+    background: #f5f1bb;
   }
   
   li:first-child {
@@ -90,8 +81,7 @@
     justify-content: center;
     align-items: center;
     /* min-height: 100vh; */
-    color: #37392e;
-    background: #ddcecd;
+    color: #39382e;
+    background: #ddddcd;
     font-family: "Poppins", sans-serif;
   }
-

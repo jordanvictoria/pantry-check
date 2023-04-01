@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
 import { getAllCategories } from "../ApiManager"
-import "./list.css"
+import "./listDetail.css"
 import { ListContext } from "../context/ListProvider"
 
 
@@ -46,7 +46,7 @@ export const ListDetails = () => {
     )
 
 
-    
+
 
 
 
@@ -91,14 +91,14 @@ export const ListDetails = () => {
                 }
                 if (filteredByPriority === true) {
                     let priorityItems = []
-                            {
-                                allListItems.map(li => {
-                                    if (li?.priority === true) {
-                                        priorityItems.push(li)
-                                    }
-                                })
+                    {
+                        allListItems.map(li => {
+                            if (li?.priority === true) {
+                                priorityItems.push(li)
                             }
-                            console.log(priorityItems)
+                        })
+                    }
+                    console.log(priorityItems)
 
                     let priorityArr = []
                     priorityItems.map(itemP => {
@@ -106,7 +106,7 @@ export const ListDetails = () => {
                         if (starred) {
                             priorityArr.push(starred)
                         }
-                        
+
                     })
                     filteredItems = priorityArr
                 }
@@ -236,12 +236,14 @@ export const ListDetails = () => {
 
     return <>
 
-        <article>
-
-            <h3>{list?.name}</h3>
-            <div>
+        <section className="listDetail">
+            <div className="relativeList">
+            <div className="listName">
+                <h3 className="nameMargin">{list?.name}</h3>
                 {addItemButton()}
-                <div>
+            </div>
+            <div className="filterContainer">
+                <div className="filterOne">
                     Filter by Category
                     <select onChange={
                         (evt) => {
@@ -255,12 +257,15 @@ export const ListDetails = () => {
                             })
                         }
                     </select>
+                </div>
+                <div className="filterTwo">
                     Show Priority Only
                     <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
                 </div>
             </div>
+
             <section>
-                <ul>
+                <ul className="unorderedListElement">
                     {
                         listItems.map(listItem => {
                             const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
@@ -268,22 +273,36 @@ export const ListDetails = () => {
                             estimatedTotalCost += totalPrice
 
                             return (
-                                <li>
+                                <li className="listElement">
                                     <section>
-                                        <header>{listItem?.item?.name}
-                                            {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>} --
-                                            Quantity: {listItem?.quantity} --
-                                            Price: {totalPrice}
+                                        <header className="groceryHeader">
+                                            <section className="groceryName">
+                                                {listItem?.item?.name}
+                                                {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
+                                            </section>
+                                            <div className="groceryButtons">
+
+                                            <section>
+                                                {
+                                                    editItemButton(listItem)
+                                                }
+                                                {
+                                                    removeListItemButton(listItem?.id)
+                                                }
+                                            </section>
+                                            <div className="groceryFacts">
+                                                <section className="groceryCategory">
+                                                    Category: {matchedCategory?.name}
+                                                </section>
+                                                <section className="groceryQuantity">
+                                                    Quantity: {listItem?.quantity}
+                                                </section>
+                                                <section className="groceryPrice">
+                                                    Price: {totalPrice}
+                                                </section>
+                                            </div>
+                                            </div>
                                         </header>
-                                    </section>
-                                    <section>
-                                        Category: {matchedCategory?.name} --
-                                        {
-                                            editItemButton(listItem)
-                                        }
-                                        {
-                                            removeListItemButton(listItem?.id)
-                                        }
                                     </section>
                                 </li>
                             )
@@ -291,18 +310,22 @@ export const ListDetails = () => {
                     }
                 </ul>
             </section>
-            <section>
-                <div>-------------------------- Estimated Total: {estimatedTotalCost}</div>
-                <div>Notes: {list?.notes}</div>
+            <section className="estimatedCost">
+                <div className="cost">Estimated Total: ${estimatedTotalCost}</div>
             </section>
-            <footer>
+            <section className="listNotes">
+                <div className="notes">Notes: {list?.notes}</div>
+            </section>
+            <footer className="allButtons">
                 {
                     markCompleteButton()
                 }
+                <div className="someButtons">
+
                 {
                     editListButton()
                 }
-                ------------
+
                 <button onClick={() =>
                     fetch(`http://localhost:8088/lists/${list?.id}`, {
                         method: "DELETE"
@@ -312,8 +335,9 @@ export const ListDetails = () => {
                         })
 
                 }>Delete List</button>
+                </div>
             </footer>
-
-        </article>
+            </div>
+        </section>
     </>
 }

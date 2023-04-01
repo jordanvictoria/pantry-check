@@ -32,7 +32,7 @@ export const NavBar = () => {
                     </div>
                     <div>
 
-                        <Link to="/locations">Store Locations</Link>
+                        <Link to="/locations">Find A Store</Link>
                     </div>
                     <div className="logout">
 
