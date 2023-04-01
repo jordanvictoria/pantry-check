@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import "./itemForm.css"
 
 
 
@@ -21,7 +22,7 @@ export const ItemForm = () => {
         price: 0
     })
 
-    
+
 
     useEffect(
         () => {
@@ -48,7 +49,7 @@ export const ItemForm = () => {
             price: item.price
         }
 
-        
+
 
         return fetch(` http://localhost:8088/items`, {
             method: "POST",
@@ -75,56 +76,58 @@ export const ItemForm = () => {
 
 
     return <>
-        <form>
-            <fieldset>
-                <div>Name:
-                    <input type="text" id="name" onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.name = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label>Category:</label>
-                    <select onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } >
+        <section className="itemForm">
+            <form className="relativeForm">
+                <fieldset>
+                    <div>Name:
+                        <input type="text" id="name" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.name = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div>
+                        <label>Category:</label>
+                        <select className="itemSelect" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.categoryId = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } >
 
-                        <option value="0">Choose A Category...</option>
-                        {
-                            categories.map(category => {
-                                return <option key={category.id} value={category.id}>{category.name}</option>
-                            })
-                        }
+                            <option value="0">Choose A Category...</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category.id} value={category.id}>{category.name}</option>
+                                })
+                            }
 
 
-                    </select>
-                </div>
-                <div>Price:
-                    <input id="price" onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.price = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <button onClick={(clickEvent) => {
+                        </select>
+                    </div>
+                    <div>Price:
+                        <input id="price" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.price = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <button onClick={(clickEvent) => {
 
-                    handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
-                    navigate("/items")
+                        handleSaveButtonClick(clickEvent)
+                        // setRenderSwitch(!renderSwitch)
+                        navigate("/items")
 
-                }}>Save</button>
-
-            </fieldset>
-        </form>
+                    }}>Save</button>
+                    <button className="cancelItem" onClick={() => { navigate(`/items`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
     </>
 
 }

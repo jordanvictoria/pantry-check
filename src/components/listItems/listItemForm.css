@@ -1,0 +1,30 @@
+.relativeForm {
+    position: relative;
+    padding-top: 10px;
+    border: 2px solid #41412f;
+    border-radius: 5px;
+    background: #f5f1bb;
+  }
+  
+  .listItemForm {
+    height: 400px;
+    width: 400px;
+  }
+
+  fieldset {
+
+      border: none;
+  }
+
+  
+
+.cancelListItem {
+    margin-left: 2px;
+}
+
+.listItemSelect {
+    height: 30px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    font-size: medium;
+}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import "./listForm.css"
 
-
+ 
 
 
 export const ListEdit = () => {
@@ -37,34 +38,38 @@ export const ListEdit = () => {
 
 
 
-    return <form>
-        <fieldset>
-            <div>Name:
-                <input required autoFocus type="text" id="name" placeholder={list.name} value={list.name} onChange={
-                    (evt) => {
-                        const copy = { ...list }
-                        copy.name = evt.target.value
-                        updateList(copy)
-                    }
-                } />
-            </div>
-            <div>Notes:
-                <input id="story" placeholder={list.notes} value={list.notes} onChange={
-                    (evt) => {
-                        const copy = { ...list }
-                        copy.notes = evt.target.value
-                        updateList(copy)
-                    }
-                } />
-            </div>
+    return <>
+        <section className="listForm">
+            <form className="relativeForm">
+                <fieldset>
+                    <div>Name:
+                        <input required autoFocus type="text" id="name" placeholder={list.name} value={list.name} onChange={
+                            (evt) => {
+                                const copy = { ...list }
+                                copy.name = evt.target.value
+                                updateList(copy)
+                            }
+                        } />
+                    </div>
+                    <div>Notes:
+                        <input className="formNotes" placeholder={list.notes} value={list.notes} onChange={
+                            (evt) => {
+                                const copy = { ...list }
+                                copy.notes = evt.target.value
+                                updateList(copy)
+                            }
+                        } />
+                    </div>
 
-            <button onClick={(event) => {
-                if (list.name) {
-                    handleSaveButtonClick(event)
-                    navigate(`/lists/${list.id}`)
-                }
-            }}>Save</button>
-           <button onClick={() => { navigate(`/lists/${list.id}`)}}>Cancel</button>
-        </fieldset>
-    </form>
+                    <button onClick={(event) => {
+                        if (list.name) {
+                            handleSaveButtonClick(event)
+                            navigate(`/lists/${list.id}`)
+                        }
+                    }}>Save</button>
+                    <button className="cancelList" onClick={() => { navigate(`/lists/${list.id}`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
+    </>
 }

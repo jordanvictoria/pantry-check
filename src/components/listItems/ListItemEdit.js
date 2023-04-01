@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import "./listItemForm.css"
 
 
 
@@ -131,81 +132,81 @@ export const ListItemEdit = () => {
 
     return <>
 
+        <section className="listItemForm">
+            <form className="relativeForm">
+                <fieldset>
+                    <div>Name:
+                        <input required autoFocus type="text" id="name" placeholder={item?.name} value={item?.name} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.name = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div>
+                        <label>Category:</label>
+                        <select className="listItemSelect" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.categoryId = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } >
 
 
-        <form>
-            <fieldset>
-                <div>Name:
-                    <input required autoFocus type="text" id="name" placeholder={item?.name} value={item?.name} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.name = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label>Category:</label>
-                    <select onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } >
+                            <option value={item?.categoryId}>{category?.name}</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category.id} value={category.id}>{category.name}</option>
+                                })
+                            }
 
 
-                        <option value={item?.categoryId}>{category?.name}</option>
-                        {
-                            categories.map(category => {
-                                return <option key={category.id} value={category.id}>{category.name}</option>
-                            })
-                        }
-
-
-                    </select>
-                </div>
-                <div>Price:
-                    <input type="text" id="price" placeholder={item?.price} value={item?.price} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.price = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>Quantity:
-                    <input type="text" id="quantity" placeholder={listItem?.quantity} value={listItem?.quantity} onChange={
-                        (evt) => {
-                            const copy = { ...listItem }
-                            copy.quantity = evt.target.value
-                            updateListItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label htmlFor="name">Priority:</label>
-                    <input type="checkbox" 
-                        value={listItem?.priority}
-                        checked={listItem?.priority}
-                        onChange={
+                        </select>
+                    </div>
+                    <div>Price:
+                        <input type="text" id="price" placeholder={item?.price} value={item?.price} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.price = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div>Quantity:
+                        <input type="text" id="quantity" placeholder={listItem?.quantity} value={listItem?.quantity} onChange={
                             (evt) => {
                                 const copy = { ...listItem }
-                                copy.priority = evt.target.checked
+                                copy.quantity = evt.target.value
                                 updateListItem(copy)
                             }
                         } />
-                </div>
+                    </div>
+                    <div>
+                        <label htmlFor="name">Priority:</label>
+                        <input type="checkbox"
+                            value={listItem?.priority}
+                            checked={listItem?.priority}
+                            onChange={
+                                (evt) => {
+                                    const copy = { ...listItem }
+                                    copy.priority = evt.target.checked
+                                    updateListItem(copy)
+                                }
+                            } />
+                    </div>
 
-                <button onClick={(clickEvent) => {
+                    <button onClick={(clickEvent) => {
 
-                    handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
-                    navigate(`/lists/${listId}`)
+                        handleSaveButtonClick(clickEvent)
+                        // setRenderSwitch(!renderSwitch)
+                        navigate(`/lists/${listId}`)
 
-                }}>Save</button>
-                <button onClick={() => { navigate(`/lists/${listId}`)}}>Cancel</button>
-            </fieldset>
-        </form>
+                    }}>Save</button>
+                    <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
     </>
 }

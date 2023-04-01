@@ -298,7 +298,7 @@ export const ListDetails = () => {
                                                     Quantity: {listItem?.quantity}
                                                 </section>
                                                 <section className="groceryPrice">
-                                                    Price: {totalPrice}
+                                                    Price: ${totalPrice}
                                                 </section>
                                             </div>
                                             </div>

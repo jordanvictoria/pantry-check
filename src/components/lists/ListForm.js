@@ -2,6 +2,7 @@ import { getAllLists, SendNewList } from "../ApiManager";
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "./listForm.css"
 
 
 export const ListForm = () => {
@@ -54,8 +55,10 @@ export const ListForm = () => {
     
 
 
+
     return <>
-        <form>
+        <section className="listForm">
+        <form className="relativeForm">
             <fieldset>
                 <div>Name:
                     <input type="text" id="name" onChange={
@@ -67,7 +70,7 @@ export const ListForm = () => {
                     } />
                 </div>
                 <div>Notes:
-                    <input id="story" onChange={
+                    <input className="formNotes" onChange={
                         (evt) => {
                             const copy = { ...newList }
                             copy.notes = evt.target.value
@@ -83,9 +86,10 @@ export const ListForm = () => {
                         // navigate(`/lists/${indexOfNewObj}`)
                     }
                 }}>Save</button>
-
+                <button className="cancelList" onClick={() => { navigate(`/lists`) }}>Cancel</button>
             </fieldset>
         </form>
+        </section>
     </>
 
 }

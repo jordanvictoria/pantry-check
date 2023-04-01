@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import "./listItemForm.css"
 
 
 
@@ -95,7 +96,9 @@ export const ListItemForm = () => {
 
 
     return <>
-        <form>
+    <section className="listItemForm">
+
+        <form className="relativeForm">
             <fieldset>
                 <div>Name:
                     <input type="text" id="name" onChange={
@@ -108,7 +111,7 @@ export const ListItemForm = () => {
                 </div>
                 <div>
                     <label>Category:</label>
-                    <select onChange={
+                    <select className="listItemSelect" onChange={
                         (evt) => {
                             const copy = { ...item }
                             copy.categoryId = parseInt(evt.target.value)
@@ -164,9 +167,10 @@ export const ListItemForm = () => {
                     navigate(`/lists/${listId}`)
 
                 }}>Save</button>
-
+            <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
             </fieldset>
         </form>
+    </section>
     </>
 
 }
