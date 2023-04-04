@@ -87,6 +87,7 @@ export const ItemForm = () => {
                                 updateItem(copy)
                             }
                         } />
+                        
                     </div>
                     <div>
                         <label>Category:</label>

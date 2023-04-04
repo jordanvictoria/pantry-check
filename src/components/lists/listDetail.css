@@ -2,6 +2,20 @@
     height: 1rem;
 }
 
+.listCompleted {
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: -7px;
+  background-color: rgb(215, 153, 153);
+}
+
+.listDetailInput {
+  margin-left: 5px;
+  margin-right: -10px
+}
+
 select {
     font: inherit;
     font-size: small;
@@ -23,11 +37,12 @@ select {
 }
 
 .filterOne {
-    width: 355px;
+    width: 325px;
     height: 30px;
     border: 2px dotted black;
     border-radius: 5px;
-    margin-left: 265px;
+    
+    margin-left: 295px;
     margin-bottom: 2px;
     background-color: rgb(229, 171, 171);
 }
@@ -80,22 +95,22 @@ select {
     border: 1px solid rgb(0, 7, 0);
     border-radius: 5px;
     padding: 2px;
-    background-color: rgb(166, 238, 166);
+    background-color: rgb(222, 243, 155);
     font-weight: bold;
 }
 
 .estimatedCost{
     margin-top: 20px;
-    margin-left: 435px;
+    margin-left: 440px;
     margin-bottom: 10px;
 }
 
 .cost {
     display: inline;
-    border: 3px solid black;
+    border: 2px solid black;
     border-radius: 5px;
     padding: 2px;
-    background-color: rgb(222, 243, 155);
+    background-color: rgb(166, 238, 166);
 }
 
 
@@ -117,7 +132,10 @@ select {
 }
 
 
-
+.checkbox {
+  margin-right: 5px; 
+  margin-left: 0px;
+}
 
 
 

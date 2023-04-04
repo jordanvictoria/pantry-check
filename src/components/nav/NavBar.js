@@ -18,28 +18,28 @@ export const NavBar = () => {
 
                     <div>
 
-                        <Link to="/">Home</Link>
+                        <Link style={{ textDecoration: 'none' }} to="/">Home</Link>
                     </div>
 
                     <div>
 
-                        <Link to="/lists">Grocery Lists</Link>
+                        <Link style={{ textDecoration: 'none' }} to="/lists">Grocery Lists</Link>
                     </div>
 
                     <div>
 
-                        <Link to="/items">Grocery Items</Link>
+                        <Link style={{ textDecoration: 'none' }} to="/items">Grocery Items</Link>
                     </div>
                     <div>
 
-                        <Link to="/locations">Find A Store</Link>
+                        <Link style={{ textDecoration: 'none' }} to="/locations">Find A Store</Link>
                     </div>
                     <div className="logout">
 
                         {
                             localStorage.getItem("pantry_user")
                                 ?
-                                <Link to="" onClick={() => {
+                                <Link style={{ textDecoration: 'none' }} to="" onClick={() => {
                                     localStorage.removeItem("pantry_user")
                                     navigate("/", { replace: true })
                                 }}>Logout</Link>

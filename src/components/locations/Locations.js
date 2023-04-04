@@ -21,7 +21,7 @@ export const Locations = () => {
                 <h3 className="locationHeader">Filter by Neighborhood
                     <span className="spanLocation">
 
-                        <select onChange={
+                        <select className="locationInput" onChange={
                             (evt) => {
                                 setFilteredByNeighborhood(evt.target.value)
                                 setFilterUpdated(!filterUpdated)
@@ -29,10 +29,15 @@ export const Locations = () => {
                         } >
                             <option value="0">Nashville...</option>
                             <option value="East%20Nashville">East Nashville</option>
+                            <option value="Madison">Madison</option>
                             <option value="Green%20Hills">Green Hills</option>
+                            <option value="Downtown">Downtown</option>
+                            <option value="Sobro">Sobro</option>
                             <option value="Germantown">Germantown</option>
+                            <option value="Berry%Hill">Berry Hill</option>
                             <option value="Twelve%20South">Twelve South</option>
                             <option value="Sylan%20Park">Sylvan Park</option>
+                            <option value="The%Nations">The Nations</option>
 
 
                         </select>

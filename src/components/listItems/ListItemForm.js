@@ -109,7 +109,7 @@ export const ListItemForm = () => {
                         }
                     } />
                 </div>
-                <div>
+                <div> 
                     <label>Category:</label>
                     <select className="listItemSelect" onChange={
                         (evt) => {

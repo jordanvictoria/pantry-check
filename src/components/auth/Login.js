@@ -33,19 +33,19 @@ export const Login = () => {
 
 
 
-        <div class="center">
+        <div className="center">
             <h1>PantryCheck
             <img src={require('../images/pantryicon.jpg')}/>
             </h1>
             <h2>Sign In</h2>
             <form onSubmit={handleLogin}>
-                <div class="inputbox">
-                    <input type="text" value={email}
+                <div className="inputbox">
+                    <input className="emailInput" type="text" 
                         onChange={evt => set(evt.target.value)} required="required"/>
-                        <span>Email</span>
+                        <span className="emailLabel">Email</span>
                 </div>
 
-                <div class="inputbox">
+                <div className="inputbox">
                     <input type="submit" value="submit"/>
                 </div>
             <Link to="/register">Not a member yet?</Link>

@@ -1,13 +1,17 @@
-import { getAllLists, SendNewList } from "../ApiManager";
-import { useEffect, useState } from "react"
+import { getAllLists } from "../ApiManager";
+import { useEffect, useState, useContext } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./listForm.css"
+import { ListContext } from "../context/ListProvider"
+
 
 
 export const ListForm = () => {
     const localPantryUser = localStorage.getItem("pantry_user")
     const pantryUserObj = JSON.parse(localPantryUser)
+    const { renderSwitch, setRenderSwitch } = useContext(ListContext)
+    const [lists, setLists] = useState([])
     const [newList, updateNewList] = useState({
         name: "",
         notes: ""
@@ -15,10 +19,30 @@ export const ListForm = () => {
     const [lastList, setLastList] = useState({})
     const navigate = useNavigate()
 
+    
+
+    // useEffect(
+    //     () => {
+    //         getAllLists()
+    //             .then((listArr) => {
+    //                 if (listArr.length === 1) {
+    //                     const listObj = listArr[0]
+    //                     setLastList(listObj)
+    //                 } else {
+    //                     const lastlistObj = listArr.slice(-1)
+    //                     setLastList(lastlistObj)
+    //                 }
+                    
+    //             })
+    //     },
+    //     [renderSwitch]
+    // )
+
     useEffect(
         () => {
             getAllLists()
                 .then((listArr) => {
+                    setLists(listArr)
                     const listObj = listArr.slice(-1)
                     setLastList(listObj)
                 })
@@ -26,18 +50,20 @@ export const ListForm = () => {
         []
     )
 
-    
-    
+
+
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    
+
     const newDate = month + "/" + day + "/" + year
-    
-    
-    
-    
+
+
+
+
+
+
     const listToSendToAPI = {
         userId: pantryUserObj.id,
         name: newList.name,
@@ -45,19 +71,59 @@ export const ListForm = () => {
         dateCreated: newDate,
         completed: false
     }
-    
+
+
+
+
+
+
+    // const navigateToNewList = () => {
+    //     const indexOfNewObj = parseInt(lastList[0].id + 1)
+    //         navigate(`/lists/${indexOfNewObj}`)
+    // }
+
     const navigateToNewList = () => {
-        const indexOfNewObj = parseInt(lastList[0].id + 1)
-        navigate(`/lists/${indexOfNewObj}`)
+        if (lists.length >= 1) {
+            const indexOfNewObj = parseInt(lastList[0].id + 1)
+            navigate(`/lists/${indexOfNewObj}`)
+        } else {
+            navigate(`/lists/3`)
+        }
     }
-    
-    
-    
 
 
 
-    return <>
-        <section className="listForm">
+
+
+    const SendNewList = (newListForAPI) => {
+
+        return fetch(`http://localhost:8088/lists`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newListForAPI)
+        })
+            .then(res => res.json())
+            // .then(() => {
+            //     setRenderSwitch(!renderSwitch)
+            // })
+            // .then(() => {
+            //     navigateToNewList()
+            // })
+
+
+    }
+
+
+
+
+
+
+
+
+return <>
+    <section className="listForm">
         <form className="relativeForm">
             <fieldset>
                 <div>Name:
@@ -83,13 +149,13 @@ export const ListForm = () => {
                     if (newList.name) {
                         SendNewList(listToSendToAPI)
                         navigateToNewList()
-                        // navigate(`/lists/${indexOfNewObj}`)
+                        // setRenderSwitch(!renderSwitch)
                     }
                 }}>Save</button>
                 <button className="cancelList" onClick={() => { navigate(`/lists`) }}>Cancel</button>
             </fieldset>
         </form>
-        </section>
-    </>
+    </section>
+</>
 
 }

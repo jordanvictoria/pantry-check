@@ -128,13 +128,23 @@ export const ListDetails = () => {
 
     const addItemButton = () => {
         if (!list.completed) {
-            return <>
-                <button onClick={() => {
-                    setListId(list.id)
-                    navigate("/listItems")
-                }
-                }>Add Items</button>
-            </>
+            if (listItems.length === 0) {
+                return <>
+                    <button onClick={() => {
+                        setListId(list.id)
+                        navigate("/listItem/create")
+                    }
+                    }>Add Items</button>
+                </>
+            } else {
+                return <>
+                    <button onClick={() => {
+                        setListId(list.id)
+                        navigate("/listItems")
+                    }
+                    }>Add Items</button>
+                </>
+            }
 
         } else {
             return ""
@@ -211,7 +221,29 @@ export const ListDetails = () => {
                 }}
             >Mark as Completed</button>
         } else {
-            return `Completed on ${list.dateCompleted}`
+            return <>
+                <button className="listCompleted"
+                    onClick={() => {
+                        const copy = {
+                            userId: 1,
+                            name: list.name,
+                            notes: list.notes,
+                            dateCreated: list.dateCreated,
+                            completed: false
+                        }
+                        fetch(`http://localhost:8088/lists/${list.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(copy)
+                        })
+                            .then(response => response.json())
+                            .then(() => {
+                                setRenderSwitch(!renderSwitch)
+                            })
+                    }}>Completed on {list.dateCompleted}</button>
+            </>
         }
     }
 
@@ -232,111 +264,121 @@ export const ListDetails = () => {
 
 
 
+
+
+
+
     let estimatedTotalCost = 0
 
     return <>
 
         <section className="listDetail">
             <div className="relativeList">
-            <div className="listName">
-                <h3 className="nameMargin">{list?.name}</h3>
-                {addItemButton()}
-            </div>
-            <div className="filterContainer">
-                <div className="filterOne">
-                    Filter by Category
-                    <select onChange={
-                        (evt) => {
-                            setFilteredByCategory(evt.target.value)
-                        }
-                    } >
-                        <option value="0">Choose A Category...</option>
+                <div className="listName">
+                    <h3 className="nameMargin">
+                        {list.name}</h3>
+                    {addItemButton()}
+                </div>
+
+                <div className="filterContainer">
+                    <div className="filterOne">
+                        Filter by Category
+                        <select className="listDetailInput" onChange={
+                            (evt) => {
+                                setFilteredByCategory(evt.target.value)
+                            }
+                        } >
+                            <option value="0">Choose A Category...</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="filterTwo">
+                        Show Priority Only
+                        <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
+                    </div>
+                </div>
+
+                <section>
+                    <ul className="unorderedListElement">
                         {
-                            categories.map(category => {
-                                return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                            listItems.map(listItem => {
+                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
+                                const totalPrice = listItem?.quantity * listItem?.item?.price
+                                estimatedTotalCost += totalPrice
+
+                                return (
+                                    <li className="listElement">
+                                        <section>
+                                            <header className="groceryHeader">
+                                                <section className="groceryName">
+                                                <input  className="checkbox" type="checkbox"/>
+                                                    {listItem?.item?.name}
+                                                    {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
+                                                </section>
+                                                <div className="groceryButtons">
+
+                                                    <section>
+                                                        {
+                                                            editItemButton(listItem)
+                                                        }
+                                                        {
+                                                            removeListItemButton(listItem?.id)
+                                                        }
+                                                    </section>
+                                                    <div className="groceryFacts">
+                                                        <section className="groceryCategory">
+                                                            Category: {matchedCategory?.name}
+                                                        </section>
+                                                        <section className="groceryQuantity">
+                                                            Quantity: {listItem?.quantity}
+                                                        </section>
+
+                                                        <section className="groceryPrice">
+                                                            Price: ${totalPrice}
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        </section>
+                                    </li>
+                                )
                             })
                         }
-                    </select>
-                </div>
-                <div className="filterTwo">
-                    Show Priority Only
-                    <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
-                </div>
-            </div>
+                    </ul>
+                </section>
+                <section className="estimatedCost">
 
-            <section>
-                <ul className="unorderedListElement">
+                    <div className="cost">Estimated Total: ${estimatedTotalCost}</div>
+                </section>
+
+                <section className="listNotes">
+                    <div className="notes">Notes: {list?.notes}</div>
+                </section>
+                <footer className="allButtons">
                     {
-                        listItems.map(listItem => {
-                            const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
-                            const totalPrice = listItem?.quantity * listItem?.item?.price
-                            estimatedTotalCost += totalPrice
-
-                            return (
-                                <li className="listElement">
-                                    <section>
-                                        <header className="groceryHeader">
-                                            <section className="groceryName">
-                                                {listItem?.item?.name}
-                                                {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
-                                            </section>
-                                            <div className="groceryButtons">
-
-                                            <section>
-                                                {
-                                                    editItemButton(listItem)
-                                                }
-                                                {
-                                                    removeListItemButton(listItem?.id)
-                                                }
-                                            </section>
-                                            <div className="groceryFacts">
-                                                <section className="groceryCategory">
-                                                    Category: {matchedCategory?.name}
-                                                </section>
-                                                <section className="groceryQuantity">
-                                                    Quantity: {listItem?.quantity}
-                                                </section>
-                                                <section className="groceryPrice">
-                                                    Price: ${totalPrice}
-                                                </section>
-                                            </div>
-                                            </div>
-                                        </header>
-                                    </section>
-                                </li>
-                            )
-                        })
+                        markCompleteButton()
                     }
-                </ul>
-            </section>
-            <section className="estimatedCost">
-                <div className="cost">Estimated Total: ${estimatedTotalCost}</div>
-            </section>
-            <section className="listNotes">
-                <div className="notes">Notes: {list?.notes}</div>
-            </section>
-            <footer className="allButtons">
-                {
-                    markCompleteButton()
-                }
-                <div className="someButtons">
+                    <div className="someButtons">
 
-                {
-                    editListButton()
-                }
+                        {
+                            editListButton()
+                        }
 
-                <button onClick={() =>
-                    fetch(`http://localhost:8088/lists/${list?.id}`, {
-                        method: "DELETE"
-                    })
-                        .then(() => {
-                            navigate("/lists")
-                        })
+                        <button onClick={() =>
+                            fetch(`http://localhost:8088/lists/${list?.id}`, {
+                                method: "DELETE"
+                            })
+                                .then(() => {
+                                    navigate("/lists")
+                                })
 
-                }>Delete List</button>
-                </div>
-            </footer>
+                        }>Delete List</button>
+                    </div>
+                </footer>
             </div>
         </section>
     </>

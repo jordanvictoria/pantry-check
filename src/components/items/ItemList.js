@@ -14,6 +14,8 @@ export const ItemList = ({ searchTermState }) => {
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { setCategoryId, renderSwitch, setRenderSwitch } = useContext(ListContext)
+    const localPantryUser = localStorage.getItem("pantry_user")
+    const pantryUserObj = JSON.parse(localPantryUser)
 
 
 
@@ -23,7 +25,8 @@ export const ItemList = ({ searchTermState }) => {
 
     useEffect(
         () => {
-            getAllItems()
+            fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
+                .then(res => res.json())
                 .then((userItemArr) => {
                     setItems(userItemArr)
                 })
@@ -90,53 +93,73 @@ export const ItemList = ({ searchTermState }) => {
         </>
     }
 
+    const itemFunc = () => {
+        if (items.length !== 0) {
+            return <>
+            
+                <section className="itemList">
+                    <div className="list">
 
+                        <ul>
+                            {
+                                filteredItems.map((item) => {
+                                    const match = categories.find(cat => cat.id === item.categoryId)
+                                    return <>
+
+
+
+                                        <li>
+
+                                            {item.name} - ${item.price}
+                                            <span className="itemSpan">
+
+                                                {
+                                                    editItemButton(item)
+                                                }
+                                                {
+                                                    deleteItemButton(item)
+                                                }
+                                            </span>
+                                        </li>
+
+
+
+
+
+
+                                    </>
+
+                                })
+
+                            }
+                        </ul>
+                    </div>
+                </section>
+
+
+
+
+           
+            </>
+        } else {
+            return ""
+        }
+    }
 
 
     return <>
 
+        {
 
-
-        <section className="itemList">
-            <div class="list">
-                <ul>
-                    {
-                        filteredItems.map((item) => {
-                            const match = categories.find(cat => cat.id === item.categoryId)
-                            return <>
-
-
-                                
-                                    <li>
-
-                                        {item.name} - ${item.price}
-                                        <span className="itemSpan">
-
-                                        {
-                                            editItemButton(item)
-                                        }
-                                        {
-                                            deleteItemButton(item)
-                                        }
-                                        </span>
-                                    </li>
-                                    
-                                        {/* <li>Price: {item.price} </li> */}
-                                        {/* <li>Category: {match?.name}</li> */}
-                                   
-
-                                
-
-                            </>
-
-                        })
-
-                    }
-                </ul>
-            </div>
-        </section>
-
-
+            itemFunc()
+        }
     </>
 
 }
+
+
+
+
+
+
+

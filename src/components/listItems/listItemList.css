@@ -1,0 +1,70 @@
+.itemList {
+  background: #f5f1bb;
+  width: 450px;
+  border: 2px solid #41412f;
+  border-radius: 5px;
+}
+
+
+.listItemList {
+    position: relative;
+    padding: 0px;
+    /* top: -150px; */
+  }
+
+  
+
+  .noInputButton {
+    margin: 0 0 5px 5px;
+  }
+
+  .listItemInput {
+    margin: 0 23px 5px 5px;
+    font: inherit;
+  }
+  
+  button {
+    font: inherit;
+    font-size: medium;
+  }
+  
+    .itemSpan {
+      position: absolute;
+      right: 4px;
+    }
+  
+    .itemButton {
+      font: inherit;
+      font-size: medium;
+      position: absolute;
+      right: 4px;
+    }
+    
+    .itemHeader {
+      margin: 10px 0 10px 5px;
+    }
+  
+    
+    
+    
+   
+    
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background: #656749;
+    }
+    
+    li {
+      padding: 20px;
+      border-top: 1px solid #ccc;
+      scroll-snap-align: start;
+      background: #f5f1bb;
+    }
+    
+    li:first-child {
+      border: 0;
+    }
+    
+    

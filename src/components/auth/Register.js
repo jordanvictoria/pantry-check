@@ -52,23 +52,23 @@ export const Register = (props) => {
     }
 
     return (
-        <div class="center">
+        <div className="center">
             <h1>Register for Pantry Check
             </h1>
             <form onSubmit={handleRegister}>
-                <div class="inputbox">
+                <div className="inputbox">
                     <input onChange={updateUser}
                         type="text" id="fullName"
-                        required autoFocus />
+                        required />
                     <span> Full Name </span>
                 </div>
-                <div class="inputbox">
+                <div className="inputbox">
                     <input onChange={updateUser}
                         type="email" id="email"
                         required />
                     <span> Email address </span>
                 </div>
-                <div class="inputbox">
+                <div className="inputbox">
                     <input type="submit" value="Register" />
                 </div>
             </form>

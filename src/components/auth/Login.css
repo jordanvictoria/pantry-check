@@ -1,6 +1,18 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300&display=swap');
 
+.emailInput {
+  margin-top: 15px;
+  margin-right:9px;
+}
+
+.emailLabel {
+  border: 2px solid rgb(233, 137, 137);
+  border-radius: 5px;
+  padding: 0 5px 0 5px;
+  background-color: rgb(241, 207, 175);;
+}
+
 body {
   margin: 0;
   padding: 0;
