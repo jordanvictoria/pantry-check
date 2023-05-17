@@ -29,7 +29,7 @@ export const ItemSearch = ({ setterFunction }) => {
 
         
         <section className="itemList">
-            <div className="list">
+            {/* <div className="relativeList"> */}
 
                 <h1 className="itemHeader">Grocery Items
                 </h1>
@@ -51,7 +51,7 @@ export const ItemSearch = ({ setterFunction }) => {
                         }>Add Items</button>
                     </span>
                 </div>
-            </div>
+            {/* </div> */}
         </section>
        
 

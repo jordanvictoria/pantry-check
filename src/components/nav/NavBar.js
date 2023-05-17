@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
 
-export const NavBar = () => {
+export const NavBar = ({ setToken }) => {
     const navigate = useNavigate()
 
     return (
@@ -35,17 +35,10 @@ export const NavBar = () => {
                         <Link style={{ textDecoration: 'none' }} to="/locations">Find A Store</Link>
                     </div>
                     <div className="logout">
-
-                        {
-                            localStorage.getItem("pantry_user")
-                                ?
-                                <Link style={{ textDecoration: 'none' }} to="" onClick={() => {
-                                    localStorage.removeItem("pantry_user")
-                                    navigate("/", { replace: true })
-                                }}>Logout</Link>
-
-                                : ""
-                        }
+                        <Link style={{ textDecoration: 'none' }} to="" onClick={() => {
+                            setToken("");
+                            navigate("/login");
+                            }}>Logout</Link>
                     </div>
 
                 </nav>

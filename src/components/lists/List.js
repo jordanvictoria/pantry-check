@@ -15,8 +15,8 @@ export const List = ({ listObj }) => {
         <div className="description">
             {
                 listObj.completed
-                    ? `(Completed on ${listObj.dateCompleted})`
-                    : `(Created on ${listObj.dateCreated})`
+                    ? `Completed on ${listObj.date_completed}`
+                    : `Created on ${listObj.date_created}`
             }
         </div>
 

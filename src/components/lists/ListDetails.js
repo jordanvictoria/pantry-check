@@ -128,15 +128,15 @@ export const ListDetails = () => {
 
     const addItemButton = () => {
         if (!list.completed) {
-            if (listItems.length === 0) {
-                return <>
-                    <button onClick={() => {
-                        setListId(list.id)
-                        navigate("/listItem/create")
-                    }
-                    }>Add Items</button>
-                </>
-            } else {
+            // if (listItems.length === 0) {
+            //     return <>
+            //         <button onClick={() => {
+            //             setListId(list.id)
+            //             navigate("/listItem/create")
+            //         }
+            //         }>Add Items</button>
+            //     </>
+            // } else {
                 return <>
                     <button onClick={() => {
                         setListId(list.id)
@@ -144,7 +144,7 @@ export const ListDetails = () => {
                     }
                     }>Add Items</button>
                 </>
-            }
+            // }
 
         } else {
             return ""
@@ -191,7 +191,7 @@ export const ListDetails = () => {
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
 
-    const newDate = month + "/" + day + "/" + year
+    const newDate = year + "-" + month + "-" + day
 
 
 
@@ -315,7 +315,7 @@ export const ListDetails = () => {
                                         <section>
                                             <header className="groceryHeader">
                                                 <section className="groceryName">
-                                                <input  className="checkbox" type="checkbox"/>
+                                                    <input className="checkbox" type="checkbox" />
                                                     {listItem?.item?.name}
                                                     {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
                                                 </section>
@@ -383,3 +383,5 @@ export const ListDetails = () => {
         </section>
     </>
 }
+
+

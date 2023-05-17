@@ -57,7 +57,7 @@ export const ListForm = () => {
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
 
-    const newDate = month + "/" + day + "/" + year
+    const newDate = year + "-" + month + "-" + day
 
 
 

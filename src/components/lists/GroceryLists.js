@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useContext } from "react-router-dom"
-import { getAllLists } from "../ApiManager"
 import { List } from "./List"
 import "./list.css"
+import { getLists, getUsers } from "./ListManager"
 
 
 
 export const GroceryLists = () => {
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
     const navigate = useNavigate()
     const [lists, setLists] = useState([])
     const [sortedLists, setSortedLists] = useState([])
     const [users, setUsers] = useState([])
     const [matchedUser, setMatchedUser] = useState({})
+    const localUser = localStorage.getItem('pantryUserId')
+   
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/lists?_expand=user&userId=${pantryUserObj.id}`)
-                .then(res => res.json())
+            getLists()
                 .then((listArray) => {
                     setLists(listArray)
                 }
@@ -26,6 +25,9 @@ export const GroceryLists = () => {
         },
         []
     )
+
+
+
 
     useEffect(
         () => {
@@ -38,10 +40,10 @@ export const GroceryLists = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/users`)
-                .then(res => res.json())
+            getUsers()
                 .then((usersArr) => {
                     setUsers(usersArr)
+                    console.log(users)
                 })
         },
         []
@@ -49,8 +51,9 @@ export const GroceryLists = () => {
 
     useEffect(
         () => {
-            const foundUser = users.find(user => user.id === pantryUserObj.id)
+            const foundUser = users.find(user => user.user === parseInt(localUser))
             setMatchedUser(foundUser)
+            console.log(localUser)
         },
         [users]
     )
@@ -64,7 +67,7 @@ export const GroceryLists = () => {
     return <section className="groceryList">
         <div className="gList">
 
-            <h1 className="listHeader">{matchedUser?.fullName}'s Lists
+            <h1 className="listHeader">{matchedUser?.full_name}'s Lists
             </h1>
             <div>
                 <button className="listButton" onClick={() => navigate("/list/create")}>Create a New List</button>

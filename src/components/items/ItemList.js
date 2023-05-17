@@ -97,8 +97,8 @@ export const ItemList = ({ searchTermState }) => {
         if (items.length !== 0) {
             return <>
             
-                <section className="itemList">
-                    <div className="list">
+                {/* <section className="itemList"> */}
+                    <div className="relativeList">
 
                         <ul>
                             {
@@ -134,7 +134,7 @@ export const ItemList = ({ searchTermState }) => {
                             }
                         </ul>
                     </div>
-                </section>
+                {/* </section> */}
 
 
 
@@ -142,7 +142,9 @@ export const ItemList = ({ searchTermState }) => {
            
             </>
         } else {
-            return ""
+            return <>
+            <div className="bigDiv"></div>
+            </>
         }
     }
 
