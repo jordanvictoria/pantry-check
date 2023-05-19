@@ -1,67 +1,85 @@
 import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import { getItems, getCategories, getItemsBySearch, deleteItem } from "./ItemManager"
+import { ItemSearch } from "./ItemSearch"
 import "./Item.css"
 
 
 
 
 
-export const ItemList = ({ searchTermState }) => {
+export const ItemList = () => {
     const [items, setItems] = useState([])
-    const [filteredItems, setFilteredItems] = useState([])
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { setCategoryId, renderSwitch, setRenderSwitch } = useContext(ListContext)
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
-
-
-
-
+    const localUser = localStorage.getItem('pantryUserId')
+    const [searchTerm, setSearchTerm] = useState('')
+    // const [filteredItems, setFilteredItems] = useState([])
 
 
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
-                .then(res => res.json())
+            getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
+                    console.log(items)
+                })
+            getCategories()
+                .then((categoryArray) => {
+                    setCategories(categoryArray)
                 })
         },
         [renderSwitch]
     )
 
-    useEffect(
-        () => {
-            setFilteredItems(items)
-        },
-        [items, renderSwitch]
-    )
+    // useEffect(
+    //     () => {
+    //         setFilteredItems(items)
+    //     },
+    //     [items, renderSwitch]
+    // )
 
 
 
-    useEffect(
-        () => {
-            const searchedItems = items.filter(item => {
-                return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
-            })
-            setFilteredItems(searchedItems)
-        },
-        [searchTermState]
-    )
+    // useEffect(
+    //     () => {
+    //         const searchedItems = items.filter(item => {
+    //             return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
+    //         })
+    //         setFilteredItems(searchedItems)
+    //     },
+    //     [searchTermState]
+    // )
 
-    useEffect(
-        () => {
-            getAllCategories()
-                .then((categoryArray) => {
-                    setCategories(categoryArray)
-                })
-        },
-        []
-    )
+
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (searchTerm.length > 1) {
+            getItemsBySearch(searchTerm).then((items) => setItems(items))
+        } else {
+            getItems().then((items) => setItems(items))
+        }
+    }, [searchTerm])
+
+
+
+
+
+    const onSearchTermChange = (value) => {
+        setSearchTerm(value)
+    }
+
+   
 
 
 
@@ -72,7 +90,7 @@ export const ItemList = ({ searchTermState }) => {
         return <Link to={`/items/${obj.id}/edit`}>
             <button class="button"
                 onClick={() => {
-                    setCategoryId(obj.categoryId)
+                    setCategoryId(obj.category.id)
                 }}
             >Edit</button>
         </Link>
@@ -82,28 +100,28 @@ export const ItemList = ({ searchTermState }) => {
     const deleteItemButton = (obj) => {
         return <>
             <button class="button" onClick={() =>
-                fetch(`http://localhost:8088/items/${obj.id}`, {
-                    method: "DELETE"
-                })
-                    .then(() => {
-                        setRenderSwitch(!renderSwitch)
-                    })
+                deleteItem(obj.id).then(() => setRenderSwitch(!renderSwitch))
 
             }>Remove</button>
         </>
     }
 
+
+
+
+
     const itemFunc = () => {
         if (items.length !== 0) {
             return <>
             
-                {/* <section className="itemList"> */}
+            <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
                     <div className="relativeList">
 
                         <ul>
                             {
-                                filteredItems.map((item) => {
-                                    const match = categories.find(cat => cat.id === item.categoryId)
+                                items.map((item) => {
+                                    console.log(item)
+                                    // const match = categories.find(cat => cat.id === item.categoryId)
                                     return <>
 
 

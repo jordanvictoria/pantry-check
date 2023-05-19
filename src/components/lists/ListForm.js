@@ -1,4 +1,4 @@
-import { getAllLists } from "../ApiManager";
+import { addList, getLists, getUsers } from "./ListManager"
 import { useEffect, useState, useContext } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,9 @@ import { ListContext } from "../context/ListProvider"
 
 
 export const ListForm = () => {
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    // const localPantryUser = localStorage.getItem("pantry_user")
+    // const pantryUserObj = JSON.parse(localPantryUser)
+    const localUser = localStorage.getItem('pantryUserId')
     const { renderSwitch, setRenderSwitch } = useContext(ListContext)
     const [lists, setLists] = useState([])
     const [newList, updateNewList] = useState({
@@ -40,7 +41,7 @@ export const ListForm = () => {
 
     useEffect(
         () => {
-            getAllLists()
+            getLists()
                 .then((listArr) => {
                     setLists(listArr)
                     const listObj = listArr.slice(-1)
@@ -64,46 +65,40 @@ export const ListForm = () => {
 
 
 
-    const listToSendToAPI = {
-        userId: pantryUserObj.id,
-        name: newList.name,
-        notes: newList.notes,
-        dateCreated: newDate,
-        completed: false
-    }
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
     // const navigateToNewList = () => {
-    //     const indexOfNewObj = parseInt(lastList[0].id + 1)
-    //         navigate(`/lists/${indexOfNewObj}`)
-    // }
-
-    const navigateToNewList = () => {
-        if (lists.length >= 1) {
-            const indexOfNewObj = parseInt(lastList[0].id + 1)
-            navigate(`/lists/${indexOfNewObj}`)
-        } else {
-            navigate(`/lists/3`)
+        //     const indexOfNewObj = parseInt(lastList[0].id + 1)
+        //         navigate(`/lists/${indexOfNewObj}`)
+        // }
+        
+        const navigateToNewList = () => {
+            if (lists.length >= 1) {
+                const indexOfNewObj = parseInt(lastList[0].id + 1)
+                navigate(`/lists/${indexOfNewObj}`)
+            } else {
+                navigate(`/lists/1`)
+            }
         }
-    }
-
-
-
-
-
-    const SendNewList = (newListForAPI) => {
-
-        return fetch(`http://localhost:8088/lists`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newListForAPI)
-        })
+        
+        
+        
+        
+        
+        const SendNewList = (evt) => {
+            
+            const newListForAPI = {
+                // userId: pantryUserObj.id,
+                name: newList.name,
+                notes: newList.notes,
+                date_created: newDate,
+                completed: false
+            }
+        addList(newListForAPI)
             .then(res => res.json())
             // .then(() => {
             //     setRenderSwitch(!renderSwitch)
@@ -145,9 +140,9 @@ return <>
                     } />
                 </div>
 
-                <button onClick={() => {
+                <button onClick={(evt) => {
                     if (newList.name) {
-                        SendNewList(listToSendToAPI)
+                        SendNewList(evt)
                         navigateToNewList()
                         // setRenderSwitch(!renderSwitch)
                     }

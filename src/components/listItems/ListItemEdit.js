@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
+import { editItem, editListItem, getCategories, getItemById, getListItemById } from "./ListItemManager"
 
 
 
@@ -11,28 +12,34 @@ import "./listItemForm.css"
 export const ListItemEdit = () => {
     // const localPantryUser = localStorage.getItem("pantry_user")
     // const pantryUserObj = JSON.parse(localPantryUser)
+    const localUser = localStorage.getItem('pantryUserId')
     const { listId, renderSwitch, setRenderSwitch, itemId, categoryId } = useContext(ListContext)
     const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { listItemId } = useParams()
     const [listItem, updateListItem] = useState({
-        itemId: 0,
+        id: 0,
+        user: 0,
+        list: 0,
+        item: 0,
         quantity: 0,
         priority: false
 
     })
     const [item, updateItem] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
 
 
+
     useEffect(() => {
-        fetch(`http://localhost:8088/listItems/${listItemId}`)
-            .then(response => response.json())
+        getListItemById(listItemId)
             .then((data) => {
                 updateListItem(data)
             })
@@ -43,23 +50,17 @@ export const ListItemEdit = () => {
 
 
     useEffect(() => {
-        getAllItems()
-            .then((itemArr) => {
-                const matchedItem = itemArr.find(item => item.id === itemId)
-                updateItem(matchedItem)
+        getItemById(itemId)
+            .then((data) => {
+                updateItem(data)
             })
     }, [itemId])
 
 
 
-
-
-
-
-
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
@@ -67,9 +68,12 @@ export const ListItemEdit = () => {
         []
     )
 
+
+
+
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
                     setCategory(categoryMatch)
@@ -87,24 +91,26 @@ export const ListItemEdit = () => {
 
 
 
-    const handleSaveButtonClick = (event) => {
-        event.preventDefault()
+    const handleSaveButtonClick = () => {
+        
 
-        return fetch(` http://localhost:8088/items/${item.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(item)
+        editItem({
+            id: itemId,
+            user: parseInt(localUser),
+            name: item.name,
+            category: item.category.id,
+            price: item.price
         })
-            .then(response => response.json())
+            // .then(response => response.json())
             .then(() => {
-                fetch(` http://localhost:8088/listItems/${listItem.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify(listItem)
+                editListItem({
+                    id: listItemId,
+                    user: parseInt(localUser),
+                    list: listId,
+                    item: itemId,
+                    quantity: listItem.quantity,
+                    priority: listItem.priority
+            
                 })
             })
             .then(() => {
@@ -149,16 +155,16 @@ export const ListItemEdit = () => {
                         <select className="listItemSelect" onChange={
                             (evt) => {
                                 const copy = { ...item }
-                                copy.categoryId = parseInt(evt.target.value)
+                                copy.category = parseInt(evt.target.value)
                                 updateItem(copy)
                             }
                         } >
 
 
-                            <option value={item?.categoryId}>{category?.name}</option>
+                            <option value={item?.category}>{item.category.name}</option>
                             {
                                 categories.map(category => {
-                                    return <option key={category.id} value={category.id}>{category.name}</option>
+                                    return <option key={category.id} value={category}>{category.name}</option>
                                 })
                             }
 
@@ -197,9 +203,10 @@ export const ListItemEdit = () => {
                             } />
                     </div>
 
-                    <button onClick={(clickEvent) => {
+                    <button onClick={(event) => {
 
-                        handleSaveButtonClick(clickEvent)
+                        handleSaveButtonClick()
+                        event.preventDefault()
                         // setRenderSwitch(!renderSwitch)
                         navigate(`/lists/${listId}`)
 

@@ -1,39 +1,56 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { editList, getListById } from "./ListManager"
+import { ListContext } from "../context/ListProvider"
 import "./listForm.css"
 
  
 
 
 export const ListEdit = () => {
+    const localUser = localStorage.getItem('pantryUserId')
     const { listId } = useParams()
     const navigate = useNavigate()
+    const { renderSwitch, setRenderSwitch } = useContext(ListContext)
     const [list, updateList] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        notes: ""
+        notes: "",
+        date_created: "",
+        completed: false,
+        date_completed: ""
     })
 
 
 
     useEffect(() => {
-        fetch(`http://localhost:8088/lists/${listId}`)
-            .then(response => response.json())
+        getListById(listId)
             .then((data) => {
                 updateList(data)
             })
-    }, [listId])
+    }, [listId, renderSwitch])
 
-    const handleSaveButtonClick = (event) => {
-        event.preventDefault()
 
-        return fetch(`http://localhost:8088/lists/${list.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(list)
-        })
-            .then(response => response.json())
+
+
+
+
+    const handleSaveButtonClick = () => {
+
+        editList({
+        id: listId,
+        user: parseInt(localUser),
+        name: list.name,
+        notes: list.notes,
+        date_created: list.date_created,
+        completed: false,
+        date_completed: null
+    })
+            // .then(response => response.json())
+            .then(() => {
+                setRenderSwitch(!renderSwitch)
+            })
     }
 
 
@@ -63,8 +80,9 @@ export const ListEdit = () => {
 
                     <button onClick={(event) => {
                         if (list.name) {
-                            handleSaveButtonClick(event)
-                            navigate(`/lists/${list.id}`)
+                            event.preventDefault()
+                            handleSaveButtonClick()
+                            navigate(`/lists/${listId}`)
                         }
                     }}>Save</button>
                     <button className="cancelList" onClick={() => { navigate(`/lists/${list.id}`) }}>Cancel</button>

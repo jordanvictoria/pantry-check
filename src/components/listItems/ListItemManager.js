@@ -1,0 +1,109 @@
+export const getItems = () => {
+    return fetch("http://localhost:8000/items", {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    }).then((res) => res.json());
+  };
+
+  export const getCategories = () => {
+    return fetch("http://localhost:8000/categories", {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    }).then((res) => res.json());
+  };
+
+  export const getItemsBySearch = (searchTerm) => {
+    return fetch(`http://localhost:8000/items?search=${searchTerm}`, {
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    }).then(res => res.json())
+  }
+
+  export const addItem = (newItem) => {
+    return fetch("http://localhost:8000/items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      },
+      body: JSON.stringify(newItem)
+    })
+  };
+
+  export const addListItem = (newListItem) => {
+    return fetch("http://localhost:8000/listitems", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      },
+      body: JSON.stringify(newListItem)
+    })
+  };
+  
+  export const editItem = (newItem) => {
+    return fetch(`http://localhost:8000/items/${newItem.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      },
+      body: JSON.stringify(newItem)
+    })
+  }
+
+  export const editListItem = (newItem) => {
+    return fetch(`http://localhost:8000/listitems/${newItem.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      },
+      body: JSON.stringify(newItem)
+    })
+  }
+  
+  export const deleteItem = (itemId) => {
+    return fetch(`http://localhost:8000/items/${itemId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    })
+}
+
+
+export const getListById = (id) => {
+  return fetch(`http://localhost:8000/lists/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+    }
+  }).then((res) => res.json());
+};
+
+
+export const getListItemById = (id) => {
+  return fetch(`http://localhost:8000/listitems/${id}`, {
+    headers: {
+      "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+    }
+  }).then((res) => res.json());
+}
+
+
+  export const getItemById = (id) => {
+    return fetch(`http://localhost:8000/items/${id}`, {
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    }).then((res) => res.json());
+  };

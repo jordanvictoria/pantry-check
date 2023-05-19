@@ -3,20 +3,23 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
+import { addListItem, editItem, getCategories, getItemById } from "./ListItemManager"
 
 export const SelectedItemForm = () => {
+    const localUser = localStorage.getItem('pantryUserId')
     const { listId, renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
     const { itemId } = useParams()
     const navigate = useNavigate()
     const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
     const [listItem, updateListItem] = useState({
-        itemId: 0,
         quantity: 0,
         priority: false
 
@@ -26,8 +29,7 @@ export const SelectedItemForm = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8088/items/${itemId}`)
-            .then(response => response.json())
+        getItemById(itemId)
             .then((data) => {
                 updateItem(data)
             })
@@ -37,7 +39,7 @@ export const SelectedItemForm = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
@@ -47,7 +49,7 @@ export const SelectedItemForm = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
                     setCategory(categoryMatch)
@@ -62,32 +64,28 @@ export const SelectedItemForm = () => {
         event.preventDefault()
 
         let listItemToSendToAPI = {
-            listId: listId,
+            item: itemId,
+            list: listId,
             quantity: listItem.quantity,
             priority: listItem.priority
         }
+        const itemToSendToAPI = {
+            id: itemId,
+            user: parseInt(localUser),
+            name: item.name,
+            category: item.category.id,
+            price: item.price
+        }
 
-        return fetch(` http://localhost:8088/items/${item.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(item)
-        })
-            .then(response => response.json())
-            .then(createdItem => {
-                listItemToSendToAPI.itemId = parseInt(createdItem.id)
-                fetch(` http://localhost:8088/listItems`, {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify(listItemToSendToAPI)
-                })
-            })
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
+        editItem(itemToSendToAPI)
+        addListItem(listItemToSendToAPI)
+            // .then(response => response.json())
+            // .then(createdItem => {
+            //     listItemToSendToAPI.item = parseInt(createdItem.id)
+            // })
+            // .then(() => {
+            //     setRenderSwitch(!renderSwitch)
+            // })
     }
 
 
@@ -110,15 +108,15 @@ export const SelectedItemForm = () => {
                             <select className="listItemSelect" onChange={
                                 (evt) => {
                                     const copy = { ...item }
-                                    copy.categoryId = parseInt(evt.target.value)
+                                    copy.category = parseInt(evt.target.value)
                                     updateItem(copy)
                                 }
                             } >
 
-                                <option value={item?.categoryId}>{category?.name}</option>
+                                <option value={item?.category}>{item.category.name}</option>
                                 {
                                     categories.map(category => {
-                                        return <option key={category.id} value={category.id}>{category.name}</option>
+                                        return <option key={category.id} value={category}>{category.name}</option>
                                     })
                                 }
 
@@ -156,9 +154,9 @@ export const SelectedItemForm = () => {
                                 } />
                         </div>
 
-                        <button onClick={(clickEvent) => {
-
-                            handleSaveButtonClick(clickEvent)
+                        <button onClick={(event) => {
+                            
+                            handleSaveButtonClick(event)
                             // setRenderSwitch(!renderSwitch)
                             navigate(`/lists/${listId}`)
 

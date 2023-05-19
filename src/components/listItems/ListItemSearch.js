@@ -2,17 +2,17 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAllItems } from "../ApiManager"
 import "./listItemList.css"
+import { getItems } from "./ListItemManager"
 
-export const ListItemSearch = ({ setterFunction }) => {
+export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    // const localPantryUser = localStorage.getItem("pantry_user")
+    // const pantryUserObj = JSON.parse(localPantryUser)
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
-                .then(res => res.json())
+            getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
                 })
@@ -26,11 +26,11 @@ export const ListItemSearch = ({ setterFunction }) => {
         if (items.length !== 0) {
             return <>
                 <input className="listItemInput"
+                    value={searchTerms}
                     onChange={
-                        (changeEvent) => {
-                            setterFunction(changeEvent.target.value)
-                        }
-                    }
+                      (changeEvent) => {
+                        onSearchTermChange(changeEvent.target.value)
+                      }}
 
                     type="text" placeholder="Enter search term" />
                 Or

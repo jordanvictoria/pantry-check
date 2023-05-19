@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getAllCategories } from "../ApiManager"
+import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString } from "./ListManager"
 import "./listDetail.css"
 import { ListContext } from "../context/ListProvider"
 
@@ -10,22 +10,30 @@ import { ListContext } from "../context/ListProvider"
 export const ListDetails = () => {
     const { listId } = useParams()
     const navigate = useNavigate()
-    const [list, updateList] = useState({})
     const [listItems, setListItems] = useState([])
     const [allListItems, setAllListItems] = useState([])
     const [categories, setCategories] = useState([])
     const [filteredByCategory, setFilteredByCategory] = useState(0)
     const [filteredByPriority, setFilteredByPriority] = useState(false)
     const [stateOfFilter, setStateOfFilter] = useState({})
-    const [filterUpdated, setFilterUpdated] = useState(false)
+    // const [filterUpdated, setFilterUpdated] = useState(false)
+    const localUser = localStorage.getItem('pantryUserId')
+    const [list, updateList] = useState({})
+    //     id: 0,
+    //     user: 0,
+    //     name: "",
+    //     notes: "",
+    //     date_created: "",
+    //     completed: false,
+    //     date_completed: null
+    // })
 
     const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
 
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/lists/${listId}`)
-                .then(response => response.json())
+            getListById(listId)
                 .then((data) => {
                     updateList(data)
                 })
@@ -35,8 +43,7 @@ export const ListDetails = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/listItems?_expand=item&listId=${listId}`)
-                .then(response => response.json())
+            getItemsByList(listId)
                 .then((listItemArray) => {
                     setAllListItems(listItemArray)
                     setListItems(listItemArray)
@@ -46,13 +53,9 @@ export const ListDetails = () => {
     )
 
 
-
-
-
-
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArray) => {
                     setCategories(categoryArray)
                 })
@@ -60,61 +63,99 @@ export const ListDetails = () => {
         []
     )
 
+
+
+
+
+
+    // useEffect(
+    //     () => {
+    //         stateOfFilter.selectedCategory = parseInt(filteredByCategory)
+    //         setFilterUpdated(!filterUpdated)
+
+    //     },
+    //     [filteredByCategory]
+    // )
+
+    // useEffect(
+    //     () => {
+    //         stateOfFilter.priorityOnly = filteredByPriority
+    //         setFilterUpdated(!filterUpdated)
+
+    //     },
+    //     [filteredByPriority]
+    // )
+
+
+    // useEffect(
+    //     () => {
+    //         if (allListItems) {
+    //             let filteredItems = allListItems
+    //             if (stateOfFilter.selectedCategory) {
+    //                 filteredItems = filteredItems.filter(listItem => listItem?.item?.categoryId === stateOfFilter.selectedCategory)
+    //             }
+    //             if (filteredByPriority === true) {
+    //                 let priorityItems = []
+    //                 {
+    //                     allListItems.map(li => {
+    //                         if (li?.priority === true) {
+    //                             priorityItems.push(li)
+    //                         }
+    //                     })
+    //                 }
+    //                 console.log(priorityItems)
+
+    //                 let priorityArr = []
+    //                 priorityItems.map(itemP => {
+    //                     let starred = filteredItems.find(itemF => itemF?.id === itemP?.id)
+    //                     if (starred) {
+    //                         priorityArr.push(starred)
+    //                     }
+
+    //                 })
+    //                 filteredItems = priorityArr
+    //             }
+    //             setListItems(filteredItems)
+    //         }
+    //     },
+    //     [filterUpdated, allListItems]
+    // )
+
+
     useEffect(
         () => {
-            stateOfFilter.selectedCategory = parseInt(filteredByCategory)
-            setFilterUpdated(!filterUpdated)
 
-        },
-        [filteredByCategory]
-    )
-
-    useEffect(
-        () => {
-            stateOfFilter.priorityOnly = filteredByPriority
-            setFilterUpdated(!filterUpdated)
-
-        },
-        [filteredByPriority]
-    )
-
-
-
-
-
-    useEffect(
-        () => {
-            if (allListItems) {
-                let filteredItems = allListItems
-                if (stateOfFilter.selectedCategory) {
-                    filteredItems = filteredItems.filter(listItem => listItem?.item?.categoryId === stateOfFilter.selectedCategory)
-                }
-                if (filteredByPriority === true) {
-                    let priorityItems = []
-                    {
-                        allListItems.map(li => {
-                            if (li?.priority === true) {
-                                priorityItems.push(li)
-                            }
-                        })
-                    }
-                    console.log(priorityItems)
-
-                    let priorityArr = []
-                    priorityItems.map(itemP => {
-                        let starred = filteredItems.find(itemF => itemF?.id === itemP?.id)
-                        if (starred) {
-                            priorityArr.push(starred)
-                        }
-
-                    })
-                    filteredItems = priorityArr
-                }
-                setListItems(filteredItems)
+            if (filteredByCategory !== 0 || filteredByPriority !== false || listId !== 0)  {
+                getItemsByHttpString(queryStrings(listId, parseInt(filteredByCategory), filteredByPriority))
+                    .then((data) => { setListItems(data) })
             }
-        },
-        [filterUpdated, allListItems]
+           
+            // else {
+            //     getItemsByList(listId)
+            //         .then((listItemArray) => {
+            //             setListItems(listItemArray)
+            //             })
+            // }
+
+        }, [listId, filteredByCategory, filteredByPriority, stateOfFilter]
     )
+
+    const queryStrings = (listId, filteredByCategory, filteredByPriority) => {
+        let httpString = []
+
+        if (filteredByCategory !== 0) {
+            httpString.push(`category=${parseInt(filteredByCategory)}`)
+        }
+        if (filteredByPriority !== false) {
+            httpString.push(`priority=${filteredByPriority}`)
+        }
+        if (listId !== 0) {
+            httpString.push(`listId=${listId}`)
+        }
+        let newString = httpString.join("&")
+        console.log(newString)
+        return newString
+    }
 
 
 
@@ -157,9 +198,9 @@ export const ListDetails = () => {
             return <Link to={`/listItems/${obj.id}/edit`}>
                 <button
                     onClick={() => {
-                        setItemId(obj.itemId)
+                        setItemId(obj.item.id)
                         setListId(list.id)
-                        setCategoryId(obj.item.categoryId)
+                        setCategoryId(obj.item.category.id)
                     }}>Edit</button>
             </Link>
         } else {
@@ -171,9 +212,7 @@ export const ListDetails = () => {
     const removeListItemButton = (id) => {
         return <>
             <button onClick={() =>
-                fetch(`http://localhost:8088/listItems/${id}`, {
-                    method: "DELETE"
-                })
+                deleteListItem(id)
                     .then(() => {
                         setRenderSwitch(!renderSwitch)
                     })
@@ -186,35 +225,39 @@ export const ListDetails = () => {
 
 
 
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
+    // var dateObj = new Date();
+    // var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    // var day = dateObj.getUTCDate();
+    // var year = dateObj.getUTCFullYear();
 
-    const newDate = year + "-" + month + "-" + day
+    // const newDate = year + "-" + month + "-" + day
+
+    var dateObj = new Date();
+var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); // add leading zero and slice last 2 digits
+var day = ('0' + dateObj.getUTCDate()).slice(-2); // add leading zero and slice last 2 digits
+var year = dateObj.getUTCFullYear();
+
+const newDate = year + "-" + month + "-" + day;
 
 
 
     const markCompleteButton = () => {
         if (!list.completed) {
             return <button
-                onClick={() => {
+                onClick={(event) => {
+                    event.preventDefault()
                     const copy = {
-                        userId: 1,
+                        id: listId,
+                        user: parseInt(localUser),
                         name: list.name,
                         notes: list.notes,
-                        dateCreated: list.dateCreated,
+                        date_created: list.date_created,
                         completed: true,
-                        dateCompleted: newDate
+                        date_completed: newDate
                     }
-                    fetch(`http://localhost:8088/lists/${list.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(copy)
-                    })
-                        .then(response => response.json())
+                    console.log(copy)
+                    editList(copy)
+                        // .then(response => response.json())
                         .then(() => {
                             setRenderSwitch(!renderSwitch)
                         })
@@ -223,26 +266,23 @@ export const ListDetails = () => {
         } else {
             return <>
                 <button className="listCompleted"
-                    onClick={() => {
+                    onClick={(event) => {
+                        event.preventDefault()
                         const copy = {
-                            userId: 1,
+                            id: listId,
+                            user: parseInt(localUser),
                             name: list.name,
                             notes: list.notes,
-                            dateCreated: list.dateCreated,
-                            completed: false
+                            date_created: list.date_created,
+                            completed: false,
+                            date_completed: null
                         }
-                        fetch(`http://localhost:8088/lists/${list.id}`, {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(copy)
-                        })
-                            .then(response => response.json())
+                        editList(copy)
+                            // .then(response => response.json())
                             .then(() => {
                                 setRenderSwitch(!renderSwitch)
                             })
-                    }}>Completed on {list.dateCompleted}</button>
+                    }}>Completed on {list.date_completed}</button>
             </>
         }
     }
@@ -306,7 +346,7 @@ export const ListDetails = () => {
                     <ul className="unorderedListElement">
                         {
                             listItems.map(listItem => {
-                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
+                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.category)
                                 const totalPrice = listItem?.quantity * listItem?.item?.price
                                 estimatedTotalCost += totalPrice
 

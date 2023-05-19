@@ -3,27 +3,28 @@ import { useNavigate } from "react-router-dom"
 import { getAllItems } from "../ApiManager"
 import "./Item.css"
 
-export const ItemSearch = ({ setterFunction }) => {
+export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const navigate = useNavigate()
-    const [items, setItems] = useState([])
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    // const [items, setItems] = useState([])
+    // const localPantryUser = localStorage.getItem("pantry_user")
+    // const pantryUserObj = JSON.parse(localPantryUser)
 
-    useEffect(
-        () => {
-            fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
-                .then(res => res.json())
-                .then((userItemArr) => {
-                    setItems(userItemArr)
-                })
-        },
-        []
-    )
-
-
+    // useEffect(
+    //     () => {
+    //         fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
+    //             .then(res => res.json())
+    //             .then((userItemArr) => {
+    //                 setItems(userItemArr)
+    //             })
+    //     },
+    //     []
+    // )
 
 
 
+
+
+    
 
     return (
 
@@ -37,12 +38,11 @@ export const ItemSearch = ({ setterFunction }) => {
                 <div>
 
                 <input
+                    value={searchTerms}
                     onChange={
-                        (changeEvent) => {
-                            setterFunction(changeEvent.target.value)
-                        }
-                    }
-
+                      (changeEvent) => {
+                        onSearchTermChange(changeEvent.target.value)
+                      }}
                     type="text" placeholder="Enter search term" />
                     <span>
                         <button className="itemButton" onClick={() => {

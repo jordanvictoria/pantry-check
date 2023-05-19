@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
+// import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemList.css"
+import { getCategories, getItems, getItemsBySearch } from "./ListItemManager"
+import { ListItemSearch } from "./ListItemSearch"
 
 
 
@@ -14,8 +16,9 @@ export const ListItemList = ({ searchTermState }) => {
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { setCategoryId, renderSwitch, setRenderSwitch, listId } = useContext(ListContext)
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    // const localPantryUser = localStorage.getItem("pantry_user")
+    // const pantryUserObj = JSON.parse(localPantryUser)
+    const [searchTerm, setSearchTerm] = useState('')
 
 
 
@@ -25,43 +28,65 @@ export const ListItemList = ({ searchTermState }) => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
-            .then(res => res.json())
+            getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
+                    console.log(items)
                 })
-        },
-        []
-    )
-
-    useEffect(
-        () => {
-            setFilteredItems(items)
-        },
-        [items]
-    )
-
-
-
-    useEffect(
-        () => {
-            const searchedItems = items.filter(item => {
-                return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
-            })
-            setFilteredItems(searchedItems)
-        },
-        [searchTermState]
-    )
-
-    useEffect(
-        () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArray) => {
                     setCategories(categoryArray)
                 })
         },
-        []
+        [renderSwitch]
     )
+        
+    // useEffect(
+    //     () => {
+    //         getCategories()
+    //             .then((categoryArray) => {
+    //                 setCategories(categoryArray)
+    //             })
+    //     },
+    //     []
+    // )
+    // useEffect(
+    //     () => {
+    //         setFilteredItems(items)
+    //     },
+    //     [items]
+    //     )
+        
+
+
+    // useEffect(
+    //     () => {
+    //         const searchedItems = items.filter(item => {
+    //             return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
+    //         })
+    //         setFilteredItems(searchedItems)
+    //     },
+    //     [searchTermState]
+    // )
+
+
+
+    useEffect(() => {
+        if (searchTerm.length > 1) {
+            getItemsBySearch(searchTerm).then((items) => setItems(items))
+        } else {
+            getItems().then((items) => setItems(items))
+        }
+    }, [searchTerm])
+
+
+
+
+
+    const onSearchTermChange = (value) => {
+        setSearchTerm(value)
+    }
+
 
 
 
@@ -84,15 +109,18 @@ export const ListItemList = ({ searchTermState }) => {
     }
 
 
+
     const listItemFunc = () => {
         if (items.length !== 0) {
             return <>
+
+        <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
                 <section className="itemList">
                     <div className="listItemList">
 
                         <ul>
                             {
-                                filteredItems.map((item) => {
+                                items.map((item) => {
                                     // const match = categories.find(cat => cat.id === item.categoryId)
                                     return <li>
 

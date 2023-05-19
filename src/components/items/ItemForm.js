@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getAllCategories } from "../ApiManager"
+// import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./itemForm.css"
+import { addItem, getCategories } from "./ItemManager"
 
 
 
@@ -10,15 +11,15 @@ import "./itemForm.css"
 
 
 export const ItemForm = () => {
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    // const localPantryUser = localStorage.getItem("pantry_user")
+    // const pantryUserObj = JSON.parse(localPantryUser)
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { renderSwitch, setRenderSwitch } = useContext(ListContext)
 
     const [item, updateItem] = useState({
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
@@ -26,7 +27,7 @@ export const ItemForm = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
@@ -43,21 +44,16 @@ export const ItemForm = () => {
         event.preventDefault()
 
         const itemToSendToAPI = {
-            userId: pantryUserObj.id,
+            // userId: pantryUserObj.id,
             name: item.name,
-            categoryId: item.categoryId,
+            category: item.category,
             price: item.price
         }
 
 
 
-        return fetch(` http://localhost:8088/items`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(itemToSendToAPI)
-        })
+        addItem(itemToSendToAPI)
+            .then((res) => res.json())
             .then(() => {
                 setRenderSwitch(!renderSwitch)
             })
@@ -94,7 +90,7 @@ export const ItemForm = () => {
                         <select className="itemSelect" onChange={
                             (evt) => {
                                 const copy = { ...item }
-                                copy.categoryId = parseInt(evt.target.value)
+                                copy.category = parseInt(evt.target.value)
                                 updateItem(copy)
                             }
                         } >

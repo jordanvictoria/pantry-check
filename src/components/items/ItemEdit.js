@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
+// import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import { editItem, getCategories, getItems, getItemById } from "./ItemManager"
 import "./itemForm.css"
 
 
@@ -11,22 +12,24 @@ import "./itemForm.css"
 export const ItemEdit = () => {
     // const localPantryUser = localStorage.getItem("pantry_user")
     // const pantryUserObj = JSON.parse(localPantryUser)
+    const localUser = localStorage.getItem('pantryUserId')
     const { renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
     const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { itemId } = useParams()
     const [item, updateItem] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
 
 
     useEffect(() => {
-        fetch(`http://localhost:8088/items/${itemId}`)
-            .then(response => response.json())
+        getItemById(itemId)
             .then((data) => {
                 updateItem(data)
             })
@@ -39,7 +42,7 @@ export const ItemEdit = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
@@ -49,7 +52,7 @@ export const ItemEdit = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
                     setCategory(categoryMatch)
@@ -67,15 +70,14 @@ export const ItemEdit = () => {
 
 
 
-    const handleSaveButtonClick = (event) => {
-        event.preventDefault()
+    const handleSaveButtonClick = () => {
 
-        return fetch(` http://localhost:8088/items/${item.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(item)
+        editItem({
+            id: itemId,
+            user: parseInt(localUser),
+            name: item.name,
+            category: item.category.id,
+            price: item.price
         })
             .then(response => response.json())
             .then(() => {
@@ -113,16 +115,16 @@ export const ItemEdit = () => {
                         <select className="itemSelect" onChange={
                             (evt) => {
                                 const copy = { ...item }
-                                copy.categoryId = parseInt(evt.target.value)
+                                copy.category = parseInt(evt.target.value)
                                 updateItem(copy)
                             }
                         } >
 
 
-                            <option value={item?.categoryId}>{category?.name}</option>
+                            <option value={item?.category}>{category?.name}</option>
                             {
                                 categories.map(category => {
-                                    return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                                    return <option key={category?.id} value={category}>{category?.name}</option>
                                 })
                             }
 
@@ -139,9 +141,9 @@ export const ItemEdit = () => {
                         } />
                     </div>
 
-                    <button onClick={(clickEvent) => {
-
-                        handleSaveButtonClick(clickEvent)
+                    <button onClick={(event) => {
+                        event.preventDefault()
+                        handleSaveButtonClick()
                         // setRenderSwitch(!renderSwitch)
                         navigate(`/items`)
 

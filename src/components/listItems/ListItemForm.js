@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getAllCategories } from "../ApiManager"
+// import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
+import { addItem, addListItem, getCategories, getListById } from "./ListItemManager"
 
 
 
@@ -10,20 +11,18 @@ import "./listItemForm.css"
 
 
 export const ListItemForm = () => {
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
+    const localUser = localStorage.getItem('pantryUserId')
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { listId, renderSwitch, setRenderSwitch } = useContext(ListContext)
-
+    const [list, updateList] = useState({})
     const [item, updateItem] = useState({
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
     const [listItem, updateListItem] = useState({
-        itemId: 0,
         quantity: 0,
         priority: false
 
@@ -31,12 +30,22 @@ export const ListItemForm = () => {
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
         },
         []
+    )
+
+    useEffect(
+        () => {
+            getListById(listId)
+                .then((data) => {
+                    updateList(data)
+                })
+        },
+        [listId, renderSwitch]
     )
 
 
@@ -48,40 +57,32 @@ export const ListItemForm = () => {
         event.preventDefault()
 
         const itemToSendToAPI = {
-            userId: pantryUserObj.id,
             name: item.name,
-            categoryId: item.categoryId,
+            category: item.category,
             price: item.price
         }
 
         let listItemToSendToAPI = {
-            listId: listId,
+            list: listId,
             quantity: listItem.quantity,
             priority: listItem.priority
         }
 
-        return fetch(` http://localhost:8088/items`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(itemToSendToAPI)
-        })
+        addItem(itemToSendToAPI)
             .then(response => response.json())
             .then(createdItem => {
-                listItemToSendToAPI.itemId = parseInt(createdItem.id)
-                fetch(` http://localhost:8088/listItems`, {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify(listItemToSendToAPI)
-                })
+                listItemToSendToAPI.item = parseInt(createdItem.id)
+                addListItem(listItemToSendToAPI)
             })
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
-    }
+            // .then(response => response.json())
+            // .then(() => {
+            //     setRenderSwitch(!renderSwitch)
+            // })
+            // .then(() =>
+            // navigate(`/lists/${list.id}`)
+            // )
+        }
+
 
 
 
@@ -114,7 +115,7 @@ export const ListItemForm = () => {
                     <select className="listItemSelect" onChange={
                         (evt) => {
                             const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
+                            copy.category = parseInt(evt.target.value)
                             updateItem(copy)
                         }
                     } >
@@ -162,8 +163,8 @@ export const ListItemForm = () => {
 
                 <button onClick={(clickEvent) => {
 
+                    setRenderSwitch(!renderSwitch)
                     handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
                     navigate(`/lists/${listId}`)
 
                 }}>Save</button>
@@ -173,4 +174,4 @@ export const ListItemForm = () => {
     </section>
     </>
 
-}
+    }
