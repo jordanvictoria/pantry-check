@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
 import { getItems, getCategories, getItemsBySearch, deleteItem } from "./ItemManager"
 import { ItemSearch } from "./ItemSearch"
@@ -11,12 +11,8 @@ import "./Item.css"
 
 export const ItemList = () => {
     const [items, setItems] = useState([])
-    const [categories, setCategories] = useState([])
-    const navigate = useNavigate()
     const { setCategoryId, renderSwitch, setRenderSwitch } = useContext(ListContext)
-    const localUser = localStorage.getItem('pantryUserId')
     const [searchTerm, setSearchTerm] = useState('')
-    // const [filteredItems, setFilteredItems] = useState([])
 
 
 
@@ -27,32 +23,11 @@ export const ItemList = () => {
                     setItems(userItemArr)
                     console.log(items)
                 })
-            getCategories()
-                .then((categoryArray) => {
-                    setCategories(categoryArray)
-                })
         },
         [renderSwitch]
     )
 
-    // useEffect(
-    //     () => {
-    //         setFilteredItems(items)
-    //     },
-    //     [items, renderSwitch]
-    // )
 
-
-
-    // useEffect(
-    //     () => {
-    //         const searchedItems = items.filter(item => {
-    //             return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
-    //         })
-    //         setFilteredItems(searchedItems)
-    //     },
-    //     [searchTermState]
-    // )
 
 
 
@@ -120,8 +95,6 @@ export const ItemList = () => {
                         <ul>
                             {
                                 items.map((item) => {
-                                    console.log(item)
-                                    // const match = categories.find(cat => cat.id === item.categoryId)
                                     return <>
 
 
@@ -152,7 +125,6 @@ export const ItemList = () => {
                             }
                         </ul>
                     </div>
-                {/* </section> */}
 
 
 

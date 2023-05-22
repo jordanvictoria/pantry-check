@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getAllItems } from "../ApiManager"
 import "./listItemList.css"
 import { getItems } from "./ListItemManager"
 
 export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
 
     useEffect(
         () => {
@@ -66,13 +63,6 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
                     {
                         inputFunc()
                     }
-                    {/* <span>
-
-                        <button className="itemButton" onClick={() => {
-                            navigate("/listItem/create")
-                        }
-                        }>Create New Item</button>
-                    </span> */}
                 </div>
             </div>
         </section>

@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-// import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import { editItem, getCategories, getItems, getItemById } from "./ItemManager"
 import "./itemForm.css"
@@ -10,8 +9,6 @@ import "./itemForm.css"
 
 
 export const ItemEdit = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
     const localUser = localStorage.getItem('pantryUserId')
     const { renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
     const [category, setCategory] = useState({})
@@ -144,7 +141,6 @@ export const ItemEdit = () => {
                     <button onClick={(event) => {
                         event.preventDefault()
                         handleSaveButtonClick()
-                        // setRenderSwitch(!renderSwitch)
                         navigate(`/items`)
 
                     }}>Save</button>

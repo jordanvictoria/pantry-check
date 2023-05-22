@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-// import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
 import { addItem, addListItem, getCategories, getListById } from "./ListItemManager"
@@ -74,14 +73,9 @@ export const ListItemForm = () => {
                 listItemToSendToAPI.item = parseInt(createdItem.id)
                 addListItem(listItemToSendToAPI)
             })
-            // .then(response => response.json())
-            // .then(() => {
-            //     setRenderSwitch(!renderSwitch)
-            // })
-            // .then(() =>
-            // navigate(`/lists/${list.id}`)
-            // )
         }
+
+        
 
 
 

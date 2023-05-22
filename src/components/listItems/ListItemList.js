@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-// import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemList.css"
-import { getCategories, getItems, getItemsBySearch } from "./ListItemManager"
+import { getItems, getItemsBySearch } from "./ListItemManager"
 import { ListItemSearch } from "./ListItemSearch"
 
 
@@ -12,12 +11,7 @@ import { ListItemSearch } from "./ListItemSearch"
 
 export const ListItemList = ({ searchTermState }) => {
     const [items, setItems] = useState([])
-    const [filteredItems, setFilteredItems] = useState([])
-    const [categories, setCategories] = useState([])
-    const navigate = useNavigate()
-    const { setCategoryId, renderSwitch, setRenderSwitch, listId } = useContext(ListContext)
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
+    const { setCategoryId, renderSwitch } = useContext(ListContext)
     const [searchTerm, setSearchTerm] = useState('')
 
 
@@ -33,41 +27,11 @@ export const ListItemList = ({ searchTermState }) => {
                     setItems(userItemArr)
                     console.log(items)
                 })
-            getCategories()
-                .then((categoryArray) => {
-                    setCategories(categoryArray)
-                })
         },
         [renderSwitch]
     )
         
-    // useEffect(
-    //     () => {
-    //         getCategories()
-    //             .then((categoryArray) => {
-    //                 setCategories(categoryArray)
-    //             })
-    //     },
-    //     []
-    // )
-    // useEffect(
-    //     () => {
-    //         setFilteredItems(items)
-    //     },
-    //     [items]
-    //     )
-        
 
-
-    // useEffect(
-    //     () => {
-    //         const searchedItems = items.filter(item => {
-    //             return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
-    //         })
-    //         setFilteredItems(searchedItems)
-    //     },
-    //     [searchTermState]
-    // )
 
 
 
@@ -121,7 +85,6 @@ export const ListItemList = ({ searchTermState }) => {
                         <ul>
                             {
                                 items.map((item) => {
-                                    // const match = categories.find(cat => cat.id === item.categoryId)
                                     return <li>
 
                                         {item.name} - ${item.price}

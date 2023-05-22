@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
 import { editItem, editListItem, getCategories, getItemById, getListItemById } from "./ListItemManager"
@@ -10,11 +9,8 @@ import { editItem, editListItem, getCategories, getItemById, getListItemById } f
 
 
 export const ListItemEdit = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
     const localUser = localStorage.getItem('pantryUserId')
     const { listId, renderSwitch, setRenderSwitch, itemId, categoryId } = useContext(ListContext)
-    const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { listItemId } = useParams()
@@ -71,20 +67,6 @@ export const ListItemEdit = () => {
 
 
 
-    useEffect(
-        () => {
-            getCategories()
-                .then((categoryArr) => {
-                    const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
-                    setCategory(categoryMatch)
-                })
-        },
-        [categoryId]
-    )
-
-
-
-
 
 
 
@@ -92,8 +74,6 @@ export const ListItemEdit = () => {
 
 
     const handleSaveButtonClick = () => {
-        
-
         editItem({
             id: itemId,
             user: parseInt(localUser),
@@ -101,7 +81,6 @@ export const ListItemEdit = () => {
             category: item.category.id,
             price: item.price
         })
-            // .then(response => response.json())
             .then(() => {
                 editListItem({
                     id: listItemId,
@@ -121,13 +100,6 @@ export const ListItemEdit = () => {
 
 
 
-    // const isChecked = (listItem) => {
-    //     if (listItem.priority) {
-    //         return "checked"
-    //     } else {
-    //         return ""
-    //     }
-    // }
 
 
 
@@ -207,7 +179,6 @@ export const ListItemEdit = () => {
 
                         handleSaveButtonClick()
                         event.preventDefault()
-                        // setRenderSwitch(!renderSwitch)
                         navigate(`/lists/${listId}`)
 
                     }}>Save</button>

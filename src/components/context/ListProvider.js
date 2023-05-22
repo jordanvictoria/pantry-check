@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext } from "react";
 
 
 export const ListContext = createContext()
@@ -8,10 +8,7 @@ export const ListProvider = (props) => {
     const [itemId, setItemId] = useState(0)
     const [categoryId, setCategoryId] = useState(0)
     const [renderSwitch, setRenderSwitch] = useState(false)
-    const [filteredByCategory, setFilteredByCategory] = useState(0)
-    const [filteredByFavorite, setFilteredByFavorite] = useState(false)
-    // const [msgReadSwitch, setMsgReadSwitch] = useState(false)
-    // const [filteredByYear, setFilteredByYear] = useState(0)
+ 
 
    
 

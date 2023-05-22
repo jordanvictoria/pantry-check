@@ -1,16 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./listItemForm.css"
 import { addListItem, editItem, getCategories, getItemById } from "./ListItemManager"
 
 export const SelectedItemForm = () => {
     const localUser = localStorage.getItem('pantryUserId')
-    const { listId, renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
+    const { listId } = useContext(ListContext)
     const { itemId } = useParams()
     const navigate = useNavigate()
-    const [category, setCategory] = useState({})
     const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
         id: 0,
@@ -47,16 +45,7 @@ export const SelectedItemForm = () => {
         []
     )
 
-    useEffect(
-        () => {
-            getCategories()
-                .then((categoryArr) => {
-                    const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
-                    setCategory(categoryMatch)
-                })
-        },
-        [categoryId]
-    )
+   
 
 
 
@@ -79,13 +68,6 @@ export const SelectedItemForm = () => {
 
         editItem(itemToSendToAPI)
         addListItem(listItemToSendToAPI)
-            // .then(response => response.json())
-            // .then(createdItem => {
-            //     listItemToSendToAPI.item = parseInt(createdItem.id)
-            // })
-            // .then(() => {
-            //     setRenderSwitch(!renderSwitch)
-            // })
     }
 
 
@@ -157,7 +139,6 @@ export const SelectedItemForm = () => {
                         <button onClick={(event) => {
                             
                             handleSaveButtonClick(event)
-                            // setRenderSwitch(!renderSwitch)
                             navigate(`/lists/${listId}`)
 
                         }}>Save</button>

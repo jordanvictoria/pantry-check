@@ -1,35 +1,3 @@
-// import React, { useState } from "react"
-// import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom"
-
-
-
-// export const Login = () => {
-    //     const [email, set] = useState("jordan@victoria.com")
-    //     const navigate = useNavigate()
-    
-    //     const handleLogin = (e) => {
-        //         e.preventDefault()
-        
-        //         return fetch(`http://localhost:8088/users?email=${email}`)
-        //             .then(res => res.json())
-        //             .then(foundUsers => {
-            //                 if (foundUsers.length === 1) {
-                //                     const user = foundUsers[0]
-                //                     localStorage.setItem("pantry_user", JSON.stringify({
-                    //                         id: user.id
-                    //                     }))
-                    
-                    //                     navigate("/")
-                    //                 }
-                    //                 else {
-                        //                     window.alert("Invalid login")
-                        //                 }
-                        //             })
-                        //     }
-                        
-
-
 import { useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { loginUser } from "./AuthManager"
@@ -50,7 +18,6 @@ export const Login = ({ setToken }) => {
     }
 
     loginUser(user).then(res => {
-      // console.log(res)
       if ("valid" in res && res.valid) {
         setToken(res.token, res.user_id)
 

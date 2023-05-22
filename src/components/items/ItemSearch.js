@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react"
+
 import { useNavigate } from "react-router-dom"
-import { getAllItems } from "../ApiManager"
 import "./Item.css"
 
 export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const navigate = useNavigate()
-    // const [items, setItems] = useState([])
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
-
-    // useEffect(
-    //     () => {
-    //         fetch(`http://localhost:8088/items?userId=${pantryUserObj.id}`)
-    //             .then(res => res.json())
-    //             .then((userItemArr) => {
-    //                 setItems(userItemArr)
-    //             })
-    //     },
-    //     []
-    // )
 
 
 
@@ -30,7 +15,6 @@ export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
 
         
         <section className="itemList">
-            {/* <div className="relativeList"> */}
 
                 <h1 className="itemHeader">Grocery Items
                 </h1>
@@ -51,7 +35,6 @@ export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
                         }>Add Items</button>
                     </span>
                 </div>
-            {/* </div> */}
         </section>
        
 

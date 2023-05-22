@@ -1,6 +1,5 @@
 import "./location.css"
 import { useContext, useEffect, useState } from "react"
-// import { ListContext } from "../context/ListProvider"
 
 
 

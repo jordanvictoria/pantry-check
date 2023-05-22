@@ -47,7 +47,6 @@ export const ListEdit = () => {
         completed: false,
         date_completed: null
     })
-            // .then(response => response.json())
             .then(() => {
                 setRenderSwitch(!renderSwitch)
             })

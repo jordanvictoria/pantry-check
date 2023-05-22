@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-// import { getAllCategories } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
 import "./itemForm.css"
 import { addItem, getCategories } from "./ItemManager"
@@ -11,8 +10,6 @@ import { addItem, getCategories } from "./ItemManager"
 
 
 export const ItemForm = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { renderSwitch, setRenderSwitch } = useContext(ListContext)
@@ -44,7 +41,6 @@ export const ItemForm = () => {
         event.preventDefault()
 
         const itemToSendToAPI = {
-            // userId: pantryUserObj.id,
             name: item.name,
             category: item.category,
             price: item.price
@@ -117,7 +113,6 @@ export const ItemForm = () => {
                     <button onClick={(clickEvent) => {
 
                         handleSaveButtonClick(clickEvent)
-                        // setRenderSwitch(!renderSwitch)
                         navigate("/items")
 
                     }}>Save</button>

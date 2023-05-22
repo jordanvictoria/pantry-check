@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString } from "./ListManager"
+import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString, deleteList } from "./ListManager"
 import "./listDetail.css"
 import { ListContext } from "../context/ListProvider"
 
@@ -16,17 +16,8 @@ export const ListDetails = () => {
     const [filteredByCategory, setFilteredByCategory] = useState(0)
     const [filteredByPriority, setFilteredByPriority] = useState(false)
     const [stateOfFilter, setStateOfFilter] = useState({})
-    // const [filterUpdated, setFilterUpdated] = useState(false)
     const localUser = localStorage.getItem('pantryUserId')
     const [list, updateList] = useState({})
-    //     id: 0,
-    //     user: 0,
-    //     name: "",
-    //     notes: "",
-    //     date_created: "",
-    //     completed: false,
-    //     date_completed: null
-    // })
 
     const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
 
@@ -68,74 +59,17 @@ export const ListDetails = () => {
 
 
 
-    // useEffect(
-    //     () => {
-    //         stateOfFilter.selectedCategory = parseInt(filteredByCategory)
-    //         setFilterUpdated(!filterUpdated)
-
-    //     },
-    //     [filteredByCategory]
-    // )
-
-    // useEffect(
-    //     () => {
-    //         stateOfFilter.priorityOnly = filteredByPriority
-    //         setFilterUpdated(!filterUpdated)
-
-    //     },
-    //     [filteredByPriority]
-    // )
 
 
-    // useEffect(
-    //     () => {
-    //         if (allListItems) {
-    //             let filteredItems = allListItems
-    //             if (stateOfFilter.selectedCategory) {
-    //                 filteredItems = filteredItems.filter(listItem => listItem?.item?.categoryId === stateOfFilter.selectedCategory)
-    //             }
-    //             if (filteredByPriority === true) {
-    //                 let priorityItems = []
-    //                 {
-    //                     allListItems.map(li => {
-    //                         if (li?.priority === true) {
-    //                             priorityItems.push(li)
-    //                         }
-    //                     })
-    //                 }
-    //                 console.log(priorityItems)
-
-    //                 let priorityArr = []
-    //                 priorityItems.map(itemP => {
-    //                     let starred = filteredItems.find(itemF => itemF?.id === itemP?.id)
-    //                     if (starred) {
-    //                         priorityArr.push(starred)
-    //                     }
-
-    //                 })
-    //                 filteredItems = priorityArr
-    //             }
-    //             setListItems(filteredItems)
-    //         }
-    //     },
-    //     [filterUpdated, allListItems]
-    // )
 
 
     useEffect(
         () => {
 
-            if (filteredByCategory !== 0 || filteredByPriority !== false || listId !== 0)  {
+            if (filteredByCategory !== 0 || filteredByPriority !== false || listId !== 0) {
                 getItemsByHttpString(queryStrings(listId, parseInt(filteredByCategory), filteredByPriority))
                     .then((data) => { setListItems(data) })
             }
-           
-            // else {
-            //     getItemsByList(listId)
-            //         .then((listItemArray) => {
-            //             setListItems(listItemArray)
-            //             })
-            // }
 
         }, [listId, filteredByCategory, filteredByPriority, stateOfFilter]
     )
@@ -169,23 +103,13 @@ export const ListDetails = () => {
 
     const addItemButton = () => {
         if (!list.completed) {
-            // if (listItems.length === 0) {
-            //     return <>
-            //         <button onClick={() => {
-            //             setListId(list.id)
-            //             navigate("/listItem/create")
-            //         }
-            //         }>Add Items</button>
-            //     </>
-            // } else {
-                return <>
-                    <button onClick={() => {
-                        setListId(list.id)
-                        navigate("/listItems")
-                    }
-                    }>Add Items</button>
-                </>
-            // }
+            return <>
+                <button onClick={() => {
+                    setListId(list.id)
+                    navigate("/listItems")
+                }
+                }>Add Items</button>
+            </>
 
         } else {
             return ""
@@ -225,19 +149,13 @@ export const ListDetails = () => {
 
 
 
-    // var dateObj = new Date();
-    // var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    // var day = dateObj.getUTCDate();
-    // var year = dateObj.getUTCFullYear();
-
-    // const newDate = year + "-" + month + "-" + day
 
     var dateObj = new Date();
-var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); // add leading zero and slice last 2 digits
-var day = ('0' + dateObj.getUTCDate()).slice(-2); // add leading zero and slice last 2 digits
-var year = dateObj.getUTCFullYear();
+    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); // add leading zero and slice last 2 digits
+    var day = ('0' + dateObj.getUTCDate()).slice(-2); // add leading zero and slice last 2 digits
+    var year = dateObj.getUTCFullYear();
 
-const newDate = year + "-" + month + "-" + day;
+    const newDate = year + "-" + month + "-" + day;
 
 
 
@@ -257,7 +175,6 @@ const newDate = year + "-" + month + "-" + day;
                     }
                     console.log(copy)
                     editList(copy)
-                        // .then(response => response.json())
                         .then(() => {
                             setRenderSwitch(!renderSwitch)
                         })
@@ -278,7 +195,6 @@ const newDate = year + "-" + month + "-" + day;
                             date_completed: null
                         }
                         editList(copy)
-                            // .then(response => response.json())
                             .then(() => {
                                 setRenderSwitch(!renderSwitch)
                             })
@@ -341,6 +257,8 @@ const newDate = year + "-" + month + "-" + day;
                         <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
                     </div>
                 </div>
+
+
 
                 <section>
                     <ul className="unorderedListElement">
@@ -409,9 +327,7 @@ const newDate = year + "-" + month + "-" + day;
                         }
 
                         <button onClick={() =>
-                            fetch(`http://localhost:8088/lists/${list?.id}`, {
-                                method: "DELETE"
-                            })
+                            deleteList(list.id)
                                 .then(() => {
                                     navigate("/lists")
                                 })
