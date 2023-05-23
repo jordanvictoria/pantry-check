@@ -4,7 +4,6 @@ import "./list.css"
 export const List = ({ listObj }) => {
   
 
-
     return (
 
      <section className="groceryList">
@@ -19,11 +18,6 @@ export const List = ({ listObj }) => {
                     : `Created on ${listObj.date_created}`
             }
         </div>
-
-
-        
-        
-
     </section>
     )
 

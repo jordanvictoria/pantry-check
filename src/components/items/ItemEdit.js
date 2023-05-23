@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import { editItem, getCategories, getItems, getItemById } from "./ItemManager"
+import { editItem, getCategories, getItemById } from "./ItemManager"
 import "./itemForm.css"
 
 
@@ -10,11 +10,11 @@ import "./itemForm.css"
 
 export const ItemEdit = () => {
     const localUser = localStorage.getItem('pantryUserId')
-    const { renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
-    const [category, setCategory] = useState({})
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const { itemId } = useParams()
+    const { categoryId } = useContext(ListContext)
+    const [category, setCategory] = useState({})
+    const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
         id: 0,
         user: 0,
@@ -35,18 +35,6 @@ export const ItemEdit = () => {
 
 
 
-
-
-    useEffect(
-        () => {
-            getCategories()
-                .then((categoryArr) => {
-                    setCategories(categoryArr)
-                })
-        },
-        []
-    )
-
     useEffect(
         () => {
             getCategories()
@@ -59,6 +47,15 @@ export const ItemEdit = () => {
     )
 
 
+    useEffect(
+        () => {
+            getCategories()
+                .then((categoryArr) => {
+                    setCategories(categoryArr)
+                })
+        },
+        []
+    )
 
 
 
@@ -67,8 +64,11 @@ export const ItemEdit = () => {
 
 
 
-    const handleSaveButtonClick = () => {
 
+
+
+    const handleSaveButtonClick = (event) => {
+        event.preventDefault()
         editItem({
             id: itemId,
             user: parseInt(localUser),
@@ -76,10 +76,6 @@ export const ItemEdit = () => {
             category: item.category.id,
             price: item.price
         })
-            .then(response => response.json())
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
     }
 
 
@@ -139,10 +135,8 @@ export const ItemEdit = () => {
                     </div>
 
                     <button onClick={(event) => {
-                        event.preventDefault()
-                        handleSaveButtonClick()
+                        handleSaveButtonClick(event)
                         navigate(`/items`)
-
                     }}>Save</button>
                     <button className="cancelItem" onClick={() => { navigate(`/items`) }}>Cancel</button>
                 </fieldset>

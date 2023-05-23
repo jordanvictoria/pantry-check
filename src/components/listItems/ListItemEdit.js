@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import "./listItemForm.css"
 import { editItem, editListItem, getCategories, getItemById, getListItemById } from "./ListItemManager"
+import "./listItemForm.css"
 
 
 
@@ -10,10 +10,10 @@ import { editItem, editListItem, getCategories, getItemById, getListItemById } f
 
 export const ListItemEdit = () => {
     const localUser = localStorage.getItem('pantryUserId')
-    const { listId, renderSwitch, setRenderSwitch, itemId, categoryId } = useContext(ListContext)
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
+    const { listId, itemId } = useContext(ListContext)
     const { listItemId } = useParams()
+    const [categories, setCategories] = useState([])
     const [listItem, updateListItem] = useState({
         id: 0,
         user: 0,
@@ -41,18 +41,12 @@ export const ListItemEdit = () => {
             })
     }, [listItemId])
 
-
-
-
-
     useEffect(() => {
         getItemById(itemId)
             .then((data) => {
                 updateItem(data)
             })
     }, [itemId])
-
-
 
     useEffect(
         () => {
@@ -73,7 +67,8 @@ export const ListItemEdit = () => {
 
 
 
-    const handleSaveButtonClick = () => {
+    const handleSaveButtonClick = (event) => {
+        event.preventDefault()
         editItem({
             id: itemId,
             user: parseInt(localUser),
@@ -89,11 +84,8 @@ export const ListItemEdit = () => {
                     item: itemId,
                     quantity: listItem.quantity,
                     priority: listItem.priority
-            
+
                 })
-            })
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
             })
     }
 
@@ -176,9 +168,7 @@ export const ListItemEdit = () => {
                     </div>
 
                     <button onClick={(event) => {
-
-                        handleSaveButtonClick()
-                        event.preventDefault()
+                        handleSaveButtonClick(event)
                         navigate(`/lists/${listId}`)
 
                     }}>Save</button>

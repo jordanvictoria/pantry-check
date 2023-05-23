@@ -67,7 +67,7 @@ input {
     border: 0;
   }
   
-  /* Demo styles */
+
   
   */
   
@@ -78,7 +78,6 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* min-height: 100vh; */
     color: #39382e;
     background: #ddddcd;
     font-family: "Poppins", sans-serif;

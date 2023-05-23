@@ -1,8 +1,4 @@
 
-/* .full {
-  width: 500px;
-  height: 500px;
-} */
 
 .bigDiv {
   height: 300px
@@ -12,11 +8,7 @@
 .itemList {
   position: relative;
   padding: 0px;
-  background: #7c017c;
-  /* 
-  width: 403px;
-  border: 2px solid #41412f;
-  border-radius: 5px; */
+  background: #f5f1bb;
   
 }
 
@@ -25,8 +17,6 @@
   background: #f5f1bb;
   width: 450px;
   margin-top: -100px;
-  /* border: 2px solid #41412f;
-  border-radius: 5px; */
 }
 
 ul {
@@ -78,17 +68,3 @@ button {
 
 
 
-
-
- /* body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
- 
-  color: #39382e;
-  background: #ddddcd;
-  font-family: "Poppins", sans-serif;
-} */

@@ -1,5 +1,5 @@
 import { addList } from "./ListManager"
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./listForm.css"
 
@@ -16,22 +16,18 @@ export const ListForm = () => {
 
 
 
-
-    var dateObj = new Date();
-    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); // add leading zero and slice last 2 digits
-    var day = ('0' + dateObj.getUTCDate()).slice(-2); // add leading zero and slice last 2 digits
-    var year = dateObj.getUTCFullYear();
-
-    const newDate = year + "-" + month + "-" + day;
-
-
     useEffect(() => {
         if (newListId) {
-          navigate(`/lists/${newListId}`);
+            navigate(`/lists/${newListId}`);
         }
-      }, [newListId, navigate]);
-      
+    }, [newListId, navigate]);
 
+
+    var dateObj = new Date();
+    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+    var day = ('0' + dateObj.getUTCDate()).slice(-2);
+    var year = dateObj.getUTCFullYear();
+    const newDate = year + "-" + month + "-" + day;
 
 
 
@@ -45,13 +41,14 @@ export const ListForm = () => {
             completed: false,
             date_completed: null
         }
+        
         addList(newListForAPI)
             .then(res => res.json())
             .then(createdItem => {
                 const createdListId = parseInt(createdItem.id)
                 setNewListId(createdListId)
             })
-}
+    }
 
 
 

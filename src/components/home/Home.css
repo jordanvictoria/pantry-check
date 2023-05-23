@@ -1,8 +1,5 @@
 
-/* .homeContainer {
-  height: 500px;
-  width: 450px;
-} */
+
 
 
 :root {
@@ -31,7 +28,6 @@
   
   
   .card {
-    /* position: relative; */
     max-width: 300px;
     min-height: 200px;
     display: flex;

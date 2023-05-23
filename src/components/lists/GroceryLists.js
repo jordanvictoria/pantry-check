@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useContext } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { List } from "./List"
 import "./list.css"
 import { getLists, getUsers } from "./ListManager"
@@ -13,10 +13,15 @@ export const GroceryLists = () => {
     const [users, setUsers] = useState([])
     const [matchedUser, setMatchedUser] = useState({})
     const localUser = localStorage.getItem('pantryUserId')
+    
    
 
     useEffect(
         () => {
+            getUsers()
+                .then((usersArr) => {
+                    setUsers(usersArr)
+                })
             getLists()
                 .then((listArray) => {
                     setLists(listArray)
@@ -25,9 +30,6 @@ export const GroceryLists = () => {
         },
         []
     )
-
-
-
 
     useEffect(
         () => {
@@ -38,26 +40,15 @@ export const GroceryLists = () => {
         [lists]
     )
 
-    useEffect(
-        () => {
-            getUsers()
-                .then((usersArr) => {
-                    setUsers(usersArr)
-                    console.log(users)
-                })
-        },
-        []
-    )
 
     useEffect(
         () => {
             const foundUser = users.find(user => user.user === parseInt(localUser))
             setMatchedUser(foundUser)
-            console.log(localUser)
         },
-        [users]
+        [users, localUser]
     )
-
+      
 
 
 

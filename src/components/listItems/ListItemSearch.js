@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import "./listItemList.css"
 import { getItems } from "./ListItemManager"
+import "./listItemList.css"
 
 export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const navigate = useNavigate()
@@ -25,14 +25,12 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
                 <input className="listItemInput"
                     value={searchTerms}
                     onChange={
-                      (changeEvent) => {
-                        onSearchTermChange(changeEvent.target.value)
-                      }}
-
+                        (changeEvent) => {
+                            onSearchTermChange(changeEvent.target.value)
+                        }}
                     type="text" placeholder="Enter search term" />
                 Or
                 <span>
-
                     <button className="itemButton" onClick={() => {
                         navigate("/listItem/create")
                     }
@@ -42,7 +40,6 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
         } else {
             return <>
                 <div>
-
                     <button className="noInputButton" onClick={() => {
                         navigate("/listItem/create")
                     }
@@ -52,14 +49,13 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
         }
     }
 
+
     return (
         <section className="itemList">
-
             <div className="listItemList">
                 <h1 className="itemHeader">Grocery Items
                 </h1>
                 <div>
-
                     {
                         inputFunc()
                     }

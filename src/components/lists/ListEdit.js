@@ -4,7 +4,7 @@ import { editList, getListById } from "./ListManager"
 import { ListContext } from "../context/ListProvider"
 import "./listForm.css"
 
- 
+
 
 
 export const ListEdit = () => {
@@ -36,17 +36,17 @@ export const ListEdit = () => {
 
 
 
-    const handleSaveButtonClick = () => {
-
+    const handleSaveButtonClick = (event) => {
+        event.preventDefault()
         editList({
-        id: listId,
-        user: parseInt(localUser),
-        name: list.name,
-        notes: list.notes,
-        date_created: list.date_created,
-        completed: false,
-        date_completed: null
-    })
+            id: listId,
+            user: parseInt(localUser),
+            name: list.name,
+            notes: list.notes,
+            date_created: list.date_created,
+            completed: false,
+            date_completed: null
+        })
             .then(() => {
                 setRenderSwitch(!renderSwitch)
             })
@@ -79,8 +79,7 @@ export const ListEdit = () => {
 
                     <button onClick={(event) => {
                         if (list.name) {
-                            event.preventDefault()
-                            handleSaveButtonClick()
+                            handleSaveButtonClick(event)
                             navigate(`/lists/${listId}`)
                         }
                     }}>Save</button>

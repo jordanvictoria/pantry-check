@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import { getItems, getCategories, getItemsBySearch, deleteItem } from "./ItemManager"
+import { getItems, getItemsBySearch, deleteItem } from "./ItemManager"
 import { ItemSearch } from "./ItemSearch"
 import "./Item.css"
 
@@ -10,8 +10,8 @@ import "./Item.css"
 
 
 export const ItemList = () => {
-    const [items, setItems] = useState([])
     const { setCategoryId, renderSwitch, setRenderSwitch } = useContext(ListContext)
+    const [items, setItems] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
 
 
@@ -21,20 +21,10 @@ export const ItemList = () => {
             getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
-                    console.log(items)
                 })
         },
         [renderSwitch]
     )
-
-
-
-
-
-
-
-
-
 
 
 
@@ -54,14 +44,13 @@ export const ItemList = () => {
         setSearchTerm(value)
     }
 
-   
+
 
 
 
 
 
     const editItemButton = (obj) => {
-
         return <Link to={`/items/${obj.id}/edit`}>
             <button class="button"
                 onClick={() => {
@@ -69,14 +58,12 @@ export const ItemList = () => {
                 }}
             >Edit</button>
         </Link>
-
     }
 
     const deleteItemButton = (obj) => {
         return <>
             <button class="button" onClick={() =>
                 deleteItem(obj.id).then(() => setRenderSwitch(!renderSwitch))
-
             }>Remove</button>
         </>
     }
@@ -88,65 +75,42 @@ export const ItemList = () => {
     const itemFunc = () => {
         if (items.length !== 0) {
             return <>
-            
-            <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
-                    <div className="relativeList">
-
-                        <ul>
-                            {
-                                items.map((item) => {
-                                    return <>
-
-
-
-                                        <li>
-
-                                            {item.name} - ${item.price}
-                                            <span className="itemSpan">
-
-                                                {
-                                                    editItemButton(item)
-                                                }
-                                                {
-                                                    deleteItemButton(item)
-                                                }
-                                            </span>
-                                        </li>
-
-
-
-
-
-
-                                    </>
-
-                                })
-
-                            }
-                        </ul>
-                    </div>
-
-
-
-
-           
+                <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                <div className="relativeList">
+                    <ul>
+                        {
+                            items.map((item) => {
+                                return <>
+                                    <li>
+                                        {item.name} - ${item.price}
+                                        <span className="itemSpan">
+                                            {
+                                                editItemButton(item)
+                                            }
+                                            {
+                                                deleteItemButton(item)
+                                            }
+                                        </span>
+                                    </li>
+                                </>
+                            })}
+                    </ul>
+                </div>
             </>
         } else {
             return <>
-            <div className="bigDiv"></div>
+                <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                <div className="bigDiv"></div>
             </>
         }
     }
 
 
     return <>
-
         {
-
             itemFunc()
         }
     </>
-
 }
 
 

@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import "./listItemForm.css"
 import { addListItem, editItem, getCategories, getItemById } from "./ListItemManager"
+import "./listItemForm.css"
 
 export const SelectedItemForm = () => {
     const localUser = localStorage.getItem('pantryUserId')
+    const navigate = useNavigate()
     const { listId } = useContext(ListContext)
     const { itemId } = useParams()
-    const navigate = useNavigate()
     const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
         id: 0,
@@ -20,9 +20,7 @@ export const SelectedItemForm = () => {
     const [listItem, updateListItem] = useState({
         quantity: 0,
         priority: false
-
     })
-
 
 
 
@@ -52,18 +50,18 @@ export const SelectedItemForm = () => {
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
 
-        let listItemToSendToAPI = {
-            item: itemId,
-            list: listId,
-            quantity: listItem.quantity,
-            priority: listItem.priority
-        }
         const itemToSendToAPI = {
             id: itemId,
             user: parseInt(localUser),
             name: item.name,
             category: item.category.id,
             price: item.price
+        }
+        const listItemToSendToAPI = {
+            item: itemId,
+            list: listId,
+            quantity: listItem.quantity,
+            priority: listItem.priority
         }
 
         editItem(itemToSendToAPI)
@@ -94,15 +92,12 @@ export const SelectedItemForm = () => {
                                     updateItem(copy)
                                 }
                             } >
-
                                 <option value={item?.category}>{item.category.name}</option>
                                 {
                                     categories.map(category => {
                                         return <option key={category.id} value={category}>{category.name}</option>
                                     })
                                 }
-
-
                             </select>
                         </div>
                         <div>Price:
@@ -135,12 +130,9 @@ export const SelectedItemForm = () => {
                                     }
                                 } />
                         </div>
-
                         <button onClick={(event) => {
-                            
                             handleSaveButtonClick(event)
                             navigate(`/lists/${listId}`)
-
                         }}>Save</button>
                         <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
                     </fieldset>

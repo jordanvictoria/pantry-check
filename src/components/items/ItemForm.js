@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { ListContext } from "../context/ListProvider"
-import "./itemForm.css"
 import { addItem, getCategories } from "./ItemManager"
+import "./itemForm.css"
 
 
 
@@ -10,10 +9,8 @@ import { addItem, getCategories } from "./ItemManager"
 
 
 export const ItemForm = () => {
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
-    const { renderSwitch, setRenderSwitch } = useContext(ListContext)
-
+    const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
         name: "",
         category: 0,
@@ -46,13 +43,8 @@ export const ItemForm = () => {
             price: item.price
         }
 
-
-
         addItem(itemToSendToAPI)
             .then((res) => res.json())
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
     }
 
 
@@ -79,7 +71,7 @@ export const ItemForm = () => {
                                 updateItem(copy)
                             }
                         } />
-                        
+
                     </div>
                     <div>
                         <label>Category:</label>
@@ -111,10 +103,8 @@ export const ItemForm = () => {
                         } />
                     </div>
                     <button onClick={(clickEvent) => {
-
                         handleSaveButtonClick(clickEvent)
                         navigate("/items")
-
                     }}>Save</button>
                     <button className="cancelItem" onClick={() => { navigate(`/items`) }}>Cancel</button>
                 </fieldset>

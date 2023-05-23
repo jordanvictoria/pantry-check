@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import "./listItemList.css"
 import { getItems, getItemsBySearch } from "./ListItemManager"
 import { ListItemSearch } from "./ListItemSearch"
+import "./listItemList.css"
 
 
 
 
 
 export const ListItemList = ({ searchTermState }) => {
-    const [items, setItems] = useState([])
     const { setCategoryId, renderSwitch } = useContext(ListContext)
+    const [items, setItems] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
 
 
@@ -25,15 +25,10 @@ export const ListItemList = ({ searchTermState }) => {
             getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
-                    console.log(items)
                 })
         },
         [renderSwitch]
     )
-        
-
-
-
 
     useEffect(() => {
         if (searchTerm.length > 1) {
@@ -47,15 +42,11 @@ export const ListItemList = ({ searchTermState }) => {
 
 
 
+
+
     const onSearchTermChange = (value) => {
         setSearchTerm(value)
     }
-
-
-
-
-
-
 
 
 
@@ -77,26 +68,21 @@ export const ListItemList = ({ searchTermState }) => {
     const listItemFunc = () => {
         if (items.length !== 0) {
             return <>
-
-        <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
                 <section className="itemList">
                     <div className="listItemList">
-
                         <ul>
                             {
                                 items.map((item) => {
-                                    return <li>
-
+                                    return <li key={`item--${item.id}`}>
                                         {item.name} - ${item.price}
                                         <span className="itemSpan">
-
                                             {
                                                 selectItemButton(item)
                                             }
                                         </span>
                                     </li>
                                 })
-
                             }
                         </ul>
                     </div>
@@ -114,9 +100,6 @@ export const ListItemList = ({ searchTermState }) => {
         {
             listItemFunc()
         }
-
-
     </>
-
 }
 

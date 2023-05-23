@@ -57,7 +57,6 @@ select {
 .groceryName {
     display: inline;
     font-size: 20px;
-    /* border: 2px dotted black; */
     padding: 3px;
     margin-bottom: 5px;
 }
@@ -175,8 +174,6 @@ input {
   .relativeList {
     position: relative;
     padding: 0px;
-    /* height: 500px;
-    width: 630px; */
     border: 2px solid #41412f;
     border-radius: 5px;
     background: #f5f1bb;

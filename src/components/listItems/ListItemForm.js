@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
-import "./listItemForm.css"
 import { addItem, addListItem, getCategories, getListById } from "./ListItemManager"
+import "./listItemForm.css"
 
 
 
@@ -10,22 +10,33 @@ import { addItem, addListItem, getCategories, getListById } from "./ListItemMana
 
 
 export const ListItemForm = () => {
-    const localUser = localStorage.getItem('pantryUserId')
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
-    const { listId, renderSwitch, setRenderSwitch } = useContext(ListContext)
+    const { listId } = useContext(ListContext)
+    const [categories, setCategories] = useState([])
     const [list, updateList] = useState({})
     const [item, updateItem] = useState({
         name: "",
         category: 0,
         price: 0
     })
-
     const [listItem, updateListItem] = useState({
         quantity: 0,
         priority: false
 
     })
+
+
+
+
+    useEffect(
+        () => {
+            getListById(listId)
+                .then((data) => {
+                    updateList(data)
+                })
+        },
+        [listId]
+    )
 
     useEffect(
         () => {
@@ -37,15 +48,6 @@ export const ListItemForm = () => {
         []
     )
 
-    useEffect(
-        () => {
-            getListById(listId)
-                .then((data) => {
-                    updateList(data)
-                })
-        },
-        [listId, renderSwitch]
-    )
 
 
 
@@ -156,11 +158,8 @@ export const ListItemForm = () => {
                 </div>
 
                 <button onClick={(clickEvent) => {
-
-                    setRenderSwitch(!renderSwitch)
                     handleSaveButtonClick(clickEvent)
                     navigate(`/lists/${listId}`)
-
                 }}>Save</button>
             <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
             </fieldset>

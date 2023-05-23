@@ -3,22 +3,19 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
 import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString, deleteList } from "./ListManager"
-import "./listDetail.css"
 import { ListContext } from "../context/ListProvider"
+import "./listDetail.css"
 
 
 export const ListDetails = () => {
+    const localUser = localStorage.getItem('pantryUserId')
     const { listId } = useParams()
     const navigate = useNavigate()
     const [listItems, setListItems] = useState([])
-    const [allListItems, setAllListItems] = useState([])
     const [categories, setCategories] = useState([])
     const [filteredByCategory, setFilteredByCategory] = useState(0)
     const [filteredByPriority, setFilteredByPriority] = useState(false)
-    const [stateOfFilter, setStateOfFilter] = useState({})
-    const localUser = localStorage.getItem('pantryUserId')
     const [list, updateList] = useState({})
-
     const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
 
 
@@ -28,15 +25,8 @@ export const ListDetails = () => {
                 .then((data) => {
                     updateList(data)
                 })
-        },
-        [listId, renderSwitch]
-    )
-
-    useEffect(
-        () => {
             getItemsByList(listId)
                 .then((listItemArray) => {
-                    setAllListItems(listItemArray)
                     setListItems(listItemArray)
                 })
         },
@@ -55,24 +45,24 @@ export const ListDetails = () => {
     )
 
 
-
-
-
-
-
-
-
-
     useEffect(
         () => {
-
             if (filteredByCategory !== 0 || filteredByPriority !== false || listId !== 0) {
                 getItemsByHttpString(queryStrings(listId, parseInt(filteredByCategory), filteredByPriority))
                     .then((data) => { setListItems(data) })
             }
 
-        }, [listId, filteredByCategory, filteredByPriority, stateOfFilter]
+        }, [listId, filteredByCategory, filteredByPriority]
     )
+
+
+
+
+
+
+
+
+
 
     const queryStrings = (listId, filteredByCategory, filteredByPriority) => {
         let httpString = []
@@ -87,16 +77,8 @@ export const ListDetails = () => {
             httpString.push(`listId=${listId}`)
         }
         let newString = httpString.join("&")
-        console.log(newString)
         return newString
     }
-
-
-
-
-
-
-
 
 
 
@@ -140,24 +122,21 @@ export const ListDetails = () => {
                     .then(() => {
                         setRenderSwitch(!renderSwitch)
                     })
-
             }>Remove</button>
         </>
     }
 
 
 
-
-
-
-    var dateObj = new Date();
-    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); // add leading zero and slice last 2 digits
-    var day = ('0' + dateObj.getUTCDate()).slice(-2); // add leading zero and slice last 2 digits
-    var year = dateObj.getUTCFullYear();
-
-    const newDate = year + "-" + month + "-" + day;
-
-
+    const editListButton = () => {
+        if (!list.completed) {
+            return <Link to={`/lists/${list.id}/edit`}>
+                <button>Edit List</button>
+            </Link>
+        } else {
+            return ""
+        }
+    }
 
     const markCompleteButton = () => {
         if (!list.completed) {
@@ -173,7 +152,6 @@ export const ListDetails = () => {
                         completed: true,
                         date_completed: newDate
                     }
-                    console.log(copy)
                     editList(copy)
                         .then(() => {
                             setRenderSwitch(!renderSwitch)
@@ -204,27 +182,27 @@ export const ListDetails = () => {
     }
 
 
-    const editListButton = () => {
-        if (!list.completed) {
-            return <Link to={`/lists/${list.id}/edit`}>
-                <button>Edit List</button>
-            </Link>
-        } else {
-            return ""
-        }
-    }
 
-
-
-
-
-
-
-
-
+    var dateObj = new Date();
+    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); 
+    var day = ('0' + dateObj.getUTCDate()).slice(-2); 
+    var year = dateObj.getUTCFullYear();
+    const newDate = year + "-" + month + "-" + day;
 
 
     let estimatedTotalCost = 0
+
+
+
+
+
+
+
+
+
+
+
+
 
     return <>
 
@@ -258,13 +236,11 @@ export const ListDetails = () => {
                     </div>
                 </div>
 
-
-
                 <section>
                     <ul className="unorderedListElement">
                         {
                             listItems.map(listItem => {
-                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.category)
+                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.category.id)
                                 const totalPrice = listItem?.quantity * listItem?.item?.price
                                 estimatedTotalCost += totalPrice
 
@@ -278,7 +254,6 @@ export const ListDetails = () => {
                                                     {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
                                                 </section>
                                                 <div className="groceryButtons">
-
                                                     <section>
                                                         {
                                                             editItemButton(listItem)
@@ -321,17 +296,14 @@ export const ListDetails = () => {
                         markCompleteButton()
                     }
                     <div className="someButtons">
-
                         {
                             editListButton()
                         }
-
                         <button onClick={() =>
                             deleteList(list.id)
                                 .then(() => {
                                     navigate("/lists")
                                 })
-
                         }>Delete List</button>
                     </div>
                 </footer>
