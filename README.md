@@ -20,10 +20,12 @@ Features include:
 * Users can filter items on their list by their category and/or priority value
 
 ## ERD
-<img src="./images/pantryERD.png">
+<img src="src/components/images/pantryERD.png">
+
+
 
 ## GIFs
-| <img src="./images/PantryCheck.gif" width="500"> 
+<img src="src/components/images/PantryCheck.gif" width="500"> 
 
 
 
@@ -38,4 +40,6 @@ Create your own user profile
 
 ## Author
 
-Jordan Victoria - [GitHub](https://github.com/jordanvictoria), [LinkedIn](www.linkedin.com/in/jordanvictoria1)
+Created by Jordan Victoria 
+
+<a href="https://www.github.com/jordanvictoria/" target="_blank"><img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white" alt="Jordan Victoria GitHub" style="height: auto !important;width: auto !important;" /></a> <a href="https://www.linkedin.com/in/jordanvictoria1/" target="_blank"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" alt="Jordan Victoria LinkedIn" style="height: auto !important;width: auto !important;" /></a>
