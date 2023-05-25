@@ -25,7 +25,7 @@ Features include:
 
 
 ## GIFs
-<img src="src/components/images/PantryCheck.gif" width="500"> 
+<img src="src/components/images/PantryCheck.gif"> 
 
 
 
@@ -33,9 +33,11 @@ Features include:
 ## Public Link
 https://netlify--sparkling-pasca-2d369e.netlify.app/login
 
-Use the provided login credentials 
- OR 
-Create your own user profile
+
+
+* Use the provided login credentials 
+OR
+* Create your own user profile
 
 
 ## Author
