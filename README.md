@@ -31,7 +31,7 @@ Features include:
 
 
 ## Public Link
-https://netlify--sparkling-pasca-2d369e.netlify.app/login
+https://netlify--sparkling-pasca-2d369e.netlify.app
 
 
 
