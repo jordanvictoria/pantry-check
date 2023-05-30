@@ -89,7 +89,27 @@ export const ListItemList = ({ searchTermState }) => {
                 </section>
             </>
         } else {
-            return ""
+            return <>
+                <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                <section className="itemList">
+                    <div className="listItemList">
+                        {/* <ul>
+                            {
+                                items.map((item) => {
+                                    return <li key={`item--${item.id}`}>
+                                        {item.name} - ${item.price}
+                                        <span className="itemSpan">
+                                            {
+                                                selectItemButton(item)
+                                            }
+                                        </span>
+                                    </li>
+                                })
+                            }
+                        </ul> */}
+                    </div>
+                </section>
+            </>
         }
     }
 
