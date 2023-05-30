@@ -89,7 +89,14 @@ export const ListItemList = ({ searchTermState }) => {
                 </section>
             </>
         } else {
-            return ""
+            return <>
+                <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                <section className="itemList">
+                    <div className="listItemList">
+                   
+                    </div>
+                </section>
+            </>
         }
     }
 
