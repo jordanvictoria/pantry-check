@@ -57,13 +57,6 @@ export const ListDetails = () => {
 
 
 
-
-
-
-
-
-
-
     const queryStrings = (listId, filteredByCategory, filteredByPriority) => {
         let httpString = []
 

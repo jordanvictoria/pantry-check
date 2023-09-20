@@ -52,7 +52,7 @@ export const ItemList = () => {
 
     const editItemButton = (obj) => {
         return <Link to={`/items/${obj.id}/edit`}>
-            <button class="button"
+            <button className="button"
                 onClick={() => {
                     setCategoryId(obj.category.id)
                 }}
@@ -62,7 +62,7 @@ export const ItemList = () => {
 
     const deleteItemButton = (obj) => {
         return <>
-            <button class="button" onClick={() =>
+            <button className="button" onClick={() =>
                 deleteItem(obj.id).then(() => setRenderSwitch(!renderSwitch))
             }>Remove</button>
         </>

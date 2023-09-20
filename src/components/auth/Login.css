@@ -24,8 +24,8 @@ body {
   height: 100vh;
   background: linear-gradient(45deg, rgb(47, 255, 154), rgb(255, 41, 30));
   font-family: 'Urbanist', sans-serif;
-
 }
+
 .center {
   position: relative;
   padding: 50px 50px;

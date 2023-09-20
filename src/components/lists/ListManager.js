@@ -1,5 +1,5 @@
 export const getLists = () => {
-    return fetch("https://oyster-app-qj9m4.ondigitalocean.app/lists", {
+    return fetch("http://localhost:8000/lists", {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -7,10 +7,11 @@ export const getLists = () => {
       }
     }).then((res) => res.json());
   };
+  
 
 
   export const getUsers = () => {
-    return fetch("https://oyster-app-qj9m4.ondigitalocean.app/pantryusers", {
+    return fetch("http://localhost:8000/pantryusers", {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -20,7 +21,7 @@ export const getLists = () => {
   };
 
   export const addList = (newList) => {
-    return fetch("https://oyster-app-qj9m4.ondigitalocean.app/lists", {
+    return fetch("http://localhost:8000/lists", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,7 @@ export const getLists = () => {
   };
 
   export const editList = (newList) => {
-    return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/lists/${newList.id}`, {
+    return fetch(`http://localhost:8000/lists/${newList.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +44,7 @@ export const getLists = () => {
   }
   
   export const deleteList = (listId) => {
-    return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/lists/${listId}`, {
+    return fetch(`http://localhost:8000/lists/${listId}`, {
       method: "DELETE",
       headers: {
         "Authorization": `Token ${localStorage.getItem("pantry_token")}`
@@ -52,7 +53,7 @@ export const getLists = () => {
 }
 
 export const getCategories = () => {
-  return fetch("https://oyster-app-qj9m4.ondigitalocean.app/categories", {
+  return fetch("http://localhost:8000/categories", {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -62,7 +63,7 @@ export const getCategories = () => {
 };
 
 export const getListById = (id) => {
-  return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/lists/${id}`, {
+  return fetch(`http://localhost:8000/lists/${id}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("pantry_token")}`
     }
@@ -71,7 +72,7 @@ export const getListById = (id) => {
 
 
 export const getItemsByList = (listId) => {
-  return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/listitems?listId=${listId}`, {
+  return fetch(`http://localhost:8000/listitems?listId=${listId}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("pantry_token")}`
     }
@@ -79,7 +80,7 @@ export const getItemsByList = (listId) => {
 }
 
 export const getListItems = () => {
-  return fetch("https://oyster-app-qj9m4.ondigitalocean.app/listitems", {
+  return fetch("http://localhost:8000/listitems", {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -89,7 +90,7 @@ export const getListItems = () => {
 };
 
 export const deleteListItem = (listItemId) => {
-  return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/listitems/${listItemId}`, {
+  return fetch(`http://localhost:8000/listitems/${listItemId}`, {
     method: "DELETE",
     headers: {
       "Authorization": `Token ${localStorage.getItem("pantry_token")}`
@@ -98,7 +99,7 @@ export const deleteListItem = (listItemId) => {
 }
 
 export const getItemsByHttpString = (httpString) => {
-  return fetch(`https://oyster-app-qj9m4.ondigitalocean.app/listitems?${httpString}`, {
+  return fetch(`http://localhost:8000/listitems?${httpString}`, {
     headers: {
       "Authorization": `Token ${localStorage.getItem("pantry_token")}`
     }

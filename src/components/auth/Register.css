@@ -5,14 +5,15 @@
 
 .emailInput {
   margin-top: 15px;
-  margin-right:9px;
+  margin-right: 9px;
 }
 
 .emailLabel {
   border: 2px solid rgb(233, 137, 137);
   border-radius: 5px;
   padding: 0 5px 0 5px;
-  background-color: rgb(241, 207, 175);;
+  background-color: rgb(241, 207, 175);
+  ;
 }
 
 body {
@@ -27,12 +28,14 @@ body {
   font-family: 'Urbanist', sans-serif;
 
 }
+
 .center {
   position: relative;
   padding: 5px 30px;
   background: #fff;
   border-radius: 10px;
 }
+
 .center h1 {
   font-size: 2em;
   padding: 10px;
@@ -52,13 +55,15 @@ body {
   font-weight: bold;
   padding-left: 10px;
 }
-.center .inputbox {
+
+.center .register-inputbox {
   position: relative;
   width: 300px;
   height: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 3%;
 }
-.center .inputbox input {
+
+.center .register-inputbox input {
   position: absolute;
   top: 0;
   left: 0;
@@ -72,10 +77,12 @@ body {
   font-family: 'Urbanist', sans-serif;
 
 }
-.center .inputbox:last-child {
+
+.center .register-inputbox:last-child {
   margin-bottom: 0;
 }
-.center .inputbox span {
+
+.center .register-inputbox span {
   position: absolute;
   top: 14px;
   left: 20px;
@@ -84,22 +91,58 @@ body {
   font-family: 'Urbanist', sans-serif;
 
 }
-.center .inputbox input:focus ~ span,
-.center .inputbox input:valid ~ span {
+
+.center .register-inputbox input:focus~span,
+.center .register-inputbox input:valid~span {
   transform: translateX(-13px) translateY(-35px);
   font-size: 1em;
   font-family: 'Urbanist', sans-serif;
 }
-.center .inputbox [type="submit"] {
+
+
+
+
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.center .register-inputbox [type="submit"] {
   width: 50%;
   background: dodgerblue;
   color: #fff;
   border: #fff;
 }
-.center .inputbox:hover [type="submit"] {
+
+.center .register-inputbox [type="submit"]:hover {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
 
 .center h1 img {
   height: 3rem;
+}
+
+.center .register-inputbox .cancelRegister {
+  background: dodgerblue;
+  color: #fff;
+  border: #fff;
+  position: absolute;
+  top: 0;
+  left: 55%;
+  width: 50%;
+  outline: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-family: 'Urbanist', sans-serif;
+  text-align: center;
+text-decoration: none;
+}
+
+.center .register-inputbox .cancelRegister:hover {
+  background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
