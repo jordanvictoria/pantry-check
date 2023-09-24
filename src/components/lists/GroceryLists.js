@@ -13,8 +13,8 @@ export const GroceryLists = () => {
     const [users, setUsers] = useState([])
     const [matchedUser, setMatchedUser] = useState({})
     const localUser = localStorage.getItem('pantryUserId')
-    
-   
+
+
 
     useEffect(
         () => {
@@ -48,27 +48,29 @@ export const GroceryLists = () => {
         },
         [users, localUser]
     )
-      
 
 
 
 
 
 
-    return <section className="groceryList">
-        <div className="gList">
 
-            <h1 className="listHeader">{matchedUser?.full_name}'s Lists
-            </h1>
-            <div>
-                <button className="listButton" onClick={() => navigate("/list/create")}>Create a New List</button>
+    return <div className="site-background">
+        <section className="listContainer">
+            <div className="gList">
+                <h1 className="listHeader">{matchedUser?.full_name}'s Lists
+                </h1>
+                <div>
+                    <button className="listButton" onClick={() => navigate("/list/create")}>Create a New List</button>
+                </div>
+                {
+                    sortedLists.map(list => <List key={`list--${list.id}`}
+                        listObj={list} />)
+                }
             </div>
-            {
-                sortedLists.map(list => < List key={`list--${list.id}`}
-                    listObj={list} />)
-            }
-        </div>
-    </section>
+
+        </section>
+    </div>
 
 
 

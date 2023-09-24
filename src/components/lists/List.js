@@ -8,9 +8,9 @@ export const List = ({ listObj }) => {
 
      <section className="groceryList">
         
-        <header className="title">
+        
             <Link to={`/lists/${listObj.id}`}>{listObj.name}</Link>
-        </header>
+        
         <div className="description">
             {
                 listObj.completed
