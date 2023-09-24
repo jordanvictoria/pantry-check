@@ -27,7 +27,7 @@ export const PantryCheck = () => {
 			<Authorized token={token}>
 				<>
 					<ListProvider>
-						<NavBar setToken={setToken}/>
+						<NavBar token={token} setToken={setToken}/>
 						<ApplicationViews />
 					</ListProvider>
 				</>
