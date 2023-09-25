@@ -52,9 +52,6 @@ export const GroceryLists = () => {
 
 
 
-
-
-
     return <div className="site-background">
         <section className="listContainer">
             <div className="gList">
@@ -64,8 +61,12 @@ export const GroceryLists = () => {
                     <button className="listButton" onClick={() => navigate("/list/create")}>Create a New List</button>
                 </div>
                 {
-                    sortedLists.map(list => <List key={`list--${list.id}`}
-                        listObj={list} />)
+                    sortedLists.map((list, index) => (
+                        <List
+                            key={`list--${list.id}`}
+                            listObj={{ ...list, isFirst: index === 0 }}
+                        />
+                    ))
                 }
             </div>
 

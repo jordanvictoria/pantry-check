@@ -1,4 +1,3 @@
-
 @media screen and (min-width:769px) {
 
   html,
@@ -23,12 +22,75 @@
 
   .itemContainer {
     display: flex;
-    justify-content: center;
-    /* Center horizontally */
-    align-items: flex-start;
-    /* Center vertically */
+    justify-content: flex-start;
+    align-items: center;
     height: 100%;
-    /* Ensure it takes the full height of the viewport */
+    flex-direction: column;
+    margin-top: 10%;
+  }
+
+
+
+
+  .searchDiv {
+    display: flex;
+    justify-content: space-between;
+    margin: 1%;
+  }
+
+  .searchItemsList {
+    width: 30%;
+    max-height: 20%;
+    background: #f5f1bb;
+    border: 2px solid #41412f;
+    border-radius: 5px;
+  }
+
+
+
+
+
+  .itemsList {
+    border: 2px solid #41412f;
+    border-radius: 5px;
+    background: #f5f1bb;
+    width: 30%;
+    max-height: 40%;
+    overflow: auto;
+  }
+
+  .itemHeader {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #656749;
+  }
+
+  .itemListElements {
+    padding: 5%;
+    border-top: 1px solid #ccc;
+    scroll-snap-align: start;
+    background: #f5f1bb;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .itemButtons {
+    min-width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80%;
+    max-height: 80%;
+  }
+
+  .itemButtons button {
+    height: 100%;
   }
 
 
@@ -36,83 +98,13 @@
 
 
 
+  .bigDiv {
+    height: 300px
+  }
 
 
 
 
 
-
-  
-
-
-
-.bigDiv {
-  height: 300px
-}
-
-
-.itemList {
-  position: relative;
-  padding: 0px;
-  background: #f5f1bb;
-  
-}
-
-
-.relativelist {
-  background: #f5f1bb;
-  width: 450px;
-  margin-top: -100px;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: #656749;
-}
-
-li {
-  padding: 20px;
-  border-top: 1px solid #ccc;
-  scroll-snap-align: start;
-  background: #f5f1bb;
 
 }
-
-
-
-
-input {
-  margin: 0 0 5px 5px;
-  font: inherit;
-}
-
-button {
-  font: inherit;
-  font-size: medium;
-}
-
-.itemSpan {
-  position: absolute;
-  right: 4px;
-}
-
-.itemButton {
-  font: inherit;
-  font-size: medium;
-  position: absolute;
-  right: 4px;
-  bottom: 8px;
-}
-
-.itemHeader {
-  margin: 10px 0 10px 5px;
-}
-
-}
-
-
-
-
-

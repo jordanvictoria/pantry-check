@@ -52,7 +52,7 @@ export const ItemList = () => {
 
     const editItemButton = (obj) => {
         return <Link to={`/items/${obj.id}/edit`}>
-            <button className="button"
+            <button
                 onClick={() => {
                     setCategoryId(obj.category.id)
                 }}
@@ -62,7 +62,7 @@ export const ItemList = () => {
 
     const deleteItemButton = (obj) => {
         return <>
-            <button className="button" onClick={() =>
+            <button onClick={() =>
                 deleteItem(obj.id).then(() => setRenderSwitch(!renderSwitch))
             }>Remove</button>
         </>
@@ -72,32 +72,36 @@ export const ItemList = () => {
 
 
 
-    
     const itemFunc = () => {
         if (items.length !== 0) {
-            return <>
-                <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
-                <div className="relativeList">
-                    <ul>
-                        {
-                            items.map((item) => {
-                                return <>
-                                    <li>
-                                        {item.name} - ${item.price}
-                                        <span className="itemSpan">
-                                            {
-                                                editItemButton(item)
-                                            }
-                                            {
-                                                deleteItemButton(item)
-                                            }
-                                        </span>
-                                    </li>
-                                </>
-                            })}
-                    </ul>
-                </div>
-            </>
+            return <div className="site-background">
+                <section className="itemContainer">
+                    <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                    <div className="itemsList">
+                        <ul>
+                            {
+                                items.map((item) => {
+                                    return <>
+                                        <li className="itemListElements">
+                                            <div>
+
+                                                {item.name} - ${item.price}
+                                            </div>
+                                            <div className="itemButtons">
+                                                {
+                                                    editItemButton(item)
+                                                }
+                                                {
+                                                    deleteItemButton(item)
+                                                }
+                                            </div>
+                                        </li>
+                                    </>
+                                })}
+                        </ul>
+                    </div>
+                </section>
+            </div>
         } else {
             return <>
                 <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />

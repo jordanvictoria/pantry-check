@@ -6,11 +6,8 @@ export const List = ({ listObj }) => {
 
     return (
 
-     <section className="groceryList">
-        
-        
+     <section className={`groceryList ${listObj.isFirst ? 'firstList' : ''}`}>
             <Link to={`/lists/${listObj.id}`}>{listObj.name}</Link>
-        
         <div className="description">
             {
                 listObj.completed

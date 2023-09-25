@@ -6,10 +6,10 @@ export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
 
     return (
 
-        <section className="itemList">
+        <section className="searchItemsList">
             <h1 className="itemHeader">Grocery Items
             </h1>
-            <div>
+            <div className="searchDiv">
                 <input
                     value={searchTerms}
                     onChange={
@@ -17,12 +17,10 @@ export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
                             onSearchTermChange(changeEvent.target.value)
                         }}
                     type="text" placeholder="Enter search term" />
-                <span>
-                    <button className="itemButton" onClick={() => {
-                        navigate("/item/create")
-                    }
-                    }>Add Items</button>
-                </span>
+                <button onClick={() => {
+                    navigate("/item/create")
+                }
+                }>Add Items</button>
             </div>
         </section>
     )
