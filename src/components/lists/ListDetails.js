@@ -177,8 +177,8 @@ export const ListDetails = () => {
 
 
     var dateObj = new Date();
-    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); 
-    var day = ('0' + dateObj.getUTCDate()).slice(-2); 
+    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+    var day = ('0' + dateObj.getUTCDate()).slice(-2);
     var year = dateObj.getUTCFullYear();
     const newDate = year + "-" + month + "-" + day;
 
@@ -196,10 +196,8 @@ export const ListDetails = () => {
 
 
 
-
-    return <>
-
-        <section className="listDetail">
+    return <div className="site-background">
+        <section className="listContainer">
             <div className="relativeList">
                 <div className="listName">
                     <h3 className="nameMargin">
@@ -224,12 +222,12 @@ export const ListDetails = () => {
                         </select>
                     </div>
                     <div className="filterTwo">
-                        Show Priority Only
-                        <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
+                        Show Priority Only 
+                        <input className="priorityCheckbox" type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
                     </div>
                 </div>
 
-                <section>
+                <section className="listDetailItems">
                     <ul className="unorderedListElement">
                         {
                             listItems.map(listItem => {
@@ -302,7 +300,7 @@ export const ListDetails = () => {
                 </footer>
             </div>
         </section>
-    </>
+    </div>
 }
 
 

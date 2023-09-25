@@ -101,7 +101,7 @@
   .homeContainer {
    display: flex;
    justify-content: center; /* Center horizontally */
-   align-items: center; /* Center vertically */
+   align-items: flex-start; /* Center vertically */
    height: 100%; /* Ensure it takes the full height of the viewport */
  }
  
@@ -133,6 +133,7 @@
    
    
    .card {
+    margin-top: 30%;
      width: 80%;
      height: 40%;
      padding: 2%;
