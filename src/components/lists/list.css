@@ -173,6 +173,7 @@
   .gList {
     width: 60%;
     max-height: 50%;
+    
     overflow: auto;
     margin-top: 30%;
     overflow: auto;

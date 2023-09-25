@@ -103,10 +103,12 @@ export const ItemList = () => {
                 </section>
             </div>
         } else {
-            return <>
-                <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
-                <div className="bigDiv"></div>
-            </>
+            return <div className="site-background">
+                <section className="itemContainer">
+                    <ItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                </section>
+            </div>
+
         }
     }
 
