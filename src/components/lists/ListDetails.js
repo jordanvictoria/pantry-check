@@ -133,7 +133,7 @@ export const ListDetails = () => {
 
     const markCompleteButton = () => {
         if (!list.completed) {
-            return <button
+            return <button className="markCompleted"
                 onClick={(event) => {
                     event.preventDefault()
                     const copy = {
@@ -245,7 +245,7 @@ export const ListDetails = () => {
                                                     {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
                                                 </section>
                                                 <div className="groceryButtons">
-                                                    <section>
+                                                    <section className="buttonFontSizes">
                                                         {
                                                             editItemButton(listItem)
                                                         }
@@ -275,7 +275,6 @@ export const ListDetails = () => {
                     </ul>
                 </section>
                 <section className="estimatedCost">
-
                     <div className="cost">Estimated Total: ${estimatedTotalCost}</div>
                 </section>
 
