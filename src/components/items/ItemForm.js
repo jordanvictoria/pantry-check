@@ -59,11 +59,12 @@ export const ItemForm = () => {
 
 
 
-    return <>
-        <section className="itemForm">
+    return <div className="site-background">
+    <section className="itemFormContainer">
             <form className="relativeForm">
                 <fieldset>
-                    <div>Name:
+                    <div className="formDivs">
+                        <label>Name:</label>
                         <input type="text" id="name" onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -73,7 +74,7 @@ export const ItemForm = () => {
                         } />
 
                     </div>
-                    <div>
+                    <div className="formDivs">
                         <label>Category:</label>
                         <select className="itemSelect" onChange={
                             (evt) => {
@@ -93,7 +94,8 @@ export const ItemForm = () => {
 
                         </select>
                     </div>
-                    <div>Price:
+                    <div className="formDivs">
+                        <label>Price:</label>
                         <input id="price" onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -110,6 +112,6 @@ export const ItemForm = () => {
                 </fieldset>
             </form>
         </section>
-    </>
+    </div>
 
 }

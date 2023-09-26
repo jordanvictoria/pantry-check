@@ -90,11 +90,12 @@ export const ItemEdit = () => {
 
 
 
-    return <>
-        <section className="itemForm">
+    return <div className="site-background">
+    <section className="itemFormContainer">
             <form className="relativeForm">
                 <fieldset>
-                    <div>Name:
+                    <div className="formDivs">
+                        <label>Name:</label>
                         <input required autoFocus type="text" id="name" placeholder={item.name} value={item.name} onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -103,7 +104,7 @@ export const ItemEdit = () => {
                             }
                         } />
                     </div>
-                    <div>
+                    <div className="formDivs">
                         <label>Category:</label>
                         <select className="itemSelect" onChange={
                             (evt) => {
@@ -124,7 +125,8 @@ export const ItemEdit = () => {
 
                         </select>
                     </div>
-                    <div>Price:
+                    <div className="formDivs">
+                    <label>Price:</label>
                         <input type="text" id="price" placeholder={item.price} value={item.price} onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -144,5 +146,5 @@ export const ItemEdit = () => {
         </section>
 
 
-    </>
+    </div>
 }
