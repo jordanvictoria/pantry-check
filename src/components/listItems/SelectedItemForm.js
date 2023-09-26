@@ -43,7 +43,7 @@ export const SelectedItemForm = () => {
         []
     )
 
-   
+
 
 
 
@@ -69,12 +69,12 @@ export const SelectedItemForm = () => {
     }
 
 
-    return <>
-        <section className="listItemForm">
-            <div className="relativeForm">
-                <form>
+    return <div className="site-background">
+        <section className="listItemFormContainer">
+            <form className="relativeListItemForm">
                     <fieldset>
-                        <div>Name:
+                        <div className="formDivs">
+                            <label>Name:</label>
                             <input type="text" id="name" placeholder={item.name} value={item.name} onChange={
                                 (evt) => {
                                     const copy = { ...item }
@@ -83,7 +83,7 @@ export const SelectedItemForm = () => {
                                 }
                             } />
                         </div>
-                        <div>
+                        <div className="formDivs">
                             <label>Category:</label>
                             <select className="listItemSelect" onChange={
                                 (evt) => {
@@ -100,7 +100,8 @@ export const SelectedItemForm = () => {
                                 }
                             </select>
                         </div>
-                        <div>Price:
+                        <div className="formDivs">
+                        <label>Price:</label>
                             <input type="text" id="price" placeholder={item.price} value={item.price} onChange={
                                 (evt) => {
                                     const copy = { ...item }
@@ -109,7 +110,8 @@ export const SelectedItemForm = () => {
                                 }
                             } />
                         </div>
-                        <div>Quantity:
+                        <div className="formDivs">
+                        <label>Quantity:</label>
                             <input required autoFocus type="text" id="quantity" onChange={
                                 (evt) => {
                                     const copy = { ...listItem }
@@ -118,7 +120,7 @@ export const SelectedItemForm = () => {
                                 }
                             } />
                         </div>
-                        <div>
+                        <div className="formDivs">
                             <label htmlFor="name">Priority:</label>
                             <input type="checkbox"
                                 value={listItem.priority}
@@ -136,8 +138,7 @@ export const SelectedItemForm = () => {
                         }}>Save</button>
                         <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
                     </fieldset>
-                </form>
-            </div>
+            </form>
         </section>
-    </>
+    </div>
 }

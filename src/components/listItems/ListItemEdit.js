@@ -100,12 +100,12 @@ export const ListItemEdit = () => {
 
 
 
-    return <>
-
-        <section className="listItemForm">
-            <form className="relativeForm">
+    return <div className="site-background">
+    <section className="listItemFormContainer">
+        <form className="relativeListItemForm">
                 <fieldset>
-                    <div>Name:
+                    <div className="formDivs">
+                        <label>Name:</label>
                         <input required autoFocus type="text" id="name" placeholder={item?.name} value={item?.name} onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -114,7 +114,7 @@ export const ListItemEdit = () => {
                             }
                         } />
                     </div>
-                    <div>
+                    <div className="formDivs">
                         <label>Category:</label>
                         <select className="listItemSelect" onChange={
                             (evt) => {
@@ -135,7 +135,8 @@ export const ListItemEdit = () => {
 
                         </select>
                     </div>
-                    <div>Price:
+                    <div className="formDivs">
+                    <label>Price:</label>
                         <input type="text" id="price" placeholder={item?.price} value={item?.price} onChange={
                             (evt) => {
                                 const copy = { ...item }
@@ -144,7 +145,8 @@ export const ListItemEdit = () => {
                             }
                         } />
                     </div>
-                    <div>Quantity:
+                    <div className="formDivs">
+                    <label>Quantity:</label>
                         <input type="text" id="quantity" placeholder={listItem?.quantity} value={listItem?.quantity} onChange={
                             (evt) => {
                                 const copy = { ...listItem }
@@ -153,7 +155,7 @@ export const ListItemEdit = () => {
                             }
                         } />
                     </div>
-                    <div>
+                    <div className="formDivs">
                         <label htmlFor="name">Priority:</label>
                         <input type="checkbox"
                             value={listItem?.priority}
@@ -176,5 +178,5 @@ export const ListItemEdit = () => {
                 </fieldset>
             </form>
         </section>
-    </>
+    </div>
 }
