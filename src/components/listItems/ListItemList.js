@@ -67,10 +67,10 @@ export const ListItemList = ({ searchTermState }) => {
 
     const listItemFunc = () => {
         if (items.length !== 0) {
-            return <>
+            return <div className="site-background">
+                <section className="listItemsContainer">
                 <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
-                <section className="itemList">
-                    <div className="listItemList">
+                    <div className="listItemsList">
                         <ul>
                             {
                                 items.map((item) => {
@@ -87,31 +87,17 @@ export const ListItemList = ({ searchTermState }) => {
                         </ul>
                     </div>
                 </section>
-            </>
+            </div>
         } else {
-            return <>
+            return <div className="site-background">
+                <section className="listItemsContainer">
                 <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
-                <section className="itemList">
-                    <div className="listItemList">
-                        {/* <ul>
-                            {
-                                items.map((item) => {
-                                    return <li key={`item--${item.id}`}>
-                                        {item.name} - ${item.price}
-                                        <span className="itemSpan">
-                                            {
-                                                selectItemButton(item)
-                                            }
-                                        </span>
-                                    </li>
-                                })
-                            }
-                        </ul> */}
-                    </div>
-                </section>
-            </>
+                    </section>
+                
+            </div>
         }
     }
+
 
 
 

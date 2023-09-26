@@ -25,3 +25,4 @@ export const ItemSearch = ({ searchTerms, onSearchTermChange }) => {
         </section>
     )
 }
+

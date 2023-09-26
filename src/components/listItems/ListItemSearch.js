@@ -51,8 +51,7 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
 
 
     return (
-        <section className="itemList">
-            <div className="listItemList">
+        <section className="searchItemsList">
                 <h1 className="itemHeader">Grocery Items
                 </h1>
                 <div>
@@ -60,7 +59,6 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
                         inputFunc()
                     }
                 </div>
-            </div>
         </section>
     )
 }
