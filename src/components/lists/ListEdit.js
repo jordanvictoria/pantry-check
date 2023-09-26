@@ -54,11 +54,12 @@ export const ListEdit = () => {
 
 
 
-    return <>
-        <section className="listForm">
-            <form className="relativeForm">
+    return <div className="site-background">
+    <section className="listFormContainer">
+        <form className="relativeListForm">
                 <fieldset>
-                    <div>Name:
+                    <div className="formDivs">
+                        <label>Name:</label>
                         <input required autoFocus type="text" id="name" placeholder={list.name} value={list.name} onChange={
                             (evt) => {
                                 const copy = { ...list }
@@ -67,7 +68,8 @@ export const ListEdit = () => {
                             }
                         } />
                     </div>
-                    <div>Notes:
+                    <div className="formDivs">
+                        <label>Notes:</label>
                         <input className="formNotes" placeholder={list.notes} value={list.notes} onChange={
                             (evt) => {
                                 const copy = { ...list }
@@ -87,5 +89,5 @@ export const ListEdit = () => {
                 </fieldset>
             </form>
         </section>
-    </>
+    </div>
 }

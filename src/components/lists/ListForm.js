@@ -41,7 +41,7 @@ export const ListForm = () => {
             completed: false,
             date_completed: null
         }
-        
+
         addList(newListForAPI)
             .then(res => res.json())
             .then(createdItem => {
@@ -58,11 +58,12 @@ export const ListForm = () => {
 
 
 
-    return <>
-        <section className="listForm">
-            <form className="relativeForm">
+    return <div className="site-background">
+        <section className="listFormContainer">
+            <form className="relativeListForm">
                 <fieldset>
-                    <div>Name:
+                    <div className="formDivs">
+                        <label>Name:</label>
                         <input type="text" id="name" onChange={
                             (evt) => {
                                 const copy = { ...newList }
@@ -71,7 +72,8 @@ export const ListForm = () => {
                             }
                         } />
                     </div>
-                    <div>Notes:
+                    <div className="formDivs">
+                    <label>Notes:</label>
                         <input className="formNotes" onChange={
                             (evt) => {
                                 const copy = { ...newList }
@@ -90,6 +92,6 @@ export const ListForm = () => {
                 </fieldset>
             </form>
         </section>
-    </>
+    </div>
 
 }
