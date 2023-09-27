@@ -35,11 +35,11 @@
  
  
  
-  .navbar-item:hover {
-    background-color:  #64b37d ;
+  .navbar-item:hover,
+  .navbar-item.active {
+    background-color: #64b37d !important;
+    color: #fff; /* Optionally set the text color to white */
   }
-
-  
 
 
 
