@@ -78,6 +78,7 @@
     background: #f5f1bb;
     display: flex;
     justify-content: space-between;
+    font-size: 15px;
   }
 
   .itemButtons {
@@ -193,6 +194,7 @@
     background: #f5f1bb;
     display: flex;
     justify-content: space-between;
+    font-size: 15px;
   }
 
   .itemButtons {

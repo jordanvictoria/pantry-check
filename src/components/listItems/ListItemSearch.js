@@ -22,20 +22,20 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
     const inputFunc = () => {
         if (items.length !== 0) {
             return <>
-                <input className="listItemInput"
-                    value={searchTerms}
-                    onChange={
-                        (changeEvent) => {
-                            onSearchTermChange(changeEvent.target.value)
-                        }}
-                    type="text" placeholder="Enter search term" />
-                Or
-                <span>
+                <div className="listItemsSearch">
+                    <input className="listItemInput"
+                        value={searchTerms}
+                        onChange={
+                            (changeEvent) => {
+                                onSearchTermChange(changeEvent.target.value)
+                            }}
+                        type="text" placeholder="Enter search term" />
+                    <div className="or">Or</div>
                     <button className="itemButton" onClick={() => {
                         navigate("/listItem/create")
                     }
                     }>Create New Item</button>
-                </span>
+                </div>
             </>
         } else {
             return <>
@@ -52,13 +52,13 @@ export const ListItemSearch = ({ searchTerms, onSearchTermChange }) => {
 
     return (
         <section className="searchItemsList">
-                <h1 className="itemHeader">Grocery Items
-                </h1>
-                <div>
-                    {
-                        inputFunc()
-                    }
-                </div>
+            <h1 className="itemHeader">Grocery Items
+            </h1>
+            <div>
+                {
+                    inputFunc()
+                }
+            </div>
         </section>
     )
 }

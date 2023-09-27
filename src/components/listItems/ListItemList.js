@@ -74,13 +74,14 @@ export const ListItemList = ({ searchTermState }) => {
                         <ul>
                             {
                                 items.map((item) => {
-                                    return <li key={`item--${item.id}`}>
+                                    return <li className="listItemElements"
+                                    key={`item--${item.id}`}>
                                         {item.name} - ${item.price}
-                                        <span className="itemSpan">
+                                        <div className="itemButtons">
                                             {
                                                 selectItemButton(item)
                                             }
-                                        </span>
+                                        </div>
                                     </li>
                                 })
                             }
