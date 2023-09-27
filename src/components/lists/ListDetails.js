@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getCategories, getItems, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString, deleteList } from "./ListManager"
+import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString, deleteList } from "./ListManager"
 import { ListContext } from "../context/ListProvider"
 import "./listDetail.css"
 
@@ -11,7 +11,6 @@ export const ListDetails = () => {
     const localUser = localStorage.getItem('pantryUserId')
     const { listId } = useParams()
     const navigate = useNavigate()
-    const [items, setItems] = useState([])
     const [listItems, setListItems] = useState([])
     const [categories, setCategories] = useState([])
     const [filteredByCategory, setFilteredByCategory] = useState(0)
@@ -40,19 +39,6 @@ export const ListDetails = () => {
             getCategories()
                 .then((categoryArray) => {
                     setCategories(categoryArray)
-                })
-        },
-        []
-    )
-    
-    
-   
-
-    useEffect(
-        () => {
-            getItems()
-                .then((userItemArr) => {
-                    setItems(userItemArr)
                 })
         },
         []
@@ -92,23 +78,14 @@ export const ListDetails = () => {
 
     const addItemButton = () => {
         if (!list.completed) {
-            if (items.length !== 0) {
-                return <>
-                    <button onClick={() => {
-                        setListId(list.id)
-                        navigate("/listItems")
-                    }
-                    }>Add Items</button>
-                </>
-            } else {
-                return <>
-                        <button onClick={() => {
-                            setListId(list.id)
-                            navigate("/listItem/create")
-                        }
-                        }>Add Items</button>
-                    </>
-            }
+            return <>
+                <button onClick={() => {
+                    setListId(list.id)
+                    navigate("/listItems")
+                }
+                }>Add Items</button>
+            </>
+
         } else {
             return ""
         }
@@ -324,5 +301,3 @@ export const ListDetails = () => {
         </section>
     </div>
 }
-
-

@@ -109,4 +109,3 @@ export const ListItemList = ({ searchTermState }) => {
         }
     </>
 }
-
