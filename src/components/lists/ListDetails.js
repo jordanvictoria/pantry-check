@@ -2,43 +2,31 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { ReactComponent as YellowStar } from "../images/favorite-star-yellow.svg"
 import { ReactComponent as BlankStar } from "../images/favorite-star-blank.svg"
-import { getAllCategories } from "../ApiManager"
-import "./list.css"
+import { getCategories, getListById, getItemsByList, deleteListItem, editList, getItemsByHttpString, deleteList } from "./ListManager"
 import { ListContext } from "../context/ListProvider"
+import "./listDetail.css"
 
 
 export const ListDetails = () => {
+    const localUser = localStorage.getItem('pantryUserId')
     const { listId } = useParams()
     const navigate = useNavigate()
-    const [list, updateList] = useState({})
     const [listItems, setListItems] = useState([])
-    const [allListItems, setAllListItems] = useState([])
     const [categories, setCategories] = useState([])
     const [filteredByCategory, setFilteredByCategory] = useState(0)
     const [filteredByPriority, setFilteredByPriority] = useState(false)
-    const [stateOfFilter, setStateOfFilter] = useState({})
-    const [filterUpdated, setFilterUpdated] = useState(false)
-
+    const [list, updateList] = useState({})
     const { renderSwitch, setRenderSwitch, setListId, setItemId, setCategoryId } = useContext(ListContext)
 
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/lists/${listId}`)
-                .then(response => response.json())
+            getListById(listId)
                 .then((data) => {
                     updateList(data)
                 })
-        },
-        [listId, renderSwitch]
-    )
-
-    useEffect(
-        () => {
-            fetch(`http://localhost:8088/listItems?_expand=item&listId=${listId}`)
-                .then(response => response.json())
+            getItemsByList(listId)
                 .then((listItemArray) => {
-                    setAllListItems(listItemArray)
                     setListItems(listItemArray)
                 })
         },
@@ -46,13 +34,9 @@ export const ListDetails = () => {
     )
 
 
-    
-
-
-
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArray) => {
                     setCategories(categoryArray)
                 })
@@ -60,68 +44,34 @@ export const ListDetails = () => {
         []
     )
 
-    useEffect(
-        () => {
-            stateOfFilter.selectedCategory = parseInt(filteredByCategory)
-            setFilterUpdated(!filterUpdated)
-
-        },
-        [filteredByCategory]
-    )
 
     useEffect(
         () => {
-            stateOfFilter.priorityOnly = filteredByPriority
-            setFilterUpdated(!filterUpdated)
-
-        },
-        [filteredByPriority]
-    )
-
-
-
-
-
-    useEffect(
-        () => {
-            if (allListItems) {
-                let filteredItems = allListItems
-                if (stateOfFilter.selectedCategory) {
-                    filteredItems = filteredItems.filter(listItem => listItem?.item?.categoryId === stateOfFilter.selectedCategory)
-                }
-                if (filteredByPriority === true) {
-                    let priorityItems = []
-                            {
-                                allListItems.map(li => {
-                                    if (li?.priority === true) {
-                                        priorityItems.push(li)
-                                    }
-                                })
-                            }
-                            console.log(priorityItems)
-
-                    let priorityArr = []
-                    priorityItems.map(itemP => {
-                        let starred = filteredItems.find(itemF => itemF?.id === itemP?.id)
-                        if (starred) {
-                            priorityArr.push(starred)
-                        }
-                        
-                    })
-                    filteredItems = priorityArr
-                }
-                setListItems(filteredItems)
+            if (filteredByCategory !== 0 || filteredByPriority !== false || listId !== 0) {
+                getItemsByHttpString(queryStrings(listId, parseInt(filteredByCategory), filteredByPriority))
+                    .then((data) => { setListItems(data) })
             }
-        },
-        [filterUpdated, allListItems]
+
+        }, [listId, filteredByCategory, filteredByPriority]
     )
 
 
 
+    const queryStrings = (listId, filteredByCategory, filteredByPriority) => {
+        let httpString = []
 
-
-
-
+        if (filteredByCategory !== 0) {
+            httpString.push(`category=${parseInt(filteredByCategory)}`)
+        }
+        if (filteredByPriority !== false) {
+            httpString.push(`priority=${filteredByPriority}`)
+        }
+        if (listId !== 0) {
+            httpString.push(`listId=${listId}`)
+        }
+        let newString = httpString.join("&")
+        return newString
+    }
 
 
 
@@ -147,9 +97,9 @@ export const ListDetails = () => {
             return <Link to={`/listItems/${obj.id}/edit`}>
                 <button
                     onClick={() => {
-                        setItemId(obj.itemId)
+                        setItemId(obj.item.id)
                         setListId(list.id)
-                        setCategoryId(obj.item.categoryId)
+                        setCategoryId(obj.item.category.id)
                     }}>Edit</button>
             </Link>
         } else {
@@ -161,59 +111,14 @@ export const ListDetails = () => {
     const removeListItemButton = (id) => {
         return <>
             <button onClick={() =>
-                fetch(`http://localhost:8088/listItems/${id}`, {
-                    method: "DELETE"
-                })
+                deleteListItem(id)
                     .then(() => {
                         setRenderSwitch(!renderSwitch)
                     })
-
             }>Remove</button>
         </>
     }
 
-
-
-
-
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
-
-    const newDate = month + "/" + day + "/" + year
-
-
-
-    const markCompleteButton = () => {
-        if (!list.completed) {
-            return <button
-                onClick={() => {
-                    const copy = {
-                        userId: 1,
-                        name: list.name,
-                        notes: list.notes,
-                        dateCreated: list.dateCreated,
-                        completed: true,
-                        dateCompleted: newDate
-                    }
-                    fetch(`http://localhost:8088/lists/${list.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(copy)
-                    })
-                        .then(response => response.json())
-                        .then(() => {
-                            setRenderSwitch(!renderSwitch)
-                        })
-                }}
-            >Mark as Completed</button>
-        } else {
-            return `Completed on ${list.dateCompleted}`
-        }
-    }
 
 
     const editListButton = () => {
@@ -226,94 +131,175 @@ export const ListDetails = () => {
         }
     }
 
+    const markCompleteButton = () => {
+        if (!list.completed) {
+            return <button className="markCompleted"
+                onClick={(event) => {
+                    event.preventDefault()
+                    const copy = {
+                        id: listId,
+                        user: parseInt(localUser),
+                        name: list.name,
+                        notes: list.notes,
+                        date_created: list.date_created,
+                        completed: true,
+                        date_completed: newDate
+                    }
+                    editList(copy)
+                        .then(() => {
+                            setRenderSwitch(!renderSwitch)
+                        })
+                }}
+            >Mark as Completed</button>
+        } else {
+            return <>
+                <button className="listCompleted"
+                    onClick={(event) => {
+                        event.preventDefault()
+                        const copy = {
+                            id: listId,
+                            user: parseInt(localUser),
+                            name: list.name,
+                            notes: list.notes,
+                            date_created: list.date_created,
+                            completed: false,
+                            date_completed: null
+                        }
+                        editList(copy)
+                            .then(() => {
+                                setRenderSwitch(!renderSwitch)
+                            })
+                    }}>Completed on {list.date_completed}</button>
+            </>
+        }
+    }
 
 
 
-
+    var dateObj = new Date();
+    var month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+    var day = ('0' + dateObj.getUTCDate()).slice(-2);
+    var year = dateObj.getUTCFullYear();
+    const newDate = year + "-" + month + "-" + day;
 
 
     let estimatedTotalCost = 0
 
-    return <>
 
-        <article>
 
-            <h3>{list?.name}</h3>
-            <div>
-                {addItemButton()}
-                <div>
-                    Filter by Category
-                    <select onChange={
-                        (evt) => {
-                            setFilteredByCategory(evt.target.value)
-                        }
-                    } >
-                        <option value="0">Choose A Category...</option>
+
+
+
+
+
+
+
+
+
+    return <div className="site-background">
+        <section className="listContainer">
+            <div className="relativeList">
+                <div className="listName">
+                    <h3 className="nameMargin">
+                        {list.name}</h3>
+                    {addItemButton()}
+                </div>
+
+                <div className="filterContainer">
+                    <div className="filterOne">
+                        Filter by Category
+                        <select className="listDetailInput" onChange={
+                            (evt) => {
+                                setFilteredByCategory(evt.target.value)
+                            }
+                        } >
+                            <option value="0">Choose A Category...</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="filterTwo">
+                        Show Priority Only 
+                        <input className="priorityCheckbox" type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
+                    </div>
+                </div>
+
+                <section className="listDetailItems">
+                    <ul className="unorderedListElement">
                         {
-                            categories.map(category => {
-                                return <option key={category?.id} value={category?.id}>{category?.name}</option>
+                            listItems.map(listItem => {
+                                const matchedCategory = categories.find(category => category?.id === listItem?.item?.category.id)
+                                const totalPrice = listItem?.quantity * listItem?.item?.price
+                                estimatedTotalCost += totalPrice
+
+                                return (
+                                    <li className="listElement">
+                                        <section>
+                                            <header className="groceryHeader">
+                                                <section className="groceryName">
+                                                    <input className="checkbox" type="checkbox" />
+                                                    {listItem?.item?.name}
+                                                    {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>}
+                                                </section>
+                                                <div className="groceryButtons">
+                                                    <section className="buttonFontSizes">
+                                                        {
+                                                            editItemButton(listItem)
+                                                        }
+                                                        {
+                                                            removeListItemButton(listItem?.id)
+                                                        }
+                                                    </section>
+                                                    <div className="groceryFacts">
+                                                        <section className="groceryCategory">
+                                                            Category: {matchedCategory?.name}
+                                                        </section>
+                                                        <section className="groceryQuantity">
+                                                            Quantity: {listItem?.quantity}
+                                                        </section>
+
+                                                        <section className="groceryPrice">
+                                                            Price: ${totalPrice}
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        </section>
+                                    </li>
+                                )
                             })
                         }
-                    </select>
-                    Show Priority Only
-                    <input type="checkbox" onClick={() => setFilteredByPriority(!filteredByPriority)} />
-                </div>
-            </div>
-            <section>
-                <ul>
+                    </ul>
+                </section>
+                <section className="estimatedCost">
+                    <div className="cost">Estimated Total: ${estimatedTotalCost}</div>
+                </section>
+
+                <section className="listNotes">
+                    <div className="notes">Notes: {list?.notes}</div>
+                </section>
+                <footer className="allButtons">
                     {
-                        listItems.map(listItem => {
-                            const matchedCategory = categories.find(category => category?.id === listItem?.item?.categoryId)
-                            const totalPrice = listItem?.quantity * listItem?.item?.price
-                            estimatedTotalCost += totalPrice
-
-                            return (
-                                <li>
-                                    <section>
-                                        <header>{listItem?.item?.name}
-                                            {listItem?.priority ? <YellowStar className="svg"></YellowStar> : <BlankStar className="svg"></BlankStar>} --
-                                            Quantity: {listItem?.quantity} --
-                                            Price: {totalPrice}
-                                        </header>
-                                    </section>
-                                    <section>
-                                        Category: {matchedCategory?.name} --
-                                        {
-                                            editItemButton(listItem)
-                                        }
-                                        {
-                                            removeListItemButton(listItem?.id)
-                                        }
-                                    </section>
-                                </li>
-                            )
-                        })
+                        markCompleteButton()
                     }
-                </ul>
-            </section>
-            <section>
-                <div>-------------------------- Estimated Total: {estimatedTotalCost}</div>
-                <div>Notes: {list?.notes}</div>
-            </section>
-            <footer>
-                {
-                    markCompleteButton()
-                }
-                {
-                    editListButton()
-                }
-                ------------
-                <button onClick={() =>
-                    fetch(`http://localhost:8088/lists/${list?.id}`, {
-                        method: "DELETE"
-                    })
-                        .then(() => {
-                            navigate("/lists")
-                        })
-
-                }>Delete List</button>
-            </footer>
-
-        </article>
-    </>
+                    <div className="someButtons">
+                        {
+                            editListButton()
+                        }
+                        <button onClick={() =>
+                            deleteList(list.id)
+                                .then(() => {
+                                    navigate("/lists")
+                                })
+                        }>Delete List</button>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    </div>
 }
+
+

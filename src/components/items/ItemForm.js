@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getAllCategories } from "../ApiManager"
-import { ListContext } from "../context/ListProvider"
+import { addItem, getCategories } from "./ItemManager"
+import "./itemForm.css"
 
 
 
@@ -9,23 +9,19 @@ import { ListContext } from "../context/ListProvider"
 
 
 export const ItemForm = () => {
-    const localPantryUser = localStorage.getItem("pantry_user")
-    const pantryUserObj = JSON.parse(localPantryUser)
-    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
-    const { renderSwitch, setRenderSwitch } = useContext(ListContext)
-
+    const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
-    
+
 
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
@@ -42,24 +38,13 @@ export const ItemForm = () => {
         event.preventDefault()
 
         const itemToSendToAPI = {
-            userId: pantryUserObj.id,
             name: item.name,
-            categoryId: item.categoryId,
+            category: item.category,
             price: item.price
         }
 
-        
-
-        return fetch(` http://localhost:8088/items`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(itemToSendToAPI)
-        })
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
+        addItem(itemToSendToAPI)
+            .then((res) => res.json())
     }
 
 
@@ -74,57 +59,59 @@ export const ItemForm = () => {
 
 
 
-    return <>
-        <form>
-            <fieldset>
-                <div>Name:
-                    <input type="text" id="name" onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.name = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label>Category:</label>
-                    <select onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } >
+    return <div className="site-background">
+    <section className="itemFormContainer">
+            <form className="relativeForm">
+                <fieldset>
+                    <div className="formDivs">
+                        <label>Name:</label>
+                        <input type="text" id="name" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.name = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
 
-                        <option value="0">Choose A Category...</option>
-                        {
-                            categories.map(category => {
-                                return <option key={category.id} value={category.id}>{category.name}</option>
-                            })
-                        }
+                    </div>
+                    <div className="formDivs">
+                        <label>Category:</label>
+                        <select className="itemSelect" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.category = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } >
+
+                            <option value="0">Choose A Category...</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category.id} value={category.id}>{category.name}</option>
+                                })
+                            }
 
 
-                    </select>
-                </div>
-                <div>Price:
-                    <input id="price" onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.price = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <button onClick={(clickEvent) => {
-
-                    handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
-                    navigate("/items")
-
-                }}>Save</button>
-
-            </fieldset>
-        </form>
-    </>
+                        </select>
+                    </div>
+                    <div className="formDivs">
+                        <label>Price:</label>
+                        <input id="price" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.price = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <button onClick={(clickEvent) => {
+                        handleSaveButtonClick(clickEvent)
+                        navigate("/items")
+                    }}>Save</button>
+                    <button className="cancelItem" onClick={() => { navigate(`/items`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
+    </div>
 
 }

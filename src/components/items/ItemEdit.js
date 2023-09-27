@@ -1,31 +1,32 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import { editItem, getCategories, getItemById } from "./ItemManager"
+import "./itemForm.css"
 
 
 
 
 
 export const ItemEdit = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
-    const { renderSwitch, setRenderSwitch, categoryId } = useContext(ListContext)
-    const [category, setCategory] = useState({})
-    const [categories, setCategories] = useState([])
+    const localUser = localStorage.getItem('pantryUserId')
     const navigate = useNavigate()
     const { itemId } = useParams()
+    const { categoryId } = useContext(ListContext)
+    const [category, setCategory] = useState({})
+    const [categories, setCategories] = useState([])
     const [item, updateItem] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
 
 
     useEffect(() => {
-        fetch(`http://localhost:8088/items/${itemId}`)
-            .then(response => response.json())
+        getItemById(itemId)
             .then((data) => {
                 updateItem(data)
             })
@@ -34,21 +35,9 @@ export const ItemEdit = () => {
 
 
 
-
-
     useEffect(
         () => {
-            getAllCategories()
-                .then((categoryArr) => {
-                    setCategories(categoryArr)
-                })
-        },
-        []
-    )
-
-    useEffect(
-        () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
                     setCategory(categoryMatch)
@@ -56,6 +45,18 @@ export const ItemEdit = () => {
         },
         [categoryId]
     )
+
+
+    useEffect(
+        () => {
+            getCategories()
+                .then((categoryArr) => {
+                    setCategories(categoryArr)
+                })
+        },
+        []
+    )
+
 
 
 
@@ -68,24 +69,18 @@ export const ItemEdit = () => {
 
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
-
-        return fetch(` http://localhost:8088/items/${item.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(item)
+        editItem({
+            id: itemId,
+            user: parseInt(localUser),
+            name: item.name,
+            category: item.category.id,
+            price: item.price
         })
-            .then(response => response.json())
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
-            })
     }
 
 
 
 
-   
 
 
 
@@ -94,61 +89,62 @@ export const ItemEdit = () => {
 
 
 
-    return <>
+
+    return <div className="site-background">
+    <section className="itemFormContainer">
+            <form className="relativeForm">
+                <fieldset>
+                    <div className="formDivs">
+                        <label>Name:</label>
+                        <input required autoFocus type="text" id="name" placeholder={item.name} value={item.name} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.name = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div className="formDivs">
+                        <label>Category:</label>
+                        <select className="itemSelect" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.category = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } >
 
 
-
-        <form>
-            <fieldset>
-                <div>Name:
-                    <input required autoFocus type="text" id="name" placeholder={item.name} value={item.name} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.name = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label>Category:</label>
-                    <select onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } >
+                            <option value={item?.category}>{category?.name}</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category?.id} value={category}>{category?.name}</option>
+                                })
+                            }
 
 
-                        <option value={item?.categoryId}>{category?.name}</option>
-                        {
-                            categories.map(category => {
-                                return <option key={category?.id} value={category?.id}>{category?.name}</option>
-                            })
-                        }
+                        </select>
+                    </div>
+                    <div className="formDivs">
+                    <label>Price:</label>
+                        <input type="text" id="price" placeholder={item.price} value={item.price} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.price = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+
+                    <button onClick={(event) => {
+                        handleSaveButtonClick(event)
+                        navigate(`/items`)
+                    }}>Save</button>
+                    <button className="cancelItem" onClick={() => { navigate(`/items`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
 
 
-                    </select>
-                </div>
-                <div>Price:
-                    <input type="text" id="price" placeholder={item.price} value={item.price} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.price = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-
-                <button onClick={(clickEvent) => {
-
-                    handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
-                    navigate(`/items`)
-
-                }}>Save</button>
-                <button onClick={() => { navigate(`/items`)}}>Cancel</button>
-            </fieldset>
-        </form>
-    </>
+    </div>
 }

@@ -1,80 +1,61 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
 import { ListContext } from "../context/ListProvider"
+import { editItem, editListItem, getCategories, getItemById, getListItemById } from "./ListItemManager"
+import "./listItemForm.css"
 
 
 
 
 
 export const ListItemEdit = () => {
-    // const localPantryUser = localStorage.getItem("pantry_user")
-    // const pantryUserObj = JSON.parse(localPantryUser)
-    const { listId, renderSwitch, setRenderSwitch, itemId, categoryId } = useContext(ListContext)
-    const [category, setCategory] = useState({})
-    const [categories, setCategories] = useState([])
+    const localUser = localStorage.getItem('pantryUserId')
     const navigate = useNavigate()
+    const { listId, itemId } = useContext(ListContext)
     const { listItemId } = useParams()
+    const [categories, setCategories] = useState([])
     const [listItem, updateListItem] = useState({
-        itemId: 0,
+        id: 0,
+        user: 0,
+        list: 0,
+        item: 0,
         quantity: 0,
         priority: false
 
     })
     const [item, updateItem] = useState({
+        id: 0,
+        user: 0,
         name: "",
-        categoryId: 0,
+        category: 0,
         price: 0
     })
 
 
 
+
     useEffect(() => {
-        fetch(`http://localhost:8088/listItems/${listItemId}`)
-            .then(response => response.json())
+        getListItemById(listItemId)
             .then((data) => {
                 updateListItem(data)
             })
     }, [listItemId])
 
-
-
-
-
     useEffect(() => {
-        getAllItems()
-            .then((itemArr) => {
-                const matchedItem = itemArr.find(item => item.id === itemId)
-                updateItem(matchedItem)
+        getItemById(itemId)
+            .then((data) => {
+                updateItem(data)
             })
     }, [itemId])
 
-
-
-
-
-
-
-
     useEffect(
         () => {
-            getAllCategories()
+            getCategories()
                 .then((categoryArr) => {
                     setCategories(categoryArr)
                 })
         },
         []
-    )
-
-    useEffect(
-        () => {
-            getAllCategories()
-                .then((categoryArr) => {
-                    const categoryMatch = categoryArr.find(cat => cat.id === categoryId)
-                    setCategory(categoryMatch)
-                })
-        },
-        [categoryId]
     )
 
 
@@ -88,39 +69,29 @@ export const ListItemEdit = () => {
 
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
-
-        return fetch(` http://localhost:8088/items/${item.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(item)
+        editItem({
+            id: itemId,
+            user: parseInt(localUser),
+            name: item.name,
+            category: item.category.id,
+            price: item.price
         })
-            .then(response => response.json())
             .then(() => {
-                fetch(` http://localhost:8088/listItems/${listItem.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify(listItem)
+                editListItem({
+                    id: listItemId,
+                    user: parseInt(localUser),
+                    list: listId,
+                    item: itemId,
+                    quantity: listItem.quantity,
+                    priority: listItem.priority
+
                 })
-            })
-            .then(() => {
-                setRenderSwitch(!renderSwitch)
             })
     }
 
 
 
 
-    // const isChecked = (listItem) => {
-    //     if (listItem.priority) {
-    //         return "checked"
-    //     } else {
-    //         return ""
-    //     }
-    // }
 
 
 
@@ -129,83 +100,83 @@ export const ListItemEdit = () => {
 
 
 
-    return <>
+    return <div className="site-background">
+    <section className="listItemFormContainer">
+        <form className="relativeListItemForm">
+                <fieldset>
+                    <div className="formDivs">
+                        <label>Name:</label>
+                        <input required autoFocus type="text" id="name" placeholder={item?.name} value={item?.name} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.name = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div className="formDivs">
+                        <label>Category:</label>
+                        <select className="listItemSelect" onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.category = parseInt(evt.target.value)
+                                updateItem(copy)
+                            }
+                        } >
 
 
-
-        <form>
-            <fieldset>
-                <div>Name:
-                    <input required autoFocus type="text" id="name" placeholder={item?.name} value={item?.name} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.name = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label>Category:</label>
-                    <select onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.categoryId = parseInt(evt.target.value)
-                            updateItem(copy)
-                        }
-                    } >
+                            <option value={item?.category}>{item.category.name}</option>
+                            {
+                                categories.map(category => {
+                                    return <option key={category.id} value={category}>{category.name}</option>
+                                })
+                            }
 
 
-                        <option value={item?.categoryId}>{category?.name}</option>
-                        {
-                            categories.map(category => {
-                                return <option key={category.id} value={category.id}>{category.name}</option>
-                            })
-                        }
-
-
-                    </select>
-                </div>
-                <div>Price:
-                    <input type="text" id="price" placeholder={item?.price} value={item?.price} onChange={
-                        (evt) => {
-                            const copy = { ...item }
-                            copy.price = evt.target.value
-                            updateItem(copy)
-                        }
-                    } />
-                </div>
-                <div>Quantity:
-                    <input type="text" id="quantity" placeholder={listItem?.quantity} value={listItem?.quantity} onChange={
-                        (evt) => {
-                            const copy = { ...listItem }
-                            copy.quantity = evt.target.value
-                            updateListItem(copy)
-                        }
-                    } />
-                </div>
-                <div>
-                    <label htmlFor="name">Priority:</label>
-                    <input type="checkbox" 
-                        value={listItem?.priority}
-                        checked={listItem?.priority}
-                        onChange={
+                        </select>
+                    </div>
+                    <div className="formDivs">
+                    <label>Price:</label>
+                        <input type="text" id="price" placeholder={item?.price} value={item?.price} onChange={
+                            (evt) => {
+                                const copy = { ...item }
+                                copy.price = evt.target.value
+                                updateItem(copy)
+                            }
+                        } />
+                    </div>
+                    <div className="formDivs">
+                    <label>Quantity:</label>
+                        <input type="text" id="quantity" placeholder={listItem?.quantity} value={listItem?.quantity} onChange={
                             (evt) => {
                                 const copy = { ...listItem }
-                                copy.priority = evt.target.checked
+                                copy.quantity = evt.target.value
                                 updateListItem(copy)
                             }
                         } />
-                </div>
+                    </div>
+                    <div className="formDivs">
+                        <label htmlFor="name">Priority:</label>
+                        <input type="checkbox"
+                            value={listItem?.priority}
+                            checked={listItem?.priority}
+                            onChange={
+                                (evt) => {
+                                    const copy = { ...listItem }
+                                    copy.priority = evt.target.checked
+                                    updateListItem(copy)
+                                }
+                            } />
+                    </div>
 
-                <button onClick={(clickEvent) => {
+                    <button onClick={(event) => {
+                        handleSaveButtonClick(event)
+                        navigate(`/lists/${listId}`)
 
-                    handleSaveButtonClick(clickEvent)
-                    // setRenderSwitch(!renderSwitch)
-                    navigate(`/lists/${listId}`)
-
-                }}>Save</button>
-                <button onClick={() => { navigate(`/lists/${listId}`)}}>Cancel</button>
-            </fieldset>
-        </form>
-    </>
+                    }}>Save</button>
+                    <button className="cancelListItem" onClick={() => { navigate(`/lists/${listId}`) }}>Cancel</button>
+                </fieldset>
+            </form>
+        </section>
+    </div>
 }

@@ -1,0 +1,126 @@
+
+@media screen and (min-width:769px) {
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+
+  .site-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/grocerycart.png') no-repeat bottom right #ffffff;
+    background-size: contain;
+  }
+
+
+  .itemFormContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    margin-top: 10%;
+  }
+
+
+.relativeForm {
+    padding: 1%;
+    border: 2px solid #41412f;
+    border-radius: 5px;
+    background: #f5f1bb;
+    width: 20%;
+  }
+
+  .formDivs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+  }
+
+  
+  
+
+
+  fieldset {
+
+      border: none;
+  }
+
+  
+
+.cancelItem {
+    margin-left: 2px;
+}
+
+
+
+}
+
+@media screen and (max-width: 575px) {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+
+  .site-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/grocerycart.png') no-repeat bottom right #ffffff;
+    background-size: contain;
+  }
+
+
+  .itemFormContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    margin-top: 30%;
+  }
+
+
+.relativeForm {
+    padding: 1%;
+    border: 2px solid #41412f;
+    border-radius: 5px;
+    background: #f5f1bb;
+   
+  }
+
+  .formDivs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+  }
+
+  
+  
+
+
+  fieldset {
+
+      border: none;
+  }
+
+  
+
+.cancelItem {
+    margin-left: 2px;
+}
+}

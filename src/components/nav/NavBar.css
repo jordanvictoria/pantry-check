@@ -1,15 +1,64 @@
-.navbar {
+
+
+.navbar-item img {
+    max-height: 3rem;
+ }
+ 
+ .navbar.is-success {
+    background-color: #fcfcfc !important;
+  }
+ 
+  .custom-font {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: "Arial", sans-serif ;  */
+  }
+ 
+  .button.is-outlined{
+    background-color: #64b37d ;
+  }
+ 
+ 
+  .navbar-item-container {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: left;
-}
-
-.navbar__item {
-    flex-basis: 20%;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+ 
+ 
+ 
+  ul, li {
     list-style-type: none;
-}
+  }
+ 
+ 
+ 
+  .navbar-item:hover,
+  .navbar-item.active {
+    background-color: #64b37d !important;
+    color: #fff; /* Optionally set the text color to white */
+  }
 
-.navbar__logout {
-    margin-left: auto;
-}
+
+
+
+  .navbar.is-success .navbar-burger {
+    background: #64b37d;
+    border-radius: 1rem;
+    margin-top: 1% ;
+    margin-right: 1%;
+  }
+
+  .navbar-menu.is-active .navbar-item-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #64b37d;
+    align-items: center;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
 

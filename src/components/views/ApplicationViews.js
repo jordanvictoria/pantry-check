@@ -1,22 +1,23 @@
-import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom"
+import { Outlet, Route, Routes } from "react-router-dom"
 import { ListItemEdit } from "../listItems/ListItemEdit"
 import { ListItemForm } from "../listItems/ListItemForm"
-import { ItemContainer } from "../items/ItemContainer"
+import { ItemList } from "../items/ItemList"
 import { GroceryLists } from "../lists/GroceryLists"
 import { ListDetails } from "../lists/ListDetails"
 import { ListEdit } from "../lists/ListEdit"
 import { ListForm } from "../lists/ListForm"
 import { ItemForm } from "../items/ItemForm"
 import { ItemEdit } from "../items/ItemEdit"
-import { ListItemContainer } from "../listItems/ListItemContainer"
 import { SelectedItemForm } from "../listItems/SelectedItemForm"
-import { Home } from "./Home"
+import { Home } from "../home/Home"
+import { Locations } from "../locations/Locations"
+import { ListItemList } from "../listItems/ListItemList"
+
 
 
 
 export const ApplicationViews = () => {
 
-const navigate = useNavigate()
 
 	return (
 		<Routes>
@@ -27,10 +28,11 @@ const navigate = useNavigate()
 					<Outlet />
 				</>
 			}>
-				<Route path="/" element={ <Home /> } />
+				<Route path="/" element={ <Home /> } /> 
 				<Route path="lists" element={<GroceryLists />} />
-				<Route path="items" element={<ItemContainer />} />
-				<Route path="listItems" element={<ListItemContainer />} />
+				<Route path="items" element={<ItemList />} />
+				<Route path="locations" element={<Locations />} />
+				<Route path="listItems" element={<ListItemList />} />
 				<Route path="lists/:listId" element={ <ListDetails /> } />
 				<Route path="list/create" element={<ListForm />} />
 				<Route path="lists/:listId/edit" element={<ListEdit />} />

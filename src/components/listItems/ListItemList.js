@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { getAllCategories, getAllItems } from "../ApiManager"
+import { Link } from "react-router-dom"
 import { ListContext } from "../context/ListProvider"
+import { getItems, getItemsBySearch } from "./ListItemManager"
+import { ListItemSearch } from "./ListItemSearch"
+import "./listItemList.css"
 
 
 
 
 
 export const ListItemList = ({ searchTermState }) => {
+    const { setCategoryId, renderSwitch } = useContext(ListContext)
     const [items, setItems] = useState([])
-    const [filteredItems, setFilteredItems] = useState([])
-    const [categories, setCategories] = useState([])
-    const navigate = useNavigate()
-    const { setCategoryId, renderSwitch, setRenderSwitch, listId } = useContext(ListContext)
+    const [searchTerm, setSearchTerm] = useState('')
 
 
 
@@ -22,93 +22,91 @@ export const ListItemList = ({ searchTermState }) => {
 
     useEffect(
         () => {
-            getAllItems()
+            getItems()
                 .then((userItemArr) => {
                     setItems(userItemArr)
                 })
         },
-        []
+        [renderSwitch]
     )
 
-    useEffect(
-        () => {
-            setFilteredItems(items)
-        },
-        [items] 
-    )
+    useEffect(() => {
+        if (searchTerm.length > 1) {
+            getItemsBySearch(searchTerm).then((items) => setItems(items))
+        } else {
+            getItems().then((items) => setItems(items))
+        }
+    }, [searchTerm])
 
 
 
-    useEffect(
-        () => {
-            const searchedItems = items.filter(item => {
-                return item.name.toLowerCase().startsWith(searchTermState.toLowerCase())
-            })
-            setFilteredItems(searchedItems)
-        },
-        [searchTermState]
-    )
-
-    useEffect(
-        () => {
-            getAllCategories()
-                .then((categoryArray) => {
-                    setCategories(categoryArray)
-                })
-        },
-        []
-    )
 
 
 
-    
 
+    const onSearchTermChange = (value) => {
+        setSearchTerm(value)
+    }
 
 
 
 
     const selectItemButton = (obj) => {
 
-            return <Link to={`/selectedItems/${obj.id}/edit`}>
-                <button
+        return <Link to={`/selectedItems/${obj.id}/edit`}>
+            <button
                 onClick={() => {
                     setCategoryId(obj.categoryId)
                 }}
-                >Add To List</button>
-            </Link>
-        
+            >Add To List</button>
+        </Link>
+
     }
 
-    
+
+
+    const listItemFunc = () => {
+        if (items.length !== 0) {
+            return <div className="site-background">
+                <section className="listItemsContainer">
+                <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                    <div className="listItemsList">
+                        <ul>
+                            {
+                                items.map((item) => {
+                                    return <li className="listItemElements"
+                                    key={`item--${item.id}`}>
+                                        {item.name} - ${item.price}
+                                        <div className="itemButtons">
+                                            {
+                                                selectItemButton(item)
+                                            }
+                                        </div>
+                                    </li>
+                                })
+                            }
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        } else {
+            return <div className="site-background">
+                <section className="listItemsContainer">
+                <ListItemSearch id="searchInput" onSearchTermChange={onSearchTermChange} searchTerm={searchTerm} />
+                    </section>
+                
+            </div>
+        }
+    }
+
 
 
 
 
     return <>
-
-        <h2>Grocery Items</h2>
-
-        <article>
-            {
-                filteredItems.map((item) => {
-                    const match = categories.find(cat => cat.id === item.categoryId)
-                    return <section>
-                            -----------------------------
-                        <div>
-                            {item.name}
-                            {
-                                selectItemButton(item)
-                            }
-                        </div>
-                        <div>Price: ${item.price} </div>
-                        <div>Category: {match?.name}</div>
-                        -----------------------------
-                    </section>
-                })
-
-            }
-        </article>
-
+        {
+            listItemFunc()
+        }
     </>
-
 }
+

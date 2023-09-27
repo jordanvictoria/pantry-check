@@ -4,20 +4,30 @@ import { ApplicationViews } from "./views/ApplicationViews"
 import { NavBar } from "./nav/NavBar"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
-import "./PantryCheck.css"
 import { ListProvider } from "./context/ListProvider"
+import { useState } from "react"
 
 
 export const PantryCheck = () => {
+	const [token, setTokenState] = useState(localStorage.getItem('pantry_token'))
+	const [userId, setUserId] = useState(localStorage.getItem('pantryUserId'))
+
+	const setToken = (newToken, user_id) => {
+	  localStorage.setItem('pantry_token', newToken)
+	  localStorage.setItem('pantryUserId', user_id)
+	  setTokenState(newToken)
+	  setUserId(user_id)
+	}
+
 	return <Routes>
-		<Route path="/login" element={<Login />} />
-		<Route path="/register" element={<Register />} />
+		<Route path="/login" element={<Login setToken={setToken} />} />
+		<Route path="/register" element={<Register setToken={setToken} />} />
 
 		<Route path="*" element={
-			<Authorized>
+			<Authorized token={token}>
 				<>
 					<ListProvider>
-						<NavBar />
+						<NavBar token={token} setToken={setToken}/>
 						<ApplicationViews />
 					</ListProvider>
 				</>
@@ -26,4 +36,6 @@ export const PantryCheck = () => {
 		} />
 	</Routes>
 }
+
+
 
