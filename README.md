@@ -1,6 +1,6 @@
 # Welcome to PantryCheck 
 
-> a tool designed to ease the burden of planning your next trip to the grocery store
+> A tool designed to ease the burden of planning your next trip to the grocery store <br>( o˘◡˘o) ┌iii┐ ( ・・)つ-●●●
 
 ### Application Overview
 
@@ -25,17 +25,17 @@ Features include:
 
 
 ## GIFs
-<img src="src/components/images/PantryCheck.gif" width="500"> 
+<img src="src/components/images/PantryCheck.gif" width=1000> 
 
 
 
 
 ## Public Link
-https://netlify--sparkling-pasca-2d369e.netlify.app/login
+https://netlify--sparkling-pasca-2d369e.netlify.app
 
-Use the provided login credentials 
- OR 
-Create your own user profile
+
+
+ Use the provided login credentials<br>*OR*<br>Create your own user profile
 
 
 ## Author

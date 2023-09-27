@@ -9,6 +9,16 @@ export const getLists = () => {
   };
   
 
+export const getItems = () => {
+    return fetch("https://oyster-app-qj9m4.ondigitalocean.app/items", {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Token ${localStorage.getItem("pantry_token")}`
+      }
+    }).then((res) => res.json());
+  };
+
 
   export const getUsers = () => {
     return fetch("https://oyster-app-qj9m4.ondigitalocean.app/pantryusers", {
