@@ -26,13 +26,15 @@ body {
   font-family: 'Urbanist', sans-serif;
 }
 
-.center {
+.loginCenter {
   position: relative;
   padding: 50px 50px;
   background: #fff;
   border-radius: 10px;
 }
-.center h1 {
+
+
+.loginCenter h1 {
   font-size: 2em;
   padding: 10px;
   color: #000;
@@ -42,7 +44,7 @@ body {
   padding-left: 10px;
 }
 
-.center h2 {
+.loginCenter h2 {
   font-size: 1em;
   padding: 10px;
   color: #000;
@@ -51,13 +53,13 @@ body {
   font-weight: bold;
   padding-left: 10px;
 }
-.center .inputbox {
+.loginCenter .inputbox {
   position: relative;
   width: 300px;
   height: 50px;
   margin-bottom: 50px;
 }
-.center .inputbox input {
+.loginCenter .inputbox input {
   position: absolute;
   top: 0;
   left: 0;
@@ -71,10 +73,10 @@ body {
   font-family: 'Urbanist', sans-serif;
 
 }
-.center .inputbox:last-child {
+.loginCenter .inputbox:last-child {
   margin-bottom: 0;
 }
-.center .inputbox span {
+.loginCenter .inputbox span {
   position: absolute;
   top: 14px;
   left: 20px;
@@ -83,23 +85,23 @@ body {
   font-family: 'Urbanist', sans-serif;
 
 }
-.center .inputbox input:focus ~ span,
-.center .inputbox input:valid ~ span {
+.loginCenter .inputbox input:focus ~ span,
+.loginCenter .inputbox input:valid ~ span {
   transform: translateX(-13px) translateY(-35px);
   font-size: 1em;
   font-family: 'Urbanist', sans-serif;
 }
-.center .inputbox [type="submit"] {
+.loginCenter .inputbox [type="submit"] {
   width: 50%;
   background: dodgerblue;
   color: #fff;
   border: #fff;
 }
-.center .inputbox:hover [type="submit"] {
+.loginCenter .inputbox:hover [type="submit"] {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
 
-.center h1 img {
+.loginCenter h1 img {
   height: 3rem;
 }
 
@@ -134,38 +136,45 @@ body {
     font-family: 'Urbanist', sans-serif;
   }
   
-  .center {
-    position: relative;
-    padding: 1%;
+  .loginCenter {
+    padding: 2%;
     background: #fff;
     border-radius: 10px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  
   }
-  .center h1 {
+
+
+
+
+
+  .loginCenter h1 {
     font-size: 2em;
     padding: 10px;
     color: #000;
     letter-spacing: 5px;
-    margin-bottom: 60px;
     font-weight: bold;
     padding-left: 10px;
   }
   
-  .center h2 {
+  .loginCenter h2 {
     font-size: 1em;
     padding: 10px;
     color: #000;
     letter-spacing: 5px;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     font-weight: bold;
     padding-left: 10px;
   }
-  .center .inputbox {
+  .loginCenter .inputbox {
     position: relative;
     width: 300px;
     height: 50px;
     margin-bottom: 15%;
   }
-  .center .inputbox input {
+  .loginCenter .inputbox input {
     position: absolute;
     top: 0;
     left: 0;
@@ -179,10 +188,10 @@ body {
     font-family: 'Urbanist', sans-serif;
   
   }
-  .center .inputbox:last-child {
+  .loginCenter .inputbox:last-child {
     margin-bottom: 0;
   }
-  .center .inputbox span {
+  .loginCenter .inputbox span {
     position: absolute;
     top: 14px;
     left: 20px;
@@ -191,23 +200,23 @@ body {
     font-family: 'Urbanist', sans-serif;
   
   }
-  .center .inputbox input:focus ~ span,
-  .center .inputbox input:valid ~ span {
+  .loginCenter .inputbox input:focus ~ span,
+  .loginCenter .inputbox input:valid ~ span {
     transform: translateX(-13px) translateY(-35px);
     font-size: 1em;
     font-family: 'Urbanist', sans-serif;
   }
-  .center .inputbox [type="submit"] {
+  .loginCenter .inputbox [type="submit"] {
     width: 50%;
     background: dodgerblue;
     color: #fff;
     border: #fff;
   }
-  .center .inputbox:hover [type="submit"] {
+  .loginCenter .inputbox:hover [type="submit"] {
     background: linear-gradient(45deg, greenyellow, dodgerblue);
   }
   
-  .center h1 img {
+  .loginCenter h1 img {
     height: 3rem;
   }
 

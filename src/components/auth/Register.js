@@ -39,7 +39,7 @@ export const Register = ({ setToken }) => {
     }
 
     return (
-        <div className="center">
+        <div className="registerCenter">
             <h1>Register for Pantry Check
             </h1>
             <form onSubmit={handleRegister}>

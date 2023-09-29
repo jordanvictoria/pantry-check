@@ -29,14 +29,14 @@ body {
 
 }
 
-.center {
+.registerCenter {
   position: relative;
   padding: 5px 30px;
   background: #fff;
   border-radius: 10px;
 }
 
-.center h1 {
+.registerCenter h1 {
   font-size: 2em;
   padding: 10px;
   color: #000;
@@ -46,7 +46,7 @@ body {
   padding-left: 10px;
 }
 
-.center h2 {
+.registerCenter h2 {
   font-size: 1em;
   padding: 10px;
   color: #000;
@@ -56,14 +56,14 @@ body {
   padding-left: 10px;
 }
 
-.center .register-inputbox {
+.registerCenter .register-inputbox {
   position: relative;
   width: 300px;
   height: 50px;
   margin-bottom: 3%;
 }
 
-.center .register-inputbox input {
+.registerCenter .register-inputbox input {
   position: absolute;
   top: 0;
   left: 0;
@@ -78,11 +78,11 @@ body {
 
 }
 
-.center .register-inputbox:last-child {
+.registerCenter .register-inputbox:last-child {
   margin-bottom: 0;
 }
 
-.center .register-inputbox span {
+.registerCenter .register-inputbox span {
   position: absolute;
   top: 14px;
   left: 20px;
@@ -92,8 +92,8 @@ body {
 
 }
 
-.center .register-inputbox input:focus~span,
-.center .register-inputbox input:valid~span {
+.registerCenter .register-inputbox input:focus~span,
+.registerCenter .register-inputbox input:valid~span {
   transform: translateX(-13px) translateY(-35px);
   font-size: 1em;
   font-family: 'Urbanist', sans-serif;
@@ -111,22 +111,22 @@ body {
   width: 100%;
 }
 
-.center .register-inputbox [type="submit"] {
+.registerCenter .register-inputbox [type="submit"] {
   width: 50%;
   background: dodgerblue;
   color: #fff;
   border: #fff;
 }
 
-.center .register-inputbox [type="submit"]:hover {
+.registerCenter .register-inputbox [type="submit"]:hover {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
 
-.center h1 img {
+.registerCenter h1 img {
   height: 3rem;
 }
 
-.center .register-inputbox .cancelRegister {
+.registerCenter .register-inputbox .cancelRegister {
   background: dodgerblue;
   color: #fff;
   border: #fff;
@@ -135,7 +135,7 @@ body {
   left: 55%;
   width: 50%;
   outline: none;
-  padding: 10px;
+  padding: 7px;
   border-radius: 10px;
   font-size: 1.2em;
   font-family: 'Urbanist', sans-serif;
@@ -143,7 +143,7 @@ body {
 text-decoration: none;
 }
 
-.center .register-inputbox .cancelRegister:hover {
+.registerCenter .register-inputbox .cancelRegister:hover {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
 
@@ -182,19 +182,18 @@ text-decoration: none;
   
   }
   
-  .center {
-    position: relative;
-    padding: 1%;
-
+  .registerCenter {
+  
+    padding: 2%;
     margin-left: 5%;
     margin-right: 5%;
-
+    width: 90%;
     background: #fff;
     border-radius: 10px;
   }
   
-  .center h1 {
-    font-size: 2em;
+  .registerCenter h1 {
+    font-size: 1em;
     padding: 10px;
     color: #000;
     letter-spacing: 5px;
@@ -203,7 +202,7 @@ text-decoration: none;
     padding-left: 10px;
   }
   
-  .center h2 {
+  .registerCenter h2 {
     font-size: 1em;
     padding: 10px;
     color: #000;
@@ -213,14 +212,14 @@ text-decoration: none;
     padding-left: 10px;
   }
   
-  .center .register-inputbox {
+  .registerCenter .register-inputbox {
     position: relative;
     width: 300px;
     height: 50px;
     margin-bottom: 3%;
   }
   
-  .center .register-inputbox input {
+  .registerCenter .register-inputbox input {
     position: absolute;
     top: 0;
     left: 0;
@@ -235,11 +234,11 @@ text-decoration: none;
   
   }
   
-  .center .register-inputbox:last-child {
+  .registerCenter .register-inputbox:last-child {
     margin-bottom: 0;
   }
   
-  .center .register-inputbox span {
+  .registerCenter .register-inputbox span {
     position: absolute;
     top: 14px;
     left: 20px;
@@ -249,8 +248,8 @@ text-decoration: none;
   
   }
   
-  .center .register-inputbox input:focus~span,
-  .center .register-inputbox input:valid~span {
+  .registerCenter .register-inputbox input:focus~span,
+  .registerCenter .register-inputbox input:valid~span {
     transform: translateX(-13px) translateY(-35px);
     font-size: 1em;
     font-family: 'Urbanist', sans-serif;
@@ -268,22 +267,22 @@ text-decoration: none;
     width: 100%;
   }
   
-  .center .register-inputbox [type="submit"] {
+  .registerCenter .register-inputbox [type="submit"] {
     width: 50%;
     background: dodgerblue;
     color: #fff;
     border: #fff;
   }
   
-  .center .register-inputbox [type="submit"]:hover {
+  .registerCenter .register-inputbox [type="submit"]:hover {
     background: linear-gradient(45deg, greenyellow, dodgerblue);
   }
   
-  .center h1 img {
+  .registerCenter h1 img {
     height: 3rem;
   }
   
-  .center .register-inputbox .cancelRegister {
+  .registerCenter .register-inputbox .cancelRegister {
     background: dodgerblue;
     color: #fff;
     border: #fff;
@@ -292,7 +291,7 @@ text-decoration: none;
     left: 55%;
     width: 50%;
     outline: none;
-    padding: 10px;
+    padding: 7px;
     border-radius: 10px;
     font-size: 1.2em;
     font-family: 'Urbanist', sans-serif;
@@ -300,7 +299,7 @@ text-decoration: none;
   text-decoration: none;
   }
   
-  .center .register-inputbox .cancelRegister:hover {
+  .registerCenter .register-inputbox .cancelRegister:hover {
     background: linear-gradient(45deg, greenyellow, dodgerblue);
   }
 

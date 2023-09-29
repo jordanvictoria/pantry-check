@@ -31,7 +31,7 @@ export const Login = ({ setToken }) => {
   }
 
   return (
-    <div className="center">
+    <div className="loginCenter">
       <h1>PantryCheck
         <img alt="item of a basket with groceries" src={require('../images/pantryicon.jpg')} />
       </h1>
